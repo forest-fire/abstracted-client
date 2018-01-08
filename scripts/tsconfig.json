@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "declaration": true,
+    // "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es2015",
-    "noImplicitAny": false,
-    "outDir": "./lib",
+    "noImplicitAny": true,
+    // "outDir": "./lib",
     "preserveConstEnums": true,
     "removeComments": true,
     "typeRoots": [
@@ -13,7 +13,8 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts",
+    "scripts/*.ts"
   ],
   "exclude": [
     "node_modules",

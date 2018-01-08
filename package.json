@@ -28,9 +28,10 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "0.0.3",
+    "@firebase/database-types": "0.1.0",
+    "abstracted-firebase": "0.0.4",
     "common-types": "^1.5.1",
-    "firebase-app": "^0.0.1",
+    "firebase": "^4.8.1",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "moment": "^2.20.1",
@@ -38,12 +39,20 @@
     "typed-conversions": "^0.7.3"
   },
   "peerDependencies": {
+    "@firebase/app-types": "^0.1.0",
+    "@firebase/auth": "^0.3.1",
+    "@firebase/auth-types": "^0.1.0",
+    "@firebase/database-types": "0.1.0",
     "chance": "^1.0.13",
     "faker": "^4.1.0",
     "firemock": "^0.14.5"
   },
   "devDependencies": {
-    "@firebase/database-types": "0.1.0",
+    "@firebase/app": "^0.1.5",
+    "@firebase/app-types": "^0.1.0",
+    "@firebase/auth": "^0.3.1",
+    "@firebase/auth-types": "^0.1.0",
+    "@firebase/database": "^0.1.6",
     "@types/chai": "^3.0.0",
     "@types/chalk": "^0.4.31",
     "@types/chance": "^0.7.34",
