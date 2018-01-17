@@ -3,27 +3,30 @@ import DB from "../src/index";
 import * as chai from "chai";
 import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
+import { Database } from "@firebase/database";
 
 const expect = chai.expect;
+const config = {
+  apiKey: "AIzaSyDuimhtnMcV1zeTl4m1MphOgWnzS17QhBM",
+  authDomain: "abstracted-admin.firebaseapp.com",
+  databaseURL: "https://abstracted-admin.firebaseio.com",
+  projectId: "abstracted-admin",
+  storageBucket: "abstracted-admin.appspot.com",
+  messagingSenderId: "547394508788"
+};
 
+helpers.setupEnv();
 describe("Connecting to Database", () => {
-  it("can not instantiate without setting FIREBASE_SERVICE_ACCOUNT and FIREBASE_DATA_ROOT_URL", () => {
-    try {
-      const db = new DB();
-      expect(true).to.equal(false);
-    } catch (e) {
-      expect(true).to.equal(true);
-    }
-  });
-
-  it("once ENV is setup, can instantiate", () => {
-    helpers.setupEnv();
-    const db = new DB();
-    expect(true).to.equal(true);
+  it("can instantiate", () => {
+    const db = new DB({ config });
+    expect(db).to.be.an("object");
+    expect(db).to.be.instanceof(DB);
+    expect(db.getValue).to.be.a("function");
+    expect(db.auth).to.be.an("object");
   });
 
   it("can get a value from database once waitForConnection() returns", async () => {
-    const db = new DB();
+    const db = new DB({ config });
     const connected = (await db.getValue<boolean>(".info/connected"))
       ? true
       : false;
@@ -35,21 +38,23 @@ describe("Connecting to Database", () => {
 });
 
 describe("Read operations: ", () => {
-  helpers.setupEnv();
-  const db = new DB();
-  const dbMock = new DB({ mocking: true });
+  // tslint:disable-next-line:one-variable-per-declaration
+  let db: DB;
+  let dbMock: DB;
   const personMockGenerator: SchemaCallback = h => () => ({
     name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
     age: h.faker.random.number({ min: 10, max: 99 })
   });
-  dbMock.mock.addSchema("person", personMockGenerator);
   before(async () => {
-    await db.set("test-data", {
+    db = new DB({ config });
+    dbMock = new DB({ mocking: true });
+    dbMock.mock.addSchema("person", personMockGenerator);
+    await db.set("client-test-data", {
       one: "foo",
       two: "bar",
       three: "baz"
     });
-    await db.set("test-records", {
+    await db.set("client-test-records", {
       123456: {
         name: "Chris",
         age: 50
@@ -63,16 +68,16 @@ describe("Read operations: ", () => {
   });
 
   it("getSnapshot() gets statically set data in test DB", async () => {
-    const data = await db.getSnapshot("test-data");
+    const data = await db.getSnapshot("client-test-data");
     expect(data.val()).to.be.an("object");
     expect(data.val().one).to.be.equal("foo");
     expect(data.val().two).to.be.equal("bar");
     expect(data.val().three).to.be.equal("baz");
-    expect(data.key).to.equal("test-data");
+    expect(data.key).to.equal("client-test-data");
   });
 
   it("getValue() gets statically set data in test DB", async () => {
-    const data = await db.getValue("test-data");
+    const data = await db.getValue("client-test-data");
     expect(data).to.be.an("object");
     expect(data.one).to.be.equal("foo");
     expect(data.two).to.be.equal("bar");
@@ -86,8 +91,7 @@ describe("Read operations: ", () => {
       name: string;
     }
 
-    const record = await db.getRecord<ITest>("/test-records/123456");
-    console.log(record);
+    const record = await db.getRecord<ITest>("/client-test-records/123456");
 
     expect(record).to.be.an("object");
     expect(record.id).to.be.equal("123456");
@@ -97,10 +101,10 @@ describe("Read operations: ", () => {
 });
 
 describe("Write Operations", () => {
-  helpers.setupEnv();
-  const db = new DB();
-  afterEach(async () => {
-    await db.remove("scratch");
+  let db: DB;
+  beforeEach(async () => {
+    db = new DB({ config });
+    await db.remove("client-test-data/pushed");
   });
 
   interface INameAndAge {
@@ -109,89 +113,90 @@ describe("Write Operations", () => {
   }
 
   it("push() variables into database", async () => {
-    await db.push<INameAndAge>("scratch/pushed", {
+    await db.push<INameAndAge>("client-test-data/pushed", {
       name: "Charlie",
       age: 25
     });
-    await db.push("scratch/pushed", {
+    await db.push("client-test-data/pushed", {
       name: "Sandy",
       age: 32
     });
-    const users = await db.getValue("scratch/pushed");
+    const users = await db
+      .getValue("client-test-data/pushed")
+      .catch(e => new Error(e.message));
     expect(Object.keys(users).length).to.equal(2);
     expect(helpers.valuesOf(users, "name")).to.include("Charlie");
     expect(helpers.valuesOf(users, "name")).to.include("Sandy");
   });
 
   it("set() sets data at a given path in DB", async () => {
-    await db.set<INameAndAge>("scratch/set/user", {
+    await db.set<INameAndAge>("client-test-data/set/user", {
       name: "Charlie",
       age: 25
     });
-    const user = await db.getValue<INameAndAge>("scratch/set/user");
+    const user = await db.getValue<INameAndAge>("client-test-data/set/user");
     expect(user.name).to.equal("Charlie");
     expect(user.age).to.equal(25);
   });
 
   it('update() can "set" and then "update" contents', async () => {
-    await db.update("scratch/update/user", {
+    await db.update("client-test-data/update/user", {
       name: "Charlie",
       age: 25
     });
-    let user = await db.getValue<INameAndAge>("scratch/update/user");
+    let user = await db.getValue<INameAndAge>("client-test-data/update/user");
     expect(user.name).to.equal("Charlie");
     expect(user.age).to.equal(25);
-    await db.update("scratch/update/user", {
+    await db.update("client-test-data/update/user", {
       name: "Charles",
       age: 34
     });
-    user = await db.getValue<INameAndAge>("scratch/update/user");
+    user = await db.getValue<INameAndAge>("client-test-data/update/user");
     expect(user.name).to.equal("Charles");
     expect(user.age).to.equal(34);
   });
 
   it("update() leaves unchanged attributes as they were", async () => {
-    await db.update("scratch/update/user", {
+    await db.update("client-test-data/update/user", {
       name: "Rodney",
       age: 25
     });
-    let user = await db.getValue<INameAndAge>("scratch/update/user");
+    let user = await db.getValue<INameAndAge>("client-test-data/update/user");
     expect(user.name).to.equal("Rodney");
     expect(user.age).to.equal(25);
-    await db.update("scratch/update/user", {
+    await db.update("client-test-data/update/user", {
       age: 34
     });
-    user = await db.getValue<INameAndAge>("scratch/update/user");
+    user = await db.getValue<INameAndAge>("client-test-data/update/user");
     expect(user.name).to.equal("Rodney");
     expect(user.age).to.equal(34);
   });
 
   it("remove() eliminates a path -- and all children -- in DB", async () => {
-    await db.set("scratch/removal/user", {
+    await db.set("client-test-data/removal/user", {
       name: "Rodney",
       age: 25
     });
-    let user = await db.getValue<INameAndAge>("scratch/removal/user");
+    let user = await db.getValue<INameAndAge>("client-test-data/removal/user");
     expect(user.name).to.equal("Rodney");
-    await db.remove("scratch/removal/user");
-    user = await db.getValue<INameAndAge>("scratch/removal/user");
+    await db.remove("client-test-data/removal/user");
+    user = await db.getValue<INameAndAge>("client-test-data/removal/user");
     expect(user).to.equal(null);
   });
 });
 
 describe("Other Operations", () => {
-  helpers.setupEnv();
-  const db = new DB();
-  afterEach(async () => {
-    await db.remove("scratch");
+  let db: DB;
+  beforeEach(async () => {
+    db = new DB({ config });
   });
 
   it("exists() tests to true/false based on existance of data", async () => {
-    await db.set("/scratch/existance", "foobar");
-    let exists = await db.exists("/scratch/existance");
+    await db.set("/client-test-data/existance", "foobar");
+    let exists = await db.exists("/client-test-data/existance");
     expect(exists).to.equal(true);
-    await db.remove("/scratch/existance");
-    exists = await db.exists("/scratch/existance");
+    await db.remove("/client-test-data/existance");
+    exists = await db.exists("/client-test-data/existance");
     expect(exists).to.equal(false);
   });
 });

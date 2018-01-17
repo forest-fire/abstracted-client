@@ -1,9 +1,18 @@
+// tslint:disable:no-implicit-dependencies
 import DB from "../src/index";
 import * as chai from "chai";
 import Mock, { SchemaCallback, resetDatabase } from "firemock";
 import * as helpers from "./testing/helpers";
 const expect = chai.expect;
 helpers.setupEnv();
+const config = {
+  apiKey: "AIzaSyDuimhtnMcV1zeTl4m1MphOgWnzS17QhBM",
+  authDomain: "abstracted-admin.firebaseapp.com",
+  databaseURL: "https://abstracted-admin.firebaseio.com",
+  projectId: "abstracted-admin",
+  storageBucket: "abstracted-admin.appspot.com",
+  messagingSenderId: "547394508788"
+};
 
 const animalMocker: SchemaCallback = h => () => ({
   type: h.faker.random.arrayElement(["cat", "dog", "parrot"]),
@@ -13,14 +22,14 @@ const animalMocker: SchemaCallback = h => () => ({
 
 describe("Mocking", () => {
   it("ref() returns a mock reference", () => {
-    const db = new DB();
+    const db = new DB({ config });
     expect(db.ref("foo")).to.not.have.property("onceSync");
     const mockDb = new DB({ mocking: true });
     expect(mockDb.ref("foo")).to.have.property("onceSync");
   });
 
   it("getSnapshot() returns a mock snapshot", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     addAnimals(db, 10);
     const animals = await db.getSnapshot("/animals");
     expect(animals.numChildren()).to.equal(10);
@@ -30,7 +39,7 @@ describe("Mocking", () => {
   });
 
   it("getValue() returns a value from mock DB", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     addAnimals(db, 10);
     const animals = await db.getValue("/animals");
     expect(animals).to.be.an("object");
@@ -41,7 +50,7 @@ describe("Mocking", () => {
   });
 
   it("getRecord() returns a record from mock DB", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     addAnimals(db, 10);
     const firstKey = helpers.firstKey(db.mock.db.animals);
     const animal = await db.getRecord(`/animals/${firstKey}`);
@@ -52,7 +61,7 @@ describe("Mocking", () => {
   });
 
   it("getRecord() returns a record from mock DB with bespoke id prop", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     addAnimals(db, 10);
     const firstKey = helpers.firstKey(db.mock.db.animals);
     const animal = await db.getRecord(`/animals/${firstKey}`, "key");
@@ -64,7 +73,7 @@ describe("Mocking", () => {
   });
 
   it("getList() returns an array of records", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     addAnimals(db, 10);
     const animals = await db.getList("/animals");
     expect(animals).to.be.an("array");
@@ -75,7 +84,7 @@ describe("Mocking", () => {
   });
 
   it('getList() returns an array of records, with bespoke "id" property', async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     addAnimals(db, 10);
     const animals = await db.getList("/animals", "key");
     expect(animals).to.be.an("array");
@@ -86,7 +95,7 @@ describe("Mocking", () => {
   });
 
   it("set() sets to the mock DB", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     db.set("/people/abcd", {
       name: "Frank Black",
       age: 45
@@ -98,7 +107,7 @@ describe("Mocking", () => {
   });
 
   it("update() updates the mock DB", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     db.mock.updateDB({
       people: {
         abcd: {
@@ -118,7 +127,7 @@ describe("Mocking", () => {
   });
 
   it("push() pushes records into the mock DB", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     db.push("/people", {
       name: "Frank Black",
       age: 45
@@ -133,7 +142,7 @@ describe("Mocking", () => {
   });
 
   it("read operations on mock with a schema prefix are offset correctly", async () => {
-    const db = new DB({ mocking: true });
+    const db = new DB({ config, mocking: true });
     db.mock
       .addSchema("meal", h => () => ({
         name: h.faker.random.arrayElement(["breakfast", "lunch", "dinner"]),

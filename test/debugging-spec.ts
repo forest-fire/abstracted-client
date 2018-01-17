@@ -1,3 +1,4 @@
+// tslint:disable:no-implicit-dependencies
 import DB from "../src/index";
 import * as chai from "chai";
 import * as helpers from "./testing/helpers";
@@ -5,7 +6,7 @@ const expect = chai.expect;
 helpers.setupEnv();
 
 describe("Debugging: ", () => {
-  it('"debugging: true" results in logging to STDOUT', async () => {
+  it.only('"debugging: true" results in logging to STDOUT', async () => {
     const restore = helpers.captureStdout();
     const db = new DB({ debugging: true });
     await db.waitForConnection();
