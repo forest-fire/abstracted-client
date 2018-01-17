@@ -3,9 +3,6 @@
 import * as firebase from "firebase";
 import "@firebase/auth";
 import "@firebase/database";
-// import "firebase/auth";
-// import "firebase/database";
-// import * as FirebaseAuth from "firebase/auth";
 import { IDictionary } from "common-types";
 import * as convert from "typed-conversions";
 import { SerializedQuery } from "serialized-query";
@@ -21,7 +18,7 @@ import {
 } from "abstracted-firebase";
 // import { FirebaseDatabase } from "@firebase/database-types";
 import { FirebaseAuth } from "@firebase/auth-types";
-import { FirebaseApp } from "@firebase/app-types";
+// import { FirebaseApp } from "@firebase/app-types";
 
 export enum FirebaseBoolean {
   true = 1,
@@ -119,11 +116,11 @@ export class DB extends RealTimeDB {
     }
 
     if (options.debugging) {
-      // FirebaseApp.enableLogging(
-      //   typeof c.debugging === "function"
-      //     ? (message: string) => debugging(message)
-      //     : (message: string) => console.log("[FIREBASE]", message)
-      // );
+      (RealTimeDB.connection as any).enableLogging(
+        typeof options.debugging === "function"
+          ? (message: string) => (options.debugging as any)(message)
+          : (message: string) => console.log("[FIREBASE]", message)
+      );
     }
   }
 }

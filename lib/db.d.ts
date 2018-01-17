@@ -16,17 +16,16 @@ export interface IFirebaseClientConfig {
     projectId: string;
     storageBucket?: string;
     messagingSenderId?: string;
-    name?: string;
 }
 export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
 }
 export declare class DB extends RealTimeDB {
-    static auth: FirebaseAuth;
-    constructor(config?: IFirebaseConfig);
+    auth: FirebaseAuth;
+    constructor(options?: IFirebaseConfig, name?: string);
     waitForConnection(): Promise<void | {}>;
     readonly isConnected: boolean;
     private monitorConnection(snap);
-    private connect(c);
+    private connect(options, name?);
 }
