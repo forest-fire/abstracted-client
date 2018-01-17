@@ -8,27 +8,37 @@
 
 ## Basic Usage
 
-Meant for backend nodejs micro-services which interact with Firebase's client API using a "service policy" to authenticate.
+Meant for frontend Javascript/Typescript apps which interact with Firebase's client API using the firebase client api.
 
-```js
-import DB from 'abstracted-client';
-const db = new DB();
+```ts
+import DB, { IFirebaseConfig } from "abstracted-client";
+const config: IFirebaseClientConfig = {
+  apiKey: "ATzaSyDuimhvBmcV1zeTl4m1MphOgWnzS16QhBM",
+  authDomain: "my-app.firebaseapp.com",
+  databaseURL: "https://my-app.firebaseio.com",
+  projectId: "my-app",
+  storageBucket: "my-app.appspot.com",
+  messagingSenderId: "999999999999"
+};
+const db = new DB({ config });
 // Get a list of records
-const users = await db.getValue<IUser[]>('users');
+const users = await db.getValue<IUser[]>("users");
 // Push a new value onto a list
 const company: ICompany = {
   name: "Acme",
   employees: 500
-}
-db.push<ICompany>('/companies', company);
+};
+db.push<ICompany>("/companies", company);
 ```
 
 ### Authentication
 
-All of the Authentication is done transparently as soon as requests are made to the database. In order for this library to achieve this it will need the following environment variables set:
+All of the authentication is done via the normal [Firebase API for Auth](https://firebase.google.com/docs/reference/js/firebase.auth) which is accessible as `auth` off the DB class:
 
-* `FIREBASE_SERVICE_ACCOUNT` - this should be a URI-Encoded string of the JSON data which you exported at the time you created a Service Account on Google.
-* `FIREBASE_DATA_ROOT_URL` - comes from the Firebase console and dictates which DB to connect to
+```ts
+const db = new DB({ config });
+const auth = db.auth;
+```
 
 ### Mocking
 
@@ -36,4 +46,5 @@ This library supports simple redirecting of all operations to the `firemock` moc
 
 ## Documentation
 
-[Gitbook](https://forest-fire.gitbooks.io/abstracted-client/content/)
+Since this library and **abstracted-admin** share a common implementation for most of their API surface you'll find the documentation here:
+[abstracted-admin](https://forest-fire.gitbooks.io/abstracted-client/content/)

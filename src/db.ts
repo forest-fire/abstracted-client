@@ -105,7 +105,7 @@ export class DB extends RealTimeDB {
         app = (firebase as any).initializeApp(config, name);
         const database: Database = app.database() as any;
         RealTimeDB.connection = database;
-        this.auth = app.auth() as any;
+        this.auth = app.auth(name) as any;
       } catch (e) {
         if (e.message.indexOf("app/deplicate-app") !== -1) {
           console.log(`Database named ${name} already exists `);

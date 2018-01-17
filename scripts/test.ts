@@ -10,11 +10,9 @@ import { stdout, stderr } from "test-console";
 function getScope(files?: string[]): string {
   let fileScope: string;
 
-  if (!files) {
+  if (!files || files[0] === "all") {
     console.log(
-      chalk.white(
-        "no specific files specified so all files being tested, use -h for more help"
-      )
+      chalk.white("no specific files specified so all files being tested")
     );
     fileScope = "--recursive test/**/*-spec.ts";
   } else {
@@ -27,8 +25,6 @@ function getScope(files?: string[]): string {
 
     fileScope = files.map(f => shapeFileName(f)).join(" ");
   }
-
-  console.log("fileScope", fileScope);
 
   return fileScope;
 }
@@ -76,10 +72,6 @@ program
     "test"
   )
   .option("--skip-lint", "Skip the linting checks")
-  .option(
-    "-f, --files",
-    "an alternative syntax to just specifying files as voradic arguments on command line"
-  )
   .action(async files => {
     await cleanJSTests();
     const stage = program.stage;

@@ -3,7 +3,6 @@ import DB from "../src/index";
 import * as chai from "chai";
 import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
-import { Database } from "@firebase/database";
 
 const expect = chai.expect;
 const config = {
