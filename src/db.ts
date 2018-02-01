@@ -9,16 +9,8 @@ import { SerializedQuery } from "serialized-query";
 import * as moment from "moment";
 import * as process from "process";
 import { slashNotation } from "./util";
-import { Mock, Reference, resetDatabase } from "firemock";
-import {
-  RealTimeDB,
-  DebuggingCallback,
-  Database,
-  DataSnapshot
-} from "abstracted-firebase";
-// import { FirebaseDatabase } from "@firebase/database-types";
-import { FirebaseAuth } from "@firebase/auth-types";
-// import { FirebaseApp } from "@firebase/app-types";
+import { RealTimeDB, DebuggingCallback } from "abstracted-firebase";
+import { rtdb } from "firebase-api-surface";
 
 export enum FirebaseBoolean {
   true = 1,
@@ -46,7 +38,7 @@ export interface IFirebaseListener {
 }
 
 export class DB extends RealTimeDB {
-  public auth: FirebaseAuth;
+  public auth: firebase.auth.Auth;
   constructor(options: IFirebaseConfig = {}, name: string = "[DEFAULT]") {
     super(options);
 
@@ -76,7 +68,7 @@ export class DB extends RealTimeDB {
     return RealTimeDB.isConnected;
   }
 
-  private monitorConnection(snap: DataSnapshot) {
+  private monitorConnection(snap: rtdb.IDataSnapshot) {
     DB.isConnected = snap.val();
     // cycle through temporary clients
     this._waitingForConnection.forEach(cb => cb());
@@ -97,12 +89,12 @@ export class DB extends RealTimeDB {
         throw new Error("Trying to connect without firebase configuration!");
       }
 
-      let app;
+      let app: firebase.app.App;
       try {
-        app = (firebase as any).initializeApp(config, name);
-        const database: Database = app.database() as any;
+        app = firebase.initializeApp(config, name);
+        const database: rtdb.IFirebaseDatabase = app.database();
         RealTimeDB.connection = database;
-        this.auth = app.auth(name) as any;
+        this.auth = app.auth();
       } catch (e) {
         if (e.message.indexOf("app/deplicate-app") !== -1) {
           console.log(`Database named ${name} already exists `);

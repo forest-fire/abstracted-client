@@ -1,5 +1,7 @@
+import * as firebase from "firebase";
+import "@firebase/auth";
+import "@firebase/database";
 import { RealTimeDB, DebuggingCallback } from "abstracted-firebase";
-import { FirebaseAuth } from "@firebase/auth-types";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0,
@@ -22,7 +24,7 @@ export interface IFirebaseListener {
     cb: (db: DB) => void;
 }
 export declare class DB extends RealTimeDB {
-    auth: FirebaseAuth;
+    auth: firebase.auth.Auth;
     constructor(options?: IFirebaseConfig, name?: string);
     waitForConnection(): Promise<void | {}>;
     readonly isConnected: boolean;

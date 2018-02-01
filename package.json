@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -21,31 +21,21 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "0.0.4",
-    "common-types": "^1.5.1",
-    "firebase": "^4.8.2",
+    "abstracted-firebase": "^0.2.0",
+    "common-types": "^1.5.2",
+    "firebase": "^4.9.0",
+    "firebase-api-surface": "^0.7.1",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "moment": "^2.20.1",
-    "serialized-query": "^0.2.6",
+    "serialized-query": "^0.2.9",
     "typed-conversions": "^0.7.3"
   },
   "peerDependencies": {
-    "@firebase/app-types": "^0.1.0",
-    "@firebase/auth": "^0.3.1",
-    "@firebase/auth-types": "^0.1.0",
-    "@firebase/database-types": "0.1.0",
     "chance": "^1.0.13",
-    "faker": "^4.1.0",
-    "firemock": "^0.14.5"
+    "faker": "^4.1.0"
   },
   "devDependencies": {
-    "@firebase/app": "^0.1.5",
-    "@firebase/app-types": "^0.1.0",
-    "@firebase/auth": "^0.3.1",
-    "@firebase/auth-types": "^0.1.0",
-    "@firebase/database": "^0.1.6",
-    "@firebase/database-types": "0.1.0",
     "@types/chai": "^3.0.0",
     "@types/chalk": "^0.4.31",
     "@types/chance": "^0.7.34",
@@ -61,7 +51,6 @@
     "chance": "^1.0.13",
     "coveralls": "^2.0.0",
     "faker": "^4.1.0",
-    "firemock": "^0.14.5",
     "gitbook-plugin-favicon": "^0.0.2",
     "js-yaml": "^3.9.1",
     "mocha": "^3.0.0",
@@ -70,8 +59,8 @@
     "shelljs": "^0.7.8",
     "test-console": "^1.0.0",
     "ts-node": "^3.0.0",
-    "tslint": "^5.7.0",
-    "typescript": "^2.6.2"
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.1"
   },
   "engines": {
     "node": ">=4.0.0"
