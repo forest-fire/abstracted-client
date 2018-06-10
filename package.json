@@ -1,76 +1,94 @@
 {
   "name": "abstracted-client",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
   "author": "Ken Snyder <ken@ken.net>",
-  "keywords": ["firebase", "typescript", "nodejs", "utility", "admin"],
-  "files": ["lib"],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "keywords": [
+    "firebase",
+    "typescript",
+    "nodejs",
+    "utility",
+    "admin"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/esnext/index.js",
+  "browser": "dist/abstracted-client.umd.js",
+  "typings": "dist/esnext/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
-    "build": "ts-node ./scripts/build.ts",
+    "build": "tslint src/**/*.ts && tsc -P tsconfig.esnext.json && rollup -c rollup.config.js",
     "test": "ts-node ./scripts/test.ts",
-    "coverage":
-      "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
+    "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
     "watch": "npm run build -- --watch",
     "deploy": "ts-node ./scripts/deploy.ts ",
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "^0.3.0",
-    "common-types": "^1.5.4",
-    "firebase": "^4.10.1",
-    "firebase-api-surface": "^0.7.11",
+    "abstracted-firebase": "^0.11.8",
+    "common-types": "^1.7.36",
+    "events": "^3.0.0",
+    "firebase": "^5.0.4",
+    "firebase-api-surface": "^0.8.3",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "moment": "^2.20.1",
-    "serialized-query": "^0.2.9",
-    "typed-conversions": "^0.7.3"
+    "serialized-query": "^0.3.8",
+    "typed-conversions": "^0.8.3"
   },
   "peerDependencies": {
-    "chance": "^1.0.13",
-    "faker": "^4.1.0",
-    "firemock": "^0.15.8"
+    "firemock": "^0.17.5"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
     "@types/chalk": "^0.4.31",
     "@types/chance": "^0.7.34",
+    "@types/events": "^1.2.0",
     "@types/faker": "^4.1.0",
-    "@types/js-yaml": "^3.9.0",
+    "@types/js-yaml": "^3.11.1",
     "@types/lodash.first": "^3.0.3",
     "@types/lodash.last": "^3.0.3",
     "@types/mocha": "^2.0.0",
     "@types/node": "^6.0.0",
     "@types/rimraf": "^2.0.1",
     "async-shelljs": "^0.1.2",
+    "bili": "^3.1.2",
     "chai": "^4.1.2",
     "chance": "^1.0.13",
     "coveralls": "^2.0.0",
     "faker": "^4.1.0",
-    "firemock": "^0.15.8",
-    "gitbook-plugin-favicon": "^0.0.2",
+    "firemock": "^0.17.3",
     "js-yaml": "^3.9.1",
     "mocha": "^5.0.0",
     "nyc": "^11.4.0",
     "rimraf": "^2.6.2",
+    "rollup": "^0.60.1",
+    "rollup-plugin-commonjs": "^9.1.3",
     "test-console": "^1.0.0",
-    "ts-node": "^3.0.0",
-    "tslint": "^5.9.1",
-    "typescript": "^2.7.2"
+    "ts-node": "^6.1.0",
+    "tslint": "^5.10.0",
+    "typescript": "^3.0.0-dev.20180609"
   },
   "engines": {
     "node": ">=4.0.0"
   },
   "nyc": {
-    "include": ["src/**/*.ts"],
-    "exclude": ["lib"],
-    "extension": [".ts"],
-    "require": ["ts-node/register"],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "lib"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
     "reporter": [],
     "all": true
   }

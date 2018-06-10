@@ -17,6 +17,7 @@ export interface IFirebaseListener {
 }
 export declare type FirebaseApp = typeof import("firebase/app");
 export declare class DB extends RealTimeDB {
+    /** Logs debugging information to the console */
     enableDatabaseLogging: (logger?: boolean | ((a: string) => any), persistent?: boolean) => any;
     protected _eventManager: EventManager;
     protected _database: FirebaseDatabase;
@@ -27,13 +28,19 @@ export declare class DB extends RealTimeDB {
     protected _functions: FirebaseFunctions;
     protected app: any;
     constructor(config: IFirebaseConfig);
-    readonly auth: import("../node_modules/@firebase/auth-types/index").FirebaseAuth;
+    readonly auth: import("@firebase/auth-types").FirebaseAuth;
     readonly database: rtdb.IFirebaseDatabase;
-    readonly firestore: import("../node_modules/@firebase/firestore-types/index").FirebaseFirestore;
-    readonly messaging: import("../node_modules/@firebase/messaging-types/index").FirebaseMessaging;
-    readonly functions: import("../node_modules/@firebase/functions-types/index").FirebaseFunctions;
-    readonly storage: import("../node_modules/@firebase/storage-types/index").FirebaseStorage;
+    readonly firestore: import("@firebase/firestore-types").FirebaseFirestore;
+    readonly messaging: import("@firebase/messaging-types").FirebaseMessaging;
+    readonly functions: import("@firebase/functions-types").FirebaseFunctions;
+    readonly storage: import("@firebase/storage-types").FirebaseStorage;
     protected monitorConnection(snap: rtdb.IDataSnapshot): void;
+    /**
+     * connect
+     *
+     * Asynchronously loads the firebase/app library and then
+     * initializes a connection to the database.
+     */
     protected connectToFirebase(config: IFirebaseClientConfigProps): Promise<void>;
     protected listenForConnectionStatus(): void;
 }

@@ -1,4 +1,5 @@
 import DB from "../src/index";
+// tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
 import { SerializedQuery } from "serialized-query";
 import { SchemaCallback } from "firemock";
@@ -13,13 +14,12 @@ interface IPerson {
 
 describe("Query based Read ops:", () => {
   helpers.setupEnv();
-  const db = new DB(process.env.MOCK ? { mocking: true } : {});
-  const personMockGenerator: SchemaCallback = h => () => ({
+  const db = new DB({ mocking: true });
+  const personMockGenerator = h => () => ({
     name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
     age: h.faker.random.number({ min: 10, max: 99 })
   });
   before(async () => {
-    db.allowMocking();
     db.mock.addSchema("person", personMockGenerator);
     db.mock.queueSchema("person", 20);
     db.mock.queueSchema("person", 5, { age: 100 });
