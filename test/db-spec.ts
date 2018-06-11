@@ -16,22 +16,18 @@ const config = {
 
 helpers.setupEnv();
 describe("Connecting to Database", () => {
-  it("can instantiate", () => {
-    const db = new DB({ config });
+  it("can instantiate", async () => {
+    const db = new DB(config);
     expect(db).to.be.an("object");
     expect(db).to.be.instanceof(DB);
     expect(db.getValue).to.be.a("function");
-    expect(db.auth).to.be.an("object");
   });
 
-  it("can get a value from database once waitForConnection() returns", async () => {
-    const db = new DB({ config });
-    const connected = (await db.getValue<boolean>(".info/connected"))
-      ? true
-      : false;
-    await helpers.timeout(1);
-    expect(connected).to.be.a("boolean");
+  it("isConnected is true once waitForConnection() returns", async () => {
+    const db = new DB(config);
+    expect(db.isConnected).to.equal(false);
     await db.waitForConnection();
+
     expect(db.isConnected).to.equal(true);
   });
 });
@@ -40,14 +36,17 @@ describe("Read operations: ", () => {
   // tslint:disable-next-line:one-variable-per-declaration
   let db: DB;
   let dbMock: DB;
-  const personMockGenerator: SchemaCallback = h => () => ({
+  const personMockGenerator = h => () => ({
     name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
     age: h.faker.random.number({ min: 10, max: 99 })
   });
   before(async () => {
-    db = new DB({ config });
+    db = new DB(config);
     dbMock = new DB({ mocking: true });
+    await dbMock.waitForConnection();
+    await db.waitForConnection();
     dbMock.mock.addSchema("person", personMockGenerator);
+    dbMock.mock.queueSchema("person", 20);
     await db.set("client-test-data", {
       one: "foo",
       two: "bar",
@@ -63,7 +62,6 @@ describe("Read operations: ", () => {
         age: 68
       }
     });
-    await dbMock.mock.queueSchema("person", 20);
   });
 
   it("getSnapshot() gets statically set data in test DB", async () => {
@@ -102,7 +100,8 @@ describe("Read operations: ", () => {
 describe("Write Operations", () => {
   let db: DB;
   beforeEach(async () => {
-    db = new DB({ config });
+    db = new DB(config);
+    await db.waitForConnection();
     await db.remove("client-test-data/pushed");
   });
 
@@ -187,7 +186,8 @@ describe("Write Operations", () => {
 describe("Other Operations", () => {
   let db: DB;
   beforeEach(async () => {
-    db = new DB({ config });
+    db = new DB(config);
+    await db.waitForConnection();
   });
 
   it("exists() tests to true/false based on existance of data", async () => {

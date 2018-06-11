@@ -12,7 +12,9 @@ function getScope(files: string): string {
 
   if (!files || files === "all") {
     console.log(
-      chalk.white("no specific files specified so all files being tested, use -h for more help")
+      chalk.white(
+        "no specific files specified so all files being tested, use -h for more help"
+      )
     );
     fileScope = "--recursive test/**/*-spec.ts";
   } else {
@@ -22,7 +24,9 @@ function getScope(files: string): string {
     fileScope = prefix + files + postfix + ".ts";
   }
 
-  console.log(chalk.green(`${chalk.bold("mocha")} --compilers ts:ts-node/register  ${fileScope}`));
+  console.log(
+    chalk.green(`${chalk.bold("mocha")} --compilers ts:ts-node/register  ${fileScope}`)
+  );
 
   return fileScope;
 }
@@ -47,7 +51,7 @@ function cleanJSTests() {
 function executeTests(stg: string, fileScope: string): void {
   process.env.AWS_STAGE = stg;
   process.env.TS_NODE_COMPILER_OPTIONS = '{ "noImplicitAny": false }';
-  exec(`mocha --require ts-node/register ` + fileScope);
+  exec(`mocha --require ts-node/register --exit ` + fileScope);
 }
 
 if (process.argv.length === 2) {

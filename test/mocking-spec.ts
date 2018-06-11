@@ -1,7 +1,7 @@
 // tslint:disable:no-implicit-dependencies
-import DB from "../src/index";
+import { DB } from "../src/index";
 import * as chai from "chai";
-import Mock, { SchemaCallback, resetDatabase } from "firemock";
+import { Mock, SchemaCallback, resetDatabase } from "firemock";
 import * as helpers from "./testing/helpers";
 const expect = chai.expect;
 helpers.setupEnv();
@@ -14,46 +14,45 @@ const config = {
   messagingSenderId: "547394508788"
 };
 
-const animalMocker: SchemaCallback = h => () => ({
+const animalMocker = h => () => ({
   type: h.faker.random.arrayElement(["cat", "dog", "parrot"]),
   name: h.faker.name.firstName(),
   age: h.faker.random.number({ min: 1, max: 15 })
 });
 
 describe("Mocking", () => {
+  let mockDb: DB;
+  beforeEach(async () => {
+    mockDb = new DB({ mocking: true });
+    await mockDb.waitForConnection();
+  });
   it("ref() returns a mock reference", () => {
-    const db = new DB({ config });
-    expect(db.ref("foo")).to.not.have.property("onceSync");
-    const mockDb = new DB({ mocking: true });
-    expect(mockDb.ref("foo")).to.have.property("onceSync");
+    expect(mockDb.ref("foo")).to.have.property("once");
   });
 
   it("getSnapshot() returns a mock snapshot", async () => {
-    const db = new DB({ config, mocking: true });
-    addAnimals(db, 10);
-    const animals = await db.getSnapshot("/animals");
+    addAnimals(mockDb, 10);
+    const animals = await mockDb.getSnapshot("/animals");
     expect(animals.numChildren()).to.equal(10);
-    db.mock.queueSchema("animal", 5).generate();
-    const moreAnimals = await db.getSnapshot("/animals");
+    mockDb.mock.queueSchema("animal", 5).generate();
+    const moreAnimals = await mockDb.getSnapshot("/animals");
     expect(moreAnimals.numChildren()).to.equal(15);
   });
 
   it("getValue() returns a value from mock DB", async () => {
-    const db = new DB({ config, mocking: true });
-    addAnimals(db, 10);
-    const animals = await db.getValue("/animals");
+    addAnimals(mockDb, 10);
+    const animals = await mockDb.getValue("/animals");
     expect(animals).to.be.an("object");
     expect(helpers.length(animals)).to.equal(10);
-    expect(helpers.firstRecord(animals)).to.not.have.property("id");
+    expect(helpers.firstRecord(animals)).to.have.property("id");
     expect(helpers.firstRecord(animals)).to.have.property("name");
     expect(helpers.firstRecord(animals)).to.have.property("age");
   });
 
   it("getRecord() returns a record from mock DB", async () => {
-    const db = new DB({ config, mocking: true });
-    addAnimals(db, 10);
-    const firstKey = helpers.firstKey(db.mock.db.animals);
-    const animal = await db.getRecord(`/animals/${firstKey}`);
+    addAnimals(mockDb, 10);
+    const firstKey = helpers.firstKey(mockDb.mock.db.animals);
+    const animal = await mockDb.getRecord(`/animals/${firstKey}`);
     expect(animal).to.be.an("object");
     expect(animal.id).to.equal(firstKey);
     expect(animal).to.have.property("name");
@@ -61,10 +60,9 @@ describe("Mocking", () => {
   });
 
   it("getRecord() returns a record from mock DB with bespoke id prop", async () => {
-    const db = new DB({ config, mocking: true });
-    addAnimals(db, 10);
-    const firstKey = helpers.firstKey(db.mock.db.animals);
-    const animal = await db.getRecord(`/animals/${firstKey}`, "key");
+    addAnimals(mockDb, 10);
+    const firstKey = helpers.firstKey(mockDb.mock.db.animals);
+    const animal = await mockDb.getRecord(`/animals/${firstKey}`, "key");
 
     expect(animal).to.be.an("object");
     expect(animal).to.have.property("key");
@@ -73,9 +71,8 @@ describe("Mocking", () => {
   });
 
   it("getList() returns an array of records", async () => {
-    const db = new DB({ config, mocking: true });
-    addAnimals(db, 10);
-    const animals = await db.getList("/animals");
+    addAnimals(mockDb, 10);
+    const animals = await mockDb.getList("/animals");
     expect(animals).to.be.an("array");
     expect(animals).has.lengthOf(10);
     expect(animals[0]).to.have.property("id");
@@ -84,9 +81,8 @@ describe("Mocking", () => {
   });
 
   it('getList() returns an array of records, with bespoke "id" property', async () => {
-    const db = new DB({ config, mocking: true });
-    addAnimals(db, 10);
-    const animals = await db.getList("/animals", "key");
+    addAnimals(mockDb, 10);
+    const animals = await mockDb.getList("/animals", "key");
     expect(animals).to.be.an("array");
     expect(animals).has.lengthOf(10);
     expect(animals[0]).to.have.property("key");
@@ -95,20 +91,18 @@ describe("Mocking", () => {
   });
 
   it("set() sets to the mock DB", async () => {
-    const db = new DB({ config, mocking: true });
-    db.set("/people/abcd", {
+    mockDb.set("/people/abcd", {
       name: "Frank Black",
       age: 45
     });
-    const people = await db.getRecord("/people/abcd");
+    const people = await mockDb.getRecord("/people/abcd");
     expect(people).to.have.property("id");
     expect(people).to.have.property("name");
     expect(people).to.have.property("age");
   });
 
   it("update() updates the mock DB", async () => {
-    const db = new DB({ config, mocking: true });
-    db.mock.updateDB({
+    mockDb.mock.updateDB({
       people: {
         abcd: {
           name: "Frank Black",
@@ -116,8 +110,8 @@ describe("Mocking", () => {
         }
       }
     });
-    db.update("/people/abcd", { age: 14 });
-    const people = await db.getRecord("/people/abcd");
+    mockDb.update("/people/abcd", { age: 14 });
+    const people = await mockDb.getRecord("/people/abcd");
     expect(people).to.be.an("object");
     expect(people).to.have.property("id");
     expect(people).to.have.property("name");
@@ -127,12 +121,11 @@ describe("Mocking", () => {
   });
 
   it("push() pushes records into the mock DB", async () => {
-    const db = new DB({ config, mocking: true });
-    db.push("/people", {
+    mockDb.push("/people", {
       name: "Frank Black",
       age: 45
     });
-    const people = await db.getList("/people");
+    const people = await mockDb.getList("/people");
     expect(people).to.be.an("array");
     expect(people).has.lengthOf(1);
     expect(helpers.firstRecord(people)).to.have.property("id");
@@ -142,19 +135,18 @@ describe("Mocking", () => {
   });
 
   it("read operations on mock with a schema prefix are offset correctly", async () => {
-    const db = new DB({ config, mocking: true });
-    db.mock
+    mockDb.mock
       .addSchema("meal", h => () => ({
         name: h.faker.random.arrayElement(["breakfast", "lunch", "dinner"]),
         datetime: h.faker.date.recent()
       }))
       .pathPrefix("authenticated");
-    db.mock.queueSchema("meal", 10);
-    db.mock.generate();
+    mockDb.mock.queueSchema("meal", 10);
+    mockDb.mock.generate();
 
-    expect(db.mock.db.authenticated).to.be.an("object");
-    expect(db.mock.db.authenticated.meals).to.be.an("object");
-    const list = await db.getList("/authenticated/meals");
+    expect(mockDb.mock.db.authenticated).to.be.an("object");
+    expect(mockDb.mock.db.authenticated.meals).to.be.an("object");
+    const list = await mockDb.getList("/authenticated/meals");
     expect(list.length).to.equal(10);
   });
 });

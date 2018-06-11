@@ -1,118 +1,140 @@
-// tslint:disable:no-submodule-imports
-// tslint:disable:no-implicit-dependencies
-import * as firebase from "firebase";
-import "@firebase/auth";
-import "@firebase/database";
-import { IDictionary } from "common-types";
-import * as convert from "typed-conversions";
-import { SerializedQuery } from "serialized-query";
-import * as moment from "moment";
-import * as process from "process";
-import { slashNotation } from "./util";
-import { RealTimeDB, DebuggingCallback } from "abstracted-firebase";
+// tslint:disable:whitespace
+import {
+  RealTimeDB,
+  IFirebaseConfig,
+  _getFirebaseType,
+  IFirebaseClientConfigProps
+} from "abstracted-firebase";
 import { rtdb } from "firebase-api-surface";
+import { EventManager } from "./EventManager";
 
 export enum FirebaseBoolean {
   true = 1,
   false = 0
 }
 
-export interface IFirebaseConfig {
-  debugging?: boolean | DebuggingCallback;
-  mocking?: boolean;
-  config?: IFirebaseClientConfig;
-}
-
-export interface IFirebaseClientConfig {
-  apiKey: string;
-  authDomain: string;
-  databaseURL: string;
-  projectId: string;
-  storageBucket?: string;
-  messagingSenderId?: string;
-}
+export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
+export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
+export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
+export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
+export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
+export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 
 export interface IFirebaseListener {
   id: string;
   cb: (db: DB) => void;
 }
 
+// tslint:disable-next-line:whitespace
+export type FirebaseApp = typeof import("firebase/app");
+
 export class DB extends RealTimeDB {
-  public auth: firebase.auth.Auth;
-  constructor(options: IFirebaseConfig = {}, name: string = "[DEFAULT]") {
-    super(options);
+  protected _eventManager: EventManager;
+  protected _database: FirebaseDatabase;
+  protected _firestore: FirebaseFirestore;
+  protected _messaging: FirebaseMessaging;
+  protected _storage: FirebaseStorage;
+  protected _auth: FirebaseAuth;
+  protected _functions: FirebaseFunctions;
+  protected app: any;
 
-    if (options.mocking) {
-      this._mocking = true;
-    } else {
-      this.connect(options, name);
-      RealTimeDB.connection
-        .ref(".info/connected")
-        .on("value", this.monitorConnection.bind(this));
-    }
+  constructor(config: IFirebaseConfig) {
+    super();
+    this._eventManager = new EventManager();
+    config = {
+      ...{
+        name: "[DEFAULT]"
+      },
+      ...config
+    };
+    this.initialize(config);
   }
 
-  public async waitForConnection() {
-    if (RealTimeDB.isConnected) {
-      return Promise.resolve();
-    }
-    return new Promise(resolve => {
-      const cb = () => {
-        resolve();
-      };
-      this._waitingForConnection.push(cb);
-    });
+  public get auth() {
+    return _getFirebaseType(this, "auth") as FirebaseAuth;
   }
 
-  public get isConnected() {
-    return RealTimeDB.isConnected;
+  public get database() {
+    return _getFirebaseType(this, "database") as rtdb.IFirebaseDatabase;
   }
 
-  private monitorConnection(snap: rtdb.IDataSnapshot) {
-    DB.isConnected = snap.val();
+  public get firestore() {
+    return _getFirebaseType(this, "firestore") as FirebaseFirestore;
+  }
+
+  public get messaging() {
+    return _getFirebaseType(this, "messaging") as FirebaseMessaging;
+  }
+
+  public get functions() {
+    return _getFirebaseType(this, "functions") as FirebaseFunctions;
+  }
+
+  public get storage() {
+    return _getFirebaseType(this, "storage") as FirebaseStorage;
+  }
+
+  protected monitorConnection(snap: rtdb.IDataSnapshot) {
+    this._isConnected = snap.val();
     // cycle through temporary clients
     this._waitingForConnection.forEach(cb => cb());
     this._waitingForConnection = [];
     // call active listeners
-    if (DB.isConnected) {
+    if (this.isConnected) {
       this._onConnected.forEach(listener => listener.cb(this));
     } else {
       this._onDisconnected.forEach(listener => listener.cb(this));
     }
   }
 
-  private connect(options: IFirebaseConfig, name: string = "[DEFAULT]"): void {
-    if (!RealTimeDB.isConnected) {
-      const config =
-        options.config || JSON.parse(process.env["FIREBASE_CONFIG"]);
-      if (!config) {
-        throw new Error("Trying to connect without firebase configuration!");
+  /**
+   * connect
+   *
+   * Asynchronously loads the firebase/app library and then
+   * initializes a connection to the database.
+   */
+  protected async connectToFirebase(config: IFirebaseClientConfigProps) {
+    if (!this.isConnected) {
+      if (process.env["FIREBASE_CONFIG"]) {
+        config = { ...config, ...JSON.parse(process.env["FIREBASE_CONFIG"]) };
       }
-
-      let app: firebase.app.App;
+      if (!config.apiKey || !config.authDomain || !config.databaseURL) {
+        throw new Error("Trying to connect without appropriate firebase configuration!");
+      }
+      const { name } = config;
+      // tslint:disable-next-line:no-submodule-imports
+      const firebase = await import("firebase/app");
       try {
-        app = firebase.initializeApp(config, name);
-        const database: rtdb.IFirebaseDatabase = app.database();
-        RealTimeDB.connection = database;
-        this.auth = app.auth();
+        const runningApps = new Set(firebase.apps.map(i => i.name));
+        this.app = runningApps.has(name)
+          ? firebase.app()
+          : (this.app = firebase.initializeApp(config, name));
+        this.enableDatabaseLogging = firebase.database.enableLogging.bind(
+          firebase.database
+        );
       } catch (e) {
-        if (e.message.indexOf("app/deplicate-app") !== -1) {
-          console.log(`Database named ${name} already exists `);
+        if (e.message && e.message.indexOf("app/duplicate-app") !== -1) {
+          console.log(JSON.stringify(e));
+          console.log(`The "${name}" app already exists; will proceed.`);
+          this._isConnected = true;
         } else {
-          console.log(`Error connecting to DB: ${e.message} `);
-          throw new Error(`Error connecting to DB: ${e.message}`);
+          throw e;
         }
       }
-
-      RealTimeDB.isConnected = true;
+      this._database = this.app.database();
+      this._eventManager.connection(true);
     }
-
-    if (options.debugging) {
-      (RealTimeDB.connection as any).enableLogging(
-        typeof options.debugging === "function"
-          ? (message: string) => (options.debugging as any)(message)
+    // TODO: relook at debugging func
+    if (config.debugging) {
+      this.enableDatabaseLogging(
+        typeof config.debugging === "function"
+          ? (message: string) => (config.debugging as any)(message)
           : (message: string) => console.log("[FIREBASE]", message)
       );
     }
+  }
+
+  protected listenForConnectionStatus() {
+    this._database.ref(".info/connected").on("value", this.monitorConnection.bind(this));
   }
 }
