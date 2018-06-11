@@ -17,8 +17,6 @@ export interface IFirebaseListener {
 }
 export declare type FirebaseApp = typeof import("firebase/app");
 export declare class DB extends RealTimeDB {
-    /** Logs debugging information to the console */
-    enableDatabaseLogging: (logger?: boolean | ((a: string) => any), persistent?: boolean) => any;
     protected _eventManager: EventManager;
     protected _database: FirebaseDatabase;
     protected _firestore: FirebaseFirestore;

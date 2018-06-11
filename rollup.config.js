@@ -11,7 +11,12 @@ export default {
       file: "dist/abstracted-client.umd.js",
       format: "umd",
       name: "AbstractedClient",
-      sourcemap: true
+      sourcemap: true,
+      globals: {
+        events: "EventEmitter",
+        "abstracted-firebase": "abstracted-firebase",
+        "@firebase/database": "database"
+      }
     }
   ],
   external: [
