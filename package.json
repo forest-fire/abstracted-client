@@ -29,7 +29,7 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "^0.11.8",
+    "abstracted-firebase": "^0.11.9",
     "common-types": "^1.7.36",
     "events": "^3.0.0",
     "firebase": "^5.0.4",

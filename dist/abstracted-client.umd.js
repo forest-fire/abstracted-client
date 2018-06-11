@@ -1,10 +1,9 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('events'), require('abstracted-firebase'), require('@firebase/database')) :
     typeof define === 'function' && define.amd ? define(['exports', 'events', 'abstracted-firebase', '@firebase/database'], factory) :
-    (factory((global.AbstractedClient = {}),global.EventEmitter,global.abstractedFirebase,global.database));
+    (factory((global.AbstractedClient = {}),global.EventEmitter,global['abstracted-firebase'],global.database));
 }(this, (function (exports,EventEmitter,abstractedFirebase,database) { 'use strict';
 
-    // import EventEmitter = require("events");
     class EventManager extends EventEmitter {
         connection(state) {
             this.emit("connection", state);
