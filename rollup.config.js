@@ -17,19 +17,21 @@ export default {
       file: "dist/abstracted-client.umd.js",
       format: "umd",
       name: "AbstractedClient",
-      sourcemap: true,
-      globals: {
-        events: "EventEmitter",
-        "abstracted-firebase": "abstractedFirebase",
-        "@firebase/database": "database"
-      }
+      sourcemap: true
     }
   ],
+  globals: {
+    "abstracted-firebase": "abstractedFirebase",
+    events: "EventEmitter",
+    "@firebase/database": "database"
+  },
   external: [
     "firebase-api-surface",
     "typed-conversions",
     "serialized-query",
-    "@firebase/app-types"
+    "abstracted-firebase",
+    "@firebase/app-types",
+    "events"
   ],
   plugins: [
     typescript({

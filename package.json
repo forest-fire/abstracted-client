@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.10.4",
+  "version": "0.10.7",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -15,9 +15,9 @@
   "files": [
     "dist"
   ],
-  "module": "dist/esnext/index.js",
-  "main": "dist/cjs/index.js",
-  "typings": "dist/esnext/index.d.ts",
+  "module": "dist/abstracted-client.es.js",
+  "main": "dist/abstracted-client.cjs.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
@@ -30,8 +30,8 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "^0.11.15",
-    "common-types": "^1.7.36",
+    "abstracted-firebase": "^0.11.17",
+    "common-types": "^1.8.0",
     "events": "^3.0.0",
     "firebase": "^5.0.4",
     "firebase-api-surface": "^0.8.3",
