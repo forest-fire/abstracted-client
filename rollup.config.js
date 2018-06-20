@@ -1,12 +1,18 @@
+import typescript from "rollup-plugin-typescript2";
+
 export default {
-  input: "dist/esnext/index.js",
+  input: "src/index.ts",
   output: [
-    // {
-    //   file: "dist/abstracted-client.cjs.js",
-    //   format: "cjs",
-    //   name: "AbstractedClient",
-    //   sourcemap: true
-    // },
+    {
+      file: "dist/abstracted-client.es.js",
+      format: "es",
+      sourcemap: true
+    },
+    {
+      file: "dist/abstracted-client.cjs.js",
+      format: "cjs",
+      sourcemap: true
+    },
     {
       file: "dist/abstracted-client.umd.js",
       format: "umd",
@@ -19,10 +25,15 @@ export default {
       }
     }
   ],
-  external: [
-    "firebase-api-surface",
-    "typed-conversions",
-    "serialized-query",
-    "@firebase/app-types"
+  // external: [
+  //   "firebase-api-surface",
+  //   "typed-conversions",
+  //   "serialized-query",
+  //   "@firebase/app-types"
+  // ],
+  plugins: [
+    typescript({
+      tsconfig: "tsconfig.esnext.json"
+    })
   ]
 };

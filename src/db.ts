@@ -25,9 +25,6 @@ export interface IFirebaseListener {
   cb: (db: DB) => void;
 }
 
-// tslint:disable-next-line:whitespace
-export type FirebaseApp = typeof import("firebase/app");
-
 export class DB extends RealTimeDB {
   protected _eventManager: EventManager;
   protected _database: FirebaseDatabase;
