@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -17,7 +17,6 @@
   ],
   "module": "dist/esnext/index.js",
   "main": "dist/cjs/index.js",
-  "browser": "dist/umd/index.js",
   "typings": "dist/esnext/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
