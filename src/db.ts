@@ -7,18 +7,26 @@ import {
 } from "abstracted-firebase";
 import { rtdb } from "firebase-api-surface";
 import { EventManager } from "./EventManager";
-
+// tslint:disable:no-implicit-dependencies
+import { FirebaseDatabase } from "@firebase/database-types";
+import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseMessaging } from "@firebase/messaging-types";
+import { FirebaseStorage } from "@firebase/storage-types";
+import { FirebaseFunctions } from "@firebase/functions-types";
+import { FirebaseAuth } from "@firebase/auth-types";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
 }
 
-export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
-export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
-export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
-export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
-export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
+// Typescript 2.9 way ... doesn't seem to transpile well
+// -----------------------------------------------------
+// export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
+// export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
+// export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
+// export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
+// export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
+// export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 
 export interface IFirebaseListener {
   id: string;

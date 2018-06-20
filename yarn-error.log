@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "abstracted-client",
-    "version": "0.10.1",
+    "version": "0.10.2",
     "description": "Helpful abstraction on the firebase admin API",
     "license": "MIT",
     "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -33,7 +33,6 @@ npm manifest:
     ],
     "module": "dist/esnext/index.js",
     "main": "dist/cjs/index.js",
-    "browser": "dist/umd/index.js",
     "typings": "dist/esnext/index.d.ts",
     "scripts": {
       "clean": "rimraf lib",
@@ -47,7 +46,7 @@ npm manifest:
       "watch:test": "npm run test -- --watch"
     },
     "dependencies": {
-      "abstracted-firebase": "^0.11.13",
+      "abstracted-firebase": "^0.11.14",
       "common-types": "^1.7.36",
       "events": "^3.0.0",
       "firebase": "^5.0.4",
@@ -1040,9 +1039,9 @@ Lockfile:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   
-  abstracted-firebase@^0.11.13:
-    version "0.11.13"
-    resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.11.13.tgz#3ebb134ca693b348490369e4fbe64431a144364e"
+  abstracted-firebase@^0.11.14:
+    version "0.11.14"
+    resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.11.14.tgz#08a352b63539c05dfa93649207270c62c3ae4bf4"
     dependencies:
       common-types "^1.7.36"
       firebase-api-surface "^0.8.3"
@@ -5250,7 +5249,7 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 2
+  Exit code: 1
   Command: sh
   Arguments: -c tsc -P tsconfig.esnext.json && tsc -P tsconfig.umd.json && tsc -P tsconfig.cjs.json
   Directory: /Users/ken/mine/forest-fire/abstracted-client

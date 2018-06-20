@@ -1,16 +1,16 @@
 import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps } from "abstracted-firebase";
 import { rtdb } from "firebase-api-surface";
 import { EventManager } from "./EventManager";
+import { FirebaseDatabase } from "@firebase/database-types";
+import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseMessaging } from "@firebase/messaging-types";
+import { FirebaseStorage } from "@firebase/storage-types";
+import { FirebaseFunctions } from "@firebase/functions-types";
+import { FirebaseAuth } from "@firebase/auth-types";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0
 }
-export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export declare type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
-export declare type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
-export declare type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
-export declare type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
-export declare type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
@@ -25,12 +25,12 @@ export declare class DB extends RealTimeDB {
     protected _functions: FirebaseFunctions;
     protected app: any;
     constructor(config: IFirebaseConfig);
-    readonly auth: import("../../../../../../Users/ken/mine/forest-fire/abstracted-client/node_modules/@firebase/auth-types").FirebaseAuth;
+    readonly auth: FirebaseAuth;
     readonly database: rtdb.IFirebaseDatabase;
-    readonly firestore: import("../../../../../../Users/ken/mine/forest-fire/abstracted-client/node_modules/@firebase/firestore-types").FirebaseFirestore;
-    readonly messaging: import("../../../../../../Users/ken/mine/forest-fire/abstracted-client/node_modules/@firebase/messaging-types").FirebaseMessaging;
-    readonly functions: import("../../../../../../Users/ken/mine/forest-fire/abstracted-client/node_modules/@firebase/functions-types").FirebaseFunctions;
-    readonly storage: import("../../../../../../Users/ken/mine/forest-fire/abstracted-client/node_modules/@firebase/storage-types").FirebaseStorage;
+    readonly firestore: FirebaseFirestore;
+    readonly messaging: FirebaseMessaging;
+    readonly functions: FirebaseFunctions;
+    readonly storage: FirebaseStorage;
     protected monitorConnection(snap: rtdb.IDataSnapshot): void;
     /**
      * connect

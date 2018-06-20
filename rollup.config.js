@@ -1,7 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
 
 export default {
-  input: "src/index.ts",
+  input: "src/db.ts",
   output: [
     {
       file: "dist/abstracted-client.es.js",
@@ -20,17 +20,17 @@ export default {
       sourcemap: true,
       globals: {
         events: "EventEmitter",
-        "abstracted-firebase": "abstracted-firebase",
+        "abstracted-firebase": "abstractedFirebase",
         "@firebase/database": "database"
       }
     }
   ],
-  // external: [
-  //   "firebase-api-surface",
-  //   "typed-conversions",
-  //   "serialized-query",
-  //   "@firebase/app-types"
-  // ],
+  external: [
+    "firebase-api-surface",
+    "typed-conversions",
+    "serialized-query",
+    "@firebase/app-types"
+  ],
   plugins: [
     typescript({
       tsconfig: "tsconfig.esnext.json"
