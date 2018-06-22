@@ -34,6 +34,16 @@ export interface IFirebaseListener {
 }
 
 export class DB extends RealTimeDB {
+  /**
+   * Instantiates a DB and then waits for the connection
+   * to finish.
+   */
+  public static async connect(config?: IFirebaseConfig) {
+    const obj = new DB(config);
+    await obj.waitForConnection();
+    return obj;
+  }
+
   protected _eventManager: EventManager;
   protected _database: FirebaseDatabase;
   protected _firestore: FirebaseFirestore;
