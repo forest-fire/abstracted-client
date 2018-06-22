@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.10.0",
+  "version": "0.12.0",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -15,13 +15,14 @@
   "files": [
     "dist"
   ],
-  "main": "dist/esnext/index.js",
-  "browser": "dist/abstracted-client.umd.js",
-  "typings": "dist/esnext/index.d.ts",
+  "module": "dist/abstracted-client.es.js",
+  "main": "dist/abstracted-client.cjs.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
-    "build": "tslint src/**/*.ts && tsc -P tsconfig.esnext.json && rollup -c rollup.config.js",
+    "build": "tslint src/**/*.ts && rollup -c rollup.config.js",
+    "build:tsc": "tsc -P tsconfig.esnext.json && tsc -P tsconfig.umd.json && tsc -P tsconfig.cjs.json",
     "test": "ts-node ./scripts/test.ts",
     "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
     "watch": "npm run build -- --watch",
@@ -29,19 +30,19 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "^0.11.9",
-    "common-types": "^1.7.36",
+    "abstracted-firebase": "^0.12.0",
+    "common-types": "^1.8.2",
     "events": "^3.0.0",
     "firebase": "^5.0.4",
     "firebase-api-surface": "^0.8.3",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "moment": "^2.20.1",
-    "serialized-query": "^0.3.8",
+    "serialized-query": "^0.4.3",
     "typed-conversions": "^0.8.3"
   },
   "peerDependencies": {
-    "firemock": "^0.17.5"
+    "firemock": "^0.17.11"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",
@@ -61,17 +62,17 @@
     "chance": "^1.0.13",
     "coveralls": "^2.0.0",
     "faker": "^4.1.0",
-    "firemock": "^0.17.3",
+    "firemock": "^0.17.11",
     "js-yaml": "^3.9.1",
     "mocha": "^5.0.0",
     "nyc": "^11.4.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.60.1",
-    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup": "^0.60.7",
+    "rollup-plugin-typescript2": "^0.15.0",
     "test-console": "^1.0.0",
     "ts-node": "^6.1.0",
     "tslint": "^5.10.0",
-    "typescript": "^3.0.0-dev.20180609"
+    "typescript": "^2.9.2"
   },
   "engines": {
     "node": ">=4.0.0"

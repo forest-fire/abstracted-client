@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "umd",
+    "moduleResolution": "node",
+    "target": "es2017",
+    "noImplicitAny": true,
+    "outDir": "./dist/umd",
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "node_modules/**/*",
+    "**/*.d.ts",
+    "typings",
+    "**/*-spec.ts",
+    "node_modules/@firebase/app-types/private.d.ts",
+    "abstracted-firebase"
+  ]
+}
