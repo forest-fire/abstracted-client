@@ -1,5 +1,5 @@
 // tslint:disable:no-implicit-dependencies
-import DB from "../src/index";
+import { DB } from "../src/db";
 import * as chai from "chai";
 import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
@@ -100,8 +100,7 @@ describe("Read operations: ", () => {
 describe("Write Operations", () => {
   let db: DB;
   beforeEach(async () => {
-    db = new DB(config);
-    await db.waitForConnection();
+    db = await DB.connect(config);
     await db.remove("client-test-data/pushed");
   });
 

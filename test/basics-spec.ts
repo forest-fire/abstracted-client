@@ -1,5 +1,5 @@
 // tslint:disable:no-implicit-dependencies
-import { DB } from "../src";
+import { DB } from "../src/db";
 import * as chai from "chai";
 import * as helpers from "./testing/helpers";
 import config from "./testing/fb-config";

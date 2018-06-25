@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn run build:tsc
+  /usr/local/bin/node /usr/local/bin/yarn run build
 
 PATH: 
   /usr/local/bin:/Users/ken/.yarn/bin:/usr/local/share/android-sdk/platform-tools:.:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Users/ken/.yarn/bin:/usr/local/share/android-sdk/platform-tools:.:/Users/ken/Library/Python/2.7/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/X11/bin:/Users/kensnyder/.rvm/bin:/Users/kensnyder/.ec2/bin:/Developer/usr/bin:/Users/kensnyder/pear/bin:/usr/local/share/npm/bin:/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin:/Users/kensnyder/repos/mine/api/commandline/bin:/Users/ken/Library/Python/2.7/bin:/usr/local/sbin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/kensnyder/.rvm/bin:/Users/kensnyder/.ec2/bin:/Developer/usr/bin:/Users/kensnyder/pear/bin:/usr/local/share/npm/bin:/Applications/Couchbase Server.app/Contents/Resources/couchbase-core/bin:/Users/kensnyder/repos/mine/api/commandline/bin
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "abstracted-client",
-    "version": "0.10.2",
+    "version": "0.12.3",
     "description": "Helpful abstraction on the firebase admin API",
     "license": "MIT",
     "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -31,9 +31,9 @@ npm manifest:
     "files": [
       "dist"
     ],
-    "module": "dist/esnext/index.js",
-    "main": "dist/cjs/index.js",
-    "typings": "dist/esnext/index.d.ts",
+    "module": "dist/abstracted-client.es.js",
+    "main": "dist/abstracted-client.cjs.js",
+    "typings": "dist/index.d.ts",
     "scripts": {
       "clean": "rimraf lib",
       "lint": "tslint --force --format verbose \"src/**/*.ts\"",
@@ -46,19 +46,19 @@ npm manifest:
       "watch:test": "npm run test -- --watch"
     },
     "dependencies": {
-      "abstracted-firebase": "^0.11.14",
-      "common-types": "^1.7.36",
+      "abstracted-firebase": "^0.12.4",
+      "common-types": "^1.8.2",
       "events": "^3.0.0",
       "firebase": "^5.0.4",
       "firebase-api-surface": "^0.8.3",
       "lodash.first": "^3.0.0",
       "lodash.last": "^3.0.0",
       "moment": "^2.20.1",
-      "serialized-query": "^0.3.8",
+      "serialized-query": "^0.4.3",
       "typed-conversions": "^0.8.3"
     },
     "peerDependencies": {
-      "firemock": "^0.17.11"
+      "firemock": "^0.18.0"
     },
     "devDependencies": {
       "@types/chai": "^3.0.0",
@@ -78,7 +78,7 @@ npm manifest:
       "chance": "^1.0.13",
       "coveralls": "^2.0.0",
       "faker": "^4.1.0",
-      "firemock": "^0.17.11",
+      "firemock": "^0.18.0",
       "js-yaml": "^3.9.1",
       "mocha": "^5.0.0",
       "nyc": "^11.4.0",
@@ -710,19 +710,19 @@ Lockfile:
       tslib "1.9.0"
       xmlhttprequest "1.8.0"
   
-  "@firebase/auth-types@0.3.3":
-    version "0.3.3"
-    resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.3.3.tgz#950a68bdae1e1e37ece054ff69ee0082c5ecabab"
+  "@firebase/auth-types@0.3.4":
+    version "0.3.4"
+    resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.3.4.tgz#253b1b2d9b520a0b945d4617c8418f0f19a4159f"
   
   "@firebase/auth-types@^0.1.1":
     version "0.1.2"
     resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.1.2.tgz#15415ed12b038356f79f22f9059002a29873a15a"
   
-  "@firebase/auth@0.5.3":
-    version "0.5.3"
-    resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.5.3.tgz#4f0d83cd5a7c173d3a7a06f904bb1084acd8a0c4"
+  "@firebase/auth@0.7.0":
+    version "0.7.0"
+    resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.7.0.tgz#f6b9da544241160c04df550d335133fa754b4e3d"
     dependencies:
-      "@firebase/auth-types" "0.3.3"
+      "@firebase/auth-types" "0.3.4"
   
   "@firebase/database-types@0.3.2":
     version "0.3.2"
@@ -750,9 +750,9 @@ Lockfile:
     version "0.2.2"
     resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-0.2.2.tgz#e60b6c7a458538b1bf8ed89d9df981fa17a74871"
   
-  "@firebase/firestore@0.5.4":
-    version "0.5.4"
-    resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.5.4.tgz#26f67fa038ffd74ef849019728c59d4a5590a324"
+  "@firebase/firestore@0.5.5":
+    version "0.5.5"
+    resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.5.5.tgz#cb41fd528520e45374cf0da4a7e87382b515840c"
     dependencies:
       "@firebase/firestore-types" "0.4.3"
       "@firebase/logger" "0.1.1"
@@ -785,9 +785,9 @@ Lockfile:
     version "0.1.3"
     resolved "https://registry.yarnpkg.com/@firebase/messaging-types/-/messaging-types-0.1.3.tgz#0a80c69c8f791e3aa94b28f4d2e296d0ea2571bc"
   
-  "@firebase/messaging@0.3.4":
-    version "0.3.4"
-    resolved "https://registry.yarnpkg.com/@firebase/messaging/-/messaging-0.3.4.tgz#374d8e19e8fa900d81bc30f5d4e8946bd1c336a7"
+  "@firebase/messaging@0.3.5":
+    version "0.3.5"
+    resolved "https://registry.yarnpkg.com/@firebase/messaging/-/messaging-0.3.5.tgz#a77fcd0e4f0b404a974493a24a91ab35bc3bad46"
     dependencies:
       "@firebase/messaging-types" "0.2.3"
       "@firebase/util" "0.2.1"
@@ -906,8 +906,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
   
   "@types/node@*":
-    version "10.3.4"
-    resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.4.tgz#c74e8aec19e555df44609b8057311052a2c84d9e"
+    version "10.3.5"
+    resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.5.tgz#8423cdf6e6fb83433e489900d7600d3b61c8260c"
   
   "@types/node@^6.0.0":
     version "6.0.113"
@@ -1039,14 +1039,14 @@ Lockfile:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   
-  abstracted-firebase@^0.11.14:
-    version "0.11.14"
-    resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.11.14.tgz#08a352b63539c05dfa93649207270c62c3ae4bf4"
+  abstracted-firebase@^0.12.4:
+    version "0.12.4"
+    resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.12.4.tgz#29a31d128f6f214fa544b41aa696dccb5722657c"
     dependencies:
-      common-types "^1.7.36"
+      common-types "^1.8.2"
       firebase-api-surface "^0.8.3"
       lodash "^4.17.10"
-      serialized-query "^0.3.8"
+      serialized-query "^0.4.3"
       typed-conversions "^0.8.3"
       wait-in-parallel "^1.1.4"
   
@@ -1484,7 +1484,7 @@ Lockfile:
       os-homedir "^1.0.1"
       vlq "^1.0.0"
   
-  buffer-from@^1.0.0:
+  buffer-from@^1.0.0, buffer-from@^1.1.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.0.tgz#87fcaa3a298358e0ade6e442cfce840740d1ad04"
   
@@ -1561,12 +1561,12 @@ Lockfile:
       lodash.uniq "^4.5.0"
   
   caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-    version "1.0.30000856"
-    resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000856.tgz#fbebb99abe15a5654fc7747ebb5315bdfde3358f"
+    version "1.0.30000858"
+    resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000858.tgz#153c9348350641dc624d150ec174262c2ad985e5"
   
   caniuse-lite@^1.0.30000844:
-    version "1.0.30000856"
-    resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000856.tgz#ecc16978135a6f219b138991eb62009d25ee8daa"
+    version "1.0.30000858"
+    resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000858.tgz#f6f203a9128bac507136de1cf6cfd966d2df027c"
   
   caseless@~0.11.0:
     version "0.11.0"
@@ -1752,9 +1752,9 @@ Lockfile:
     version "2.13.0"
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
   
-  common-types@^1.1.0, common-types@^1.5.4, common-types@^1.6.30, common-types@^1.7.21, common-types@^1.7.36:
-    version "1.7.36"
-    resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.7.36.tgz#19eb8782752b0bf98e7f758d26f87bec25ee3e6e"
+  common-types@^1.1.0, common-types@^1.5.4, common-types@^1.7.21, common-types@^1.7.35, common-types@^1.7.36, common-types@^1.8.2:
+    version "1.8.2"
+    resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.8.2.tgz#e5bbe6468882243e9e917ec879c298306edb8921"
   
   commondir@^1.0.1:
     version "1.0.1"
@@ -2043,8 +2043,8 @@ Lockfile:
       jsbn "~0.1.0"
   
   electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.47:
-    version "1.3.48"
-    resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.48.tgz#d3b0d8593814044e092ece2108fc3ac9aea4b900"
+    version "1.3.50"
+    resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.50.tgz#7438b76f92b41b919f3fbdd350fbd0757dacddf7"
   
   emojis-list@^2.0.0:
     version "2.1.0"
@@ -2263,21 +2263,21 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.1.tgz#5f1fe462c011c7f944f2f0f489c838dd1ed162ef"
   
   firebase@^5.0.4:
-    version "5.0.4"
-    resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.0.4.tgz#f367c80531c1a8a4ef82b6537b2a6bd92685e226"
+    version "5.1.0"
+    resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.1.0.tgz#9f56f910ef4e5e605c0f3de910b2070d2a1c3b55"
     dependencies:
       "@firebase/app" "0.3.3"
-      "@firebase/auth" "0.5.3"
+      "@firebase/auth" "0.7.0"
       "@firebase/database" "0.3.3"
-      "@firebase/firestore" "0.5.4"
+      "@firebase/firestore" "0.5.5"
       "@firebase/functions" "0.2.4"
-      "@firebase/messaging" "0.3.4"
+      "@firebase/messaging" "0.3.5"
       "@firebase/polyfill" "0.3.3"
       "@firebase/storage" "0.2.3"
   
-  firemock@^0.17.11:
-    version "0.17.11"
-    resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.17.11.tgz#68f88986eab3e054ca34024018f9983ab2f292f3"
+  firemock@^0.18.0:
+    version "0.18.0"
+    resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.18.0.tgz#22059e676e3c61ce46230865daf636cd0d45be4e"
     dependencies:
       chance "^1.0.16"
       common-types "^1.7.36"
@@ -2286,7 +2286,7 @@ Lockfile:
       firebase-key "^2.0.1"
       lodash "^4.17.10"
       moment "^2.20.1"
-      typed-conversions "^0.8.3"
+      typed-conversions "^0.8.8"
   
   first-commit-date@^0.2.0:
     version "0.2.0"
@@ -2442,8 +2442,8 @@ Lockfile:
       path-is-absolute "^1.0.0"
   
   globals@^11.1.0:
-    version "11.6.0"
-    resolved "https://registry.yarnpkg.com/globals/-/globals-11.6.0.tgz#7e4d12ffd6b8d174851ff5a246bfb2b8b002a6c7"
+    version "11.7.0"
+    resolved "https://registry.yarnpkg.com/globals/-/globals-11.7.0.tgz#a583faa43055b1aca771914bf68258e2fc125673"
   
   globals@^9.18.0:
     version "9.18.0"
@@ -2612,8 +2612,8 @@ Lockfile:
       minimatch "^3.0.4"
   
   ignore@^3.3.5:
-    version "3.3.8"
-    resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.8.tgz#3f8e9c35d38708a3a7e0e9abb6c73e7ee7707b2b"
+    version "3.3.10"
+    resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
   
   import-cwd@^2.1.0:
     version "2.1.0"
@@ -3383,8 +3383,8 @@ Lockfile:
       is-stream "^1.0.1"
   
   node-pre-gyp@^0.10.0:
-    version "0.10.0"
-    resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.0.tgz#6e4ef5bb5c5203c6552448828c852c40111aac46"
+    version "0.10.2"
+    resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.2.tgz#e8945c20ef6795a20aac2b44f036eb13cf5146e3"
     dependencies:
       detect-libc "^1.0.2"
       mkdirp "^0.5.1"
@@ -3392,7 +3392,7 @@ Lockfile:
       nopt "^4.0.1"
       npm-packlist "^1.1.6"
       npmlog "^4.0.2"
-      rc "^1.1.7"
+      rc "^1.2.7"
       rimraf "^2.6.1"
       semver "^5.3.0"
       tar "^4"
@@ -4013,8 +4013,8 @@ Lockfile:
       supports-color "^3.2.3"
   
   postcss@^6.0.1, postcss@^6.0.20, postcss@^6.0.21:
-    version "6.0.22"
-    resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.22.tgz#e23b78314905c3b90cbd61702121e7a78848f2a3"
+    version "6.0.23"
+    resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
     dependencies:
       chalk "^2.4.1"
       source-map "^0.6.1"
@@ -4029,8 +4029,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   
   prettier@^1.13.0:
-    version "1.13.5"
-    resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.5.tgz#7ae2076998c8edce79d63834e9b7b09fead6bfd0"
+    version "1.13.6"
+    resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.13.6.tgz#00ae0b777ad92f81a9e7a1df2f0470b6dab0cb44"
   
   pretty-ms@^3.1.0:
     version "3.2.0"
@@ -4098,7 +4098,7 @@ Lockfile:
       kind-of "^6.0.0"
       math-random "^1.0.1"
   
-  rc@^1.1.7:
+  rc@^1.2.7:
     version "1.2.8"
     resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
     dependencies:
@@ -4435,8 +4435,8 @@ Lockfile:
       rollup-pluginutils "^2.0.1"
   
   rollup-plugin-typescript2@^0.15.0:
-    version "0.15.0"
-    resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.15.0.tgz#33cf4ec8528f6fa5686cf1246f047acec4801d3a"
+    version "0.15.1"
+    resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.15.1.tgz#7b35d0eaa6ad5a54a253ed158a565b99d8f15372"
     dependencies:
       fs-extra "^5.0.0"
       resolve "^1.7.1"
@@ -4501,11 +4501,11 @@ Lockfile:
     version "5.5.0"
     resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
   
-  serialized-query@^0.3.8:
-    version "0.3.8"
-    resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.3.8.tgz#69478f56a4b9714bd7f33a76265e4355d78a31da"
+  serialized-query@^0.4.3:
+    version "0.4.4"
+    resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.4.4.tgz#29a40d55f6d993d5a4cf677492a90a2fe43f6f55"
     dependencies:
-      common-types "^1.6.30"
+      common-types "^1.7.35"
       firebase-api-surface "^0.7.11"
   
   set-blocking@^2.0.0, set-blocking@~2.0.0:
@@ -4887,10 +4887,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   
   ts-node@^6.1.0:
-    version "6.1.1"
-    resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-6.1.1.tgz#19607140acb06150441fcdb61be11f73f7b6657e"
+    version "6.2.0"
+    resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-6.2.0.tgz#65a0ae2acce319ea4fd7ac8d7c9f1f90c5da6baf"
     dependencies:
       arrify "^1.0.0"
+      buffer-from "^1.1.0"
       diff "^3.1.0"
       make-error "^1.1.1"
       minimist "^1.2.0"
@@ -4902,9 +4903,13 @@ Lockfile:
     version "1.9.0"
     resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
   
-  tslib@1.9.2, tslib@^1.8.0, tslib@^1.8.1:
+  tslib@1.9.2:
     version "1.9.2"
     resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.2.tgz#8be0cc9a1f6dc7727c38deb16c2ebd1a2892988e"
+  
+  tslib@^1.8.0, tslib@^1.8.1:
+    version "1.9.3"
+    resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   
   tslint@^5.10.0:
     version "5.10.0"
@@ -4947,9 +4952,9 @@ Lockfile:
     dependencies:
       common-types "^1.1.0"
   
-  typed-conversions@^0.8.3:
-    version "0.8.3"
-    resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.8.3.tgz#8b477cf03f383b2a08259a9f018fee0113a075bd"
+  typed-conversions@^0.8.3, typed-conversions@^0.8.8:
+    version "0.8.8"
+    resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.8.8.tgz#25e57f9a5435b8ec81a459b4981a19050a211a2c"
     dependencies:
       common-types "^1.7.36"
       lodash.get "^4.4.2"
@@ -5015,8 +5020,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/uniqs/-/uniqs-2.0.0.tgz#ffede4b36b25290696e6e165d4a59edb998e6b02"
   
   universalify@^0.1.0:
-    version "0.1.1"
-    resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.1.tgz#fa71badd4437af4c148841e3b3b165f9e9e590b7"
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
   
   unset-value@^1.0.0:
     version "1.0.0"
@@ -5251,7 +5256,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c tsc -P tsconfig.esnext.json && tsc -P tsconfig.umd.json && tsc -P tsconfig.cjs.json
+  Arguments: -c tslint src/**/*.ts && rollup -c rollup.config.js
   Directory: /Users/ken/mine/forest-fire/abstracted-client
   Output:
   

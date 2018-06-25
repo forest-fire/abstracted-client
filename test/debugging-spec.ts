@@ -1,12 +1,12 @@
 // tslint:disable:no-implicit-dependencies
-import DB from "../src/index";
+import { DB } from "../src/db";
 import * as chai from "chai";
 import * as helpers from "./testing/helpers";
 import config from "./testing/fb-config";
 const expect = chai.expect;
 helpers.setupEnv();
 
-describe("Debugging: ", () => {
+describe.skip("Debugging: ", () => {
   it('"debugging: true" results in logging to STDOUT', async () => {
     const restore = helpers.captureStdout();
     const db = new DB({ ...{ debugging: true }, ...config });

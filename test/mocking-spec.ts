@@ -1,5 +1,5 @@
 // tslint:disable:no-implicit-dependencies
-import { DB } from "../src/index";
+import { DB } from "../src/db";
 import * as chai from "chai";
 import { Mock, SchemaCallback, resetDatabase } from "firemock";
 import * as helpers from "./testing/helpers";
