@@ -16,6 +16,15 @@
       FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
   })(exports.FirebaseBoolean || (exports.FirebaseBoolean = {}));
   class DB extends abstractedFirebase.RealTimeDB {
+      /**
+       * Instantiates a DB and then waits for the connection
+       * to finish.
+       */
+      static async connect(config) {
+          const obj = new DB(config);
+          await obj.waitForConnection();
+          return obj;
+      }
       constructor(config) {
           super();
           this._eventManager = new EventManager();
@@ -77,7 +86,9 @@
                   this.app = runningApps.has(name)
                       ? firebase.app()
                       : (this.app = firebase.initializeApp(config, name));
-                  this.enableDatabaseLogging = firebase.database.enableLogging.bind(firebase.database);
+                  // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
+                  //   firebase.database
+                  // );
               }
               catch (e) {
                   if (e.message && e.message.indexOf("app/duplicate-app") !== -1) {

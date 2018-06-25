@@ -34,6 +34,16 @@ export interface IFirebaseListener {
 }
 
 export class DB extends RealTimeDB {
+  /**
+   * Instantiates a DB and then waits for the connection
+   * to finish.
+   */
+  public static async connect(config?: IFirebaseConfig) {
+    const obj = new DB(config);
+    await obj.waitForConnection();
+    return obj;
+  }
+
   protected _eventManager: EventManager;
   protected _database: FirebaseDatabase;
   protected _firestore: FirebaseFirestore;
@@ -109,14 +119,15 @@ export class DB extends RealTimeDB {
       const { name } = config;
       // tslint:disable-next-line:no-submodule-imports
       const firebase = await import("firebase/app");
+      await import("@firebase/database");
       try {
         const runningApps = new Set(firebase.apps.map(i => i.name));
         this.app = runningApps.has(name)
           ? firebase.app()
           : (this.app = firebase.initializeApp(config, name));
-        this.enableDatabaseLogging = firebase.database.enableLogging.bind(
-          firebase.database
-        );
+        // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
+        //   firebase.database
+        // );
       } catch (e) {
         if (e.message && e.message.indexOf("app/duplicate-app") !== -1) {
           console.log(JSON.stringify(e));
@@ -126,6 +137,7 @@ export class DB extends RealTimeDB {
           throw e;
         }
       }
+
       this._database = this.app.database();
       this._eventManager.connection(true);
     }

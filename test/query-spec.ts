@@ -1,9 +1,10 @@
-import DB from "../src/index";
+import { DB } from "../src/db";
 // tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
 import { SerializedQuery } from "serialized-query";
 import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
+import { RealTimeDB } from "abstracted-firebase";
 
 const expect = chai.expect;
 
@@ -14,12 +15,13 @@ interface IPerson {
 
 describe("Query based Read ops:", () => {
   helpers.setupEnv();
-  const db = new DB({ mocking: true });
+  let db: RealTimeDB;
   const personMockGenerator = h => () => ({
     name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
     age: h.faker.random.number({ min: 10, max: 99 })
   });
-  before(async () => {
+  beforeEach(async () => {
+    db = await DB.connect({ mocking: true });
     db.mock.addSchema("person", personMockGenerator);
     db.mock.queueSchema("person", 20);
     db.mock.queueSchema("person", 5, { age: 100 });
@@ -82,5 +84,44 @@ describe("Query based Read ops:", () => {
     data = await db.getList<IPerson>(q3);
     expect(data.length).to.equal(3);
     data.map(d => d.age).map(age => expect(age).to.equal(3));
+  });
+
+  it("getList() with limit query on orderByKey of scalar values", async () => {
+    db.mock.updateDB({
+      ages: {
+        asdfasdfas: 13,
+        dfddffdfd: 5,
+        adsffdffdfd: 26,
+        ddfdfdfd: 1,
+        werqerqer: 2,
+        erwrewrw: 100
+      }
+    });
+    const query = SerializedQuery.path("ages")
+      .orderByKey()
+      .limitToFirst(3);
+    const ages = await db.getList(query);
+
+    expect(ages).to.have.lengthOf(3);
+  });
+
+  it("getList() with limit query on orderByValue", async () => {
+    db.mock.updateDB({
+      ages: {
+        asdfasdfas: 13,
+        dfddffdfd: 5,
+        adsffdffdfd: 26,
+        ddfdfdfd: 1,
+        werqerqer: 2,
+        erwrewrw: 100
+      }
+    });
+    const query = SerializedQuery.path("ages")
+      .orderByValue()
+      .limitToFirst(3);
+    const ages = await db.getList(query);
+    console.log(ages);
+
+    expect(ages).to.have.lengthOf(3);
   });
 });

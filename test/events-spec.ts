@@ -1,4 +1,5 @@
-import DB from "../src/index";
+import { DB } from "../src/db";
+// tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
 import * as helpers from "./testing/helpers";
 

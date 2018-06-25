@@ -16,6 +16,11 @@ export interface IFirebaseListener {
     cb: (db: DB) => void;
 }
 export declare class DB extends RealTimeDB {
+    /**
+     * Instantiates a DB and then waits for the connection
+     * to finish.
+     */
+    static connect(config?: IFirebaseConfig): Promise<DB>;
     protected _eventManager: EventManager;
     protected _database: FirebaseDatabase;
     protected _firestore: FirebaseFirestore;

@@ -1,3 +1,4 @@
+// tslint:disable:no-implicit-dependencies
 import { IDictionary } from "common-types";
 import first = require("lodash.first");
 import last = require("lodash.last");
@@ -41,7 +42,7 @@ export function setupEnv() {
   }
 
   if (process.env.MOCK === undefined) {
-    process.env.MOCK = true;
+    process.env.MOCK = "true";
   }
 
   const current = process.env;
