@@ -922,15 +922,15 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abstracted-firebase@^0.12.4:
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.12.4.tgz#29a31d128f6f214fa544b41aa696dccb5722657c"
+abstracted-firebase@^0.12.5:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.12.5.tgz#1d55c939870d4b3cdf5ecdb8c10c09cb5869b6eb"
   dependencies:
     common-types "^1.8.2"
     firebase-api-surface "^0.8.3"
     lodash "^4.17.10"
-    serialized-query "^0.4.3"
-    typed-conversions "^0.8.3"
+    serialized-query "^0.4.4"
+    typed-conversions "^0.8.8"
     wait-in-parallel "^1.1.4"
 
 acorn-dynamic-import@^3.0.0:
@@ -2145,7 +2145,7 @@ firebase-key@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.1.tgz#5f1fe462c011c7f944f2f0f489c838dd1ed162ef"
 
-firebase@^5.0.4:
+firebase@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.1.0.tgz#9f56f910ef4e5e605c0f3de910b2070d2a1c3b55"
   dependencies:
@@ -2459,8 +2459,8 @@ hoek@2.x.x:
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-2.16.3.tgz#20bb7403d3cea398e91dc4710a8ff1b8274a25ed"
 
 hosted-git-info@^2.1.4:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.6.0.tgz#23235b29ab230c576aab0d4f13fc046b0b038222"
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.6.1.tgz#6e4cee78b01bb849dcf93527708c69fdbee410df"
 
 html-comment-regex@^1.1.0:
   version "1.1.1"
@@ -4384,7 +4384,7 @@ sax@^1.2.4, sax@~1.2.1:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
 
-serialized-query@^0.4.3:
+serialized-query@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.4.4.tgz#29a40d55f6d993d5a4cf677492a90a2fe43f6f55"
   dependencies:
@@ -4835,7 +4835,7 @@ typed-conversions@^0.7.4:
   dependencies:
     common-types "^1.1.0"
 
-typed-conversions@^0.8.3, typed-conversions@^0.8.8:
+typed-conversions@^0.8.8:
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.8.8.tgz#25e57f9a5435b8ec81a459b4981a19050a211a2c"
   dependencies:

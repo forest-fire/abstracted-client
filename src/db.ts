@@ -119,6 +119,7 @@ export class DB extends RealTimeDB {
       const { name } = config;
       // tslint:disable-next-line:no-submodule-imports
       const firebase = await import("firebase/app");
+      await import("@firebase/database");
       try {
         const runningApps = new Set(firebase.apps.map(i => i.name));
         this.app = runningApps.has(name)
@@ -136,6 +137,7 @@ export class DB extends RealTimeDB {
           throw e;
         }
       }
+
       this._database = this.app.database();
       this._eventManager.connection(true);
     }

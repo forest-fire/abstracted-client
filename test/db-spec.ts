@@ -1,7 +1,6 @@
 // tslint:disable:no-implicit-dependencies
 import { DB } from "../src/db";
 import * as chai from "chai";
-import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
 
 const expect = chai.expect;
@@ -41,10 +40,8 @@ describe("Read operations: ", () => {
     age: h.faker.random.number({ min: 10, max: 99 })
   });
   before(async () => {
-    db = new DB(config);
-    dbMock = new DB({ mocking: true });
-    await dbMock.waitForConnection();
-    await db.waitForConnection();
+    db = await DB.connect(config);
+    dbMock = await DB.connect({ mocking: true });
     dbMock.mock.addSchema("person", personMockGenerator);
     dbMock.mock.queueSchema("person", 20);
     await db.set("client-test-data", {
