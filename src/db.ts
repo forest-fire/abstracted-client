@@ -130,7 +130,6 @@ export class DB extends RealTimeDB {
         // );
       } catch (e) {
         if (e.message && e.message.indexOf("app/duplicate-app") !== -1) {
-          console.log(JSON.stringify(e));
           console.log(`The "${name}" app already exists; will proceed.`);
           this._isConnected = true;
         } else {
