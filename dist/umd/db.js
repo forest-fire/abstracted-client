@@ -19,6 +19,15 @@
         FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
     })(FirebaseBoolean = exports.FirebaseBoolean || (exports.FirebaseBoolean = {}));
     class DB extends abstracted_firebase_1.RealTimeDB {
+        /**
+         * Instantiates a DB and then waits for the connection
+         * to finish.
+         */
+        static async connect(config) {
+            const obj = new DB(config);
+            await obj.waitForConnection();
+            return obj;
+        }
         constructor(config) {
             super();
             this._eventManager = new EventManager_1.EventManager();
@@ -75,16 +84,18 @@
                 const { name } = config;
                 // tslint:disable-next-line:no-submodule-imports
                 const firebase = await (__syncRequire ? Promise.resolve().then(() => require("firebase/app")) : new Promise((resolve_1, reject_1) => { require(["firebase/app"], resolve_1, reject_1); }));
+                require("@firebase/database");
                 try {
                     const runningApps = new Set(firebase.apps.map(i => i.name));
                     this.app = runningApps.has(name)
                         ? firebase.app()
                         : (this.app = firebase.initializeApp(config, name));
-                    this.enableDatabaseLogging = firebase.database.enableLogging.bind(firebase.database);
+                    // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
+                    //   firebase.database
+                    // );
                 }
                 catch (e) {
                     if (e.message && e.message.indexOf("app/duplicate-app") !== -1) {
-                        console.log(JSON.stringify(e));
                         console.log(`The "${name}" app already exists; will proceed.`);
                         this._isConnected = true;
                     }
