@@ -7,13 +7,6 @@ import {
 } from "abstracted-firebase";
 import { rtdb } from "firebase-api-surface";
 import { EventManager } from "./EventManager";
-// tslint:disable:no-implicit-dependencies
-import { FirebaseDatabase } from "@firebase/database-types";
-import { FirebaseFirestore } from "@firebase/firestore-types";
-import { FirebaseMessaging } from "@firebase/messaging-types";
-import { FirebaseStorage } from "@firebase/storage-types";
-import { FirebaseFunctions } from "@firebase/functions-types";
-import { FirebaseAuth } from "@firebase/auth-types";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
@@ -21,11 +14,11 @@ export enum FirebaseBoolean {
 
 // Typescript 2.9 way ... doesn't seem to transpile well
 // -----------------------------------------------------
-// export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-// export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
-// export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
-// export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
-// export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
+export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
+export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
+export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
+export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
+export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 // export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 
 export interface IFirebaseListener {
@@ -50,7 +43,7 @@ export class DB extends RealTimeDB {
   protected _messaging: FirebaseMessaging;
   protected _storage: FirebaseStorage;
   protected _auth: FirebaseAuth;
-  protected _functions: FirebaseFunctions;
+  protected _functions: any;
   protected app: any;
 
   constructor(config: IFirebaseConfig) {
@@ -82,7 +75,7 @@ export class DB extends RealTimeDB {
   }
 
   public get functions() {
-    return _getFirebaseType(this, "functions") as FirebaseFunctions;
+    return _getFirebaseType(this, "functions");
   }
 
   public get storage() {
@@ -119,7 +112,7 @@ export class DB extends RealTimeDB {
       const { name } = config;
       // tslint:disable-next-line:no-submodule-imports
       const firebase = await import("firebase/app");
-      await import("@firebase/database");
+      require("@firebase/database");
       try {
         const runningApps = new Set(firebase.apps.map(i => i.name));
         this.app = runningApps.has(name)
@@ -130,7 +123,6 @@ export class DB extends RealTimeDB {
         // );
       } catch (e) {
         if (e.message && e.message.indexOf("app/duplicate-app") !== -1) {
-          console.log(JSON.stringify(e));
           console.log(`The "${name}" app already exists; will proceed.`);
           this._isConnected = true;
         } else {

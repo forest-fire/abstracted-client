@@ -120,8 +120,6 @@ describe("Query based Read ops:", () => {
       .orderByValue()
       .limitToFirst(3);
     const ages = await db.getList(query);
-    console.log(ages);
-
     expect(ages).to.have.lengthOf(3);
   });
 });
