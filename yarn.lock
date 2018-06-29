@@ -107,13 +107,6 @@
   dependencies:
     "@babel/types" "7.0.0-beta.51"
 
-"@babel/helper-module-imports@7.0.0-beta.49":
-  version "7.0.0-beta.49"
-  resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0-beta.49.tgz#41d7d59891016c493432a46f7464446552890c75"
-  dependencies:
-    "@babel/types" "7.0.0-beta.49"
-    lodash "^4.17.5"
-
 "@babel/helper-module-imports@7.0.0-beta.51":
   version "7.0.0-beta.51"
   resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0-beta.51.tgz#ce00428045fbb7d5ebc0ea7bf835789f15366ab2"
@@ -559,14 +552,6 @@
     invariant "^2.2.0"
     lodash "^4.17.5"
 
-"@babel/types@7.0.0-beta.49":
-  version "7.0.0-beta.49"
-  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.49.tgz#b7e3b1c3f4d4cfe11bdf8c89f1efd5e1617b87a6"
-  dependencies:
-    esutils "^2.0.2"
-    lodash "^4.17.5"
-    to-fast-properties "^2.0.0"
-
 "@babel/types@7.0.0-beta.51":
   version "7.0.0-beta.51"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.51.tgz#d802b7b543b5836c778aa691797abf00f3d97ea9"
@@ -593,13 +578,9 @@
     tslib "1.9.0"
     xmlhttprequest "1.8.0"
 
-"@firebase/auth-types@0.3.4":
+"@firebase/auth-types@0.3.4", "@firebase/auth-types@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.3.4.tgz#253b1b2d9b520a0b945d4617c8418f0f19a4159f"
-
-"@firebase/auth-types@^0.1.1":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.1.2.tgz#15415ed12b038356f79f22f9059002a29873a15a"
 
 "@firebase/auth@0.7.0":
   version "0.7.0"
@@ -625,13 +606,9 @@
     faye-websocket "0.11.1"
     tslib "1.9.0"
 
-"@firebase/firestore-types@0.4.3":
+"@firebase/firestore-types@0.4.3", "@firebase/firestore-types@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-0.4.3.tgz#0baa4f68aa8889474f582320af577f1e9a78fab6"
-
-"@firebase/firestore-types@^0.2.1":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-0.2.2.tgz#e60b6c7a458538b1bf8ed89d9df981fa17a74871"
 
 "@firebase/firestore@0.5.6":
   version "0.5.6"
@@ -660,13 +637,9 @@
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@firebase/logger/-/logger-0.1.1.tgz#af5df54253286993f4b367c3dabe569c848860d3"
 
-"@firebase/messaging-types@0.2.3":
+"@firebase/messaging-types@0.2.3", "@firebase/messaging-types@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@firebase/messaging-types/-/messaging-types-0.2.3.tgz#ed2949129dc5b3b0adff23ae1e1010bc7806f974"
-
-"@firebase/messaging-types@^0.1.1":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@firebase/messaging-types/-/messaging-types-0.1.3.tgz#0a80c69c8f791e3aa94b28f4d2e296d0ea2571bc"
 
 "@firebase/messaging@0.3.5":
   version "0.3.5"
@@ -684,7 +657,7 @@
     promise-polyfill "7.1.2"
     whatwg-fetch "2.0.4"
 
-"@firebase/storage-types@0.2.3":
+"@firebase/storage-types@0.2.3", "@firebase/storage-types@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@firebase/storage-types/-/storage-types-0.2.3.tgz#09e7ce30eb0d713733e0193cb5c0c3ac157bf330"
 
@@ -698,12 +671,6 @@
 "@firebase/util@0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.2.1.tgz#b59a2fbf14fce21401cbebf776a3e0260b591380"
-  dependencies:
-    tslib "1.9.0"
-
-"@firebase/util@^0.1.7":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@firebase/util/-/util-0.1.11.tgz#9990dff53930aa9fcae31494ebe8de5c5b8e815c"
   dependencies:
     tslib "1.9.0"
 
@@ -922,7 +889,7 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abstracted-firebase@^0.14.1:
+abstracted-firebase@^0.14.2:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.14.2.tgz#bacbaa9a38bf458fc5f2ab0eacd4ea3354bbf1a7"
   dependencies:
@@ -1626,15 +1593,19 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@2.15.1, commander@^2.12.1, commander@^2.9.0:
+commander@2.15.1:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
+
+commander@^2.12.1, commander@^2.9.0:
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.16.0.tgz#f16390593996ceb4f3eeb020b31d78528f7f8a50"
 
 commander@~2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
-common-types@^1.1.0, common-types@^1.5.4, common-types@^1.7.21, common-types@^1.7.35, common-types@^1.7.36, common-types@^1.8.2:
+common-types@^1.1.0, common-types@^1.7.21, common-types@^1.7.36, common-types@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.8.2.tgz#e5bbe6468882243e9e917ec879c298306edb8921"
 
@@ -2120,21 +2091,9 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase-api-surface@^0.7.11:
-  version "0.7.12"
-  resolved "https://registry.yarnpkg.com/firebase-api-surface/-/firebase-api-surface-0.7.12.tgz#a068f4bad5274e6d5cc53458a0af5377ed7a3b8d"
-  dependencies:
-    "@firebase/app-types" "^0.1.1"
-    "@firebase/auth-types" "^0.1.1"
-    "@firebase/database-types" "^0.1.1"
-    "@firebase/firestore-types" "^0.2.1"
-    "@firebase/messaging-types" "^0.1.1"
-    "@firebase/util" "^0.1.7"
-    common-types "^1.5.4"
-
-firebase-api-surface@^0.8.3:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/firebase-api-surface/-/firebase-api-surface-0.8.4.tgz#2235d7217efbed4ca9147b5903bfa25cf363f802"
+firebase-api-surface@^0.8.3, firebase-api-surface@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/firebase-api-surface/-/firebase-api-surface-0.8.5.tgz#5928f963233d669c5fe49d9ceeab86076a8a0bb0"
   dependencies:
     "@firebase/app-types" "^0.1.1"
     "@firebase/database-types" "^0.1.1"
@@ -2144,7 +2103,7 @@ firebase-key@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.1.tgz#5f1fe462c011c7f944f2f0f489c838dd1ed162ef"
 
-firebase@^5.1.0:
+firebase@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.2.0.tgz#aae53339ab510f523217fedd92246fe9f05cfd66"
   dependencies:
@@ -4238,11 +4197,11 @@ rollup-plugin-alias@^1.4.0:
     slash "^1.0.0"
 
 rollup-plugin-babel@^4.0.0-beta.2:
-  version "4.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-4.0.0-beta.5.tgz#1968a72a0be9414a2b073689cf747874cbf0a12b"
+  version "4.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-4.0.0-beta.7.tgz#8c38a685f8009fc6fbf1d31597cb3c5f8060caf5"
   dependencies:
-    "@babel/helper-module-imports" "7.0.0-beta.49"
-    rollup-pluginutils "^2.0.1"
+    "@babel/helper-module-imports" "7.0.0-beta.51"
+    rollup-pluginutils "^2.3.0"
 
 rollup-plugin-buble@^0.19.2:
   version "0.19.2"
@@ -4324,7 +4283,7 @@ rollup-plugin-uglify@^3.0.0:
   dependencies:
     uglify-es "^3.3.7"
 
-rollup-pluginutils@^2.0.1:
+rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.3.0.tgz#478ace04bd7f6da2e724356ca798214884738fc4"
   dependencies:
@@ -4376,12 +4335,12 @@ sax@^1.2.4, sax@~1.2.1:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
 
-serialized-query@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.4.4.tgz#29a40d55f6d993d5a4cf677492a90a2fe43f6f55"
+serialized-query@^0.4.4, serialized-query@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.4.5.tgz#63112b65b884cb1712387421db9d28f60777acf4"
   dependencies:
-    common-types "^1.7.35"
-    firebase-api-surface "^0.7.11"
+    common-types "^1.8.2"
+    firebase-api-surface "^0.8.5"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
