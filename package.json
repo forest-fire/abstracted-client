@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -15,13 +15,14 @@
   "files": [
     "dist"
   ],
-  "module": "dist/abstracted-client.es.js",
-  "main": "dist/abstracted-client.cjs.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/esnext/index.js",
+  "main": "dist/cjs/index.js",
+  "typings": "dist/esnext/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
-    "build": "tslint src/**/*.ts && rollup -c rollup.config.js",
+    "build": "yarn build:tsc",
+    "build:rollup": "tslint src/**/*.ts && rollup -c rollup.config.js",
     "build:tsc": "tsc -P tsconfig.esnext.json && tsc -P tsconfig.umd.json && tsc -P tsconfig.cjs.json",
     "test": "ts-node ./scripts/test.ts",
     "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
