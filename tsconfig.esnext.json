@@ -11,12 +11,5 @@
     "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": [
-    "node_modules/**/*",
-    "**/*.d.ts",
-    "typings",
-    "**/*-spec.ts",
-    "node_modules/@firebase/app-types/private.d.ts",
-    "abstracted-firebase"
-  ]
+  "exclude": ["node_modules/**/*", "**/*.d.ts", "typings"]
 }
