@@ -12,14 +12,12 @@ export enum FirebaseBoolean {
   false = 0
 }
 
-// Typescript 2.9 way ... doesn't seem to transpile well
-// -----------------------------------------------------
 export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
 export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
 export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
-// export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
+export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
+export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 
 export interface IFirebaseListener {
   id: string;

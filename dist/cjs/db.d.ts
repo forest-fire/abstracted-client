@@ -6,10 +6,11 @@ export declare enum FirebaseBoolean {
     false = 0
 }
 export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export declare type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 export declare type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
 export declare type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
 export declare type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
+export declare type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
+export declare type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
