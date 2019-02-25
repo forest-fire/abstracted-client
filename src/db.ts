@@ -5,8 +5,8 @@ import {
   _getFirebaseType,
   IFirebaseClientConfigProps
 } from "abstracted-firebase";
-import { rtdb } from "firebase-api-surface";
 import { EventManager } from "./EventManager";
+import { DataSnapshot } from "@firebase/database";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
@@ -61,7 +61,7 @@ export class DB extends RealTimeDB {
   }
 
   public get database() {
-    return _getFirebaseType(this, "database") as rtdb.IFirebaseDatabase;
+    return _getFirebaseType(this, "database") as FirebaseDatabase;
   }
 
   public get firestore() {
@@ -80,7 +80,7 @@ export class DB extends RealTimeDB {
     return _getFirebaseType(this, "storage") as FirebaseStorage;
   }
 
-  protected monitorConnection(snap: rtdb.IDataSnapshot) {
+  protected monitorConnection(snap: DataSnapshot) {
     this._isConnected = snap.val();
     // cycle through temporary clients
     this._waitingForConnection.forEach(cb => cb());
