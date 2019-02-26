@@ -10,7 +10,6 @@
     "use strict";
     var __syncRequire = typeof module === "object" && typeof module.exports === "object";
     Object.defineProperty(exports, "__esModule", { value: true });
-    // tslint:disable:whitespace
     const abstracted_firebase_1 = require("abstracted-firebase");
     const EventManager_1 = require("./EventManager");
     var FirebaseBoolean;
