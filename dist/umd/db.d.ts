@@ -1,6 +1,6 @@
 import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps } from "abstracted-firebase";
-import { rtdb } from "firebase-api-surface";
 import { EventManager } from "./EventManager";
+import { DataSnapshot } from "@firebase/database-types";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0
@@ -30,12 +30,12 @@ export declare class DB extends RealTimeDB {
     protected app: any;
     constructor(config: IFirebaseConfig);
     readonly auth: import("@firebase/auth-types").FirebaseAuth;
-    readonly database: rtdb.IFirebaseDatabase;
+    readonly database: import("@firebase/database-types").FirebaseDatabase;
     readonly firestore: import("@firebase/firestore-types").FirebaseFirestore;
     readonly messaging: import("@firebase/messaging-types").FirebaseMessaging;
     readonly functions: any;
     readonly storage: import("@firebase/storage-types").FirebaseStorage;
-    protected monitorConnection(snap: rtdb.IDataSnapshot): void;
+    protected monitorConnection(snap: DataSnapshot): void;
     /**
      * connect
      *
