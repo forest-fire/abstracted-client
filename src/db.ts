@@ -1,9 +1,9 @@
-// tslint:disable:whitespace
 import {
   RealTimeDB,
   IFirebaseConfig,
   _getFirebaseType,
-  IFirebaseClientConfigProps
+  IFirebaseClientConfigProps,
+  IEmitter
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";

@@ -1,4 +1,3 @@
-// tslint:disable:whitespace
 import { RealTimeDB, _getFirebaseType } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 export var FirebaseBoolean;
