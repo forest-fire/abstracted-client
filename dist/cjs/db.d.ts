@@ -1,6 +1,6 @@
 import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
-import { DataSnapshot } from "@firebase/database";
+import { DataSnapshot } from "@firebase/database-types";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0
