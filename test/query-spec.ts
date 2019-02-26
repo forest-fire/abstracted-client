@@ -2,7 +2,6 @@ import { DB } from "../src/db";
 // tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
 import { SerializedQuery } from "serialized-query";
-import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
 import { RealTimeDB } from "abstracted-firebase";
 
