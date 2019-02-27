@@ -1,5 +1,5 @@
-import * as EventEmitter from "events";
-export class EventManager extends EventEmitter {
+import * as events from "events";
+export class EventManager extends events.EventEmitter {
     connection(state) {
         this.emit("connection", state);
     }

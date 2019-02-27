@@ -9,8 +9,8 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    const EventEmitter = require("events");
-    class EventManager extends EventEmitter {
+    const events = require("events");
+    class EventManager extends events.EventEmitter {
         connection(state) {
             this.emit("connection", state);
         }
