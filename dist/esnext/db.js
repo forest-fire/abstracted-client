@@ -91,7 +91,7 @@ export class DB extends RealTimeDB {
                 }
             }
             this._database = this.app.database();
-            this._eventManager.connection(true);
+            await this.waitForConnection();
         }
         // TODO: relook at debugging func
         if (config.debugging) {
