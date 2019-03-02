@@ -3,4 +3,4 @@ export interface IFirebaseListener {
     id: string;
     cb: IFirebaseConnectionCallback;
 }
-export declare type IFirebaseConnectionCallback = (db: DB) => void;
+export declare type IFirebaseConnectionCallback = (db?: DB) => void;

@@ -1,4 +1,4 @@
-import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps, FirebaseDatabase } from "abstracted-firebase";
+import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";
 import { IFirebaseListener, IFirebaseConnectionCallback } from "./@types/general";
@@ -6,6 +6,8 @@ export declare enum FirebaseBoolean {
     true = 1,
     false = 0
 }
+export declare let MOCK_LOADING_TIMEOUT: number;
+export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export declare type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 export declare type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
 export declare type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
@@ -28,7 +30,7 @@ export declare class DB extends RealTimeDB {
     protected app: any;
     constructor(config: IFirebaseConfig);
     readonly auth: import("@firebase/auth-types").FirebaseAuth;
-    readonly database: FirebaseDatabase;
+    readonly database: import("@firebase/database-types").FirebaseDatabase;
     readonly firestore: import("@firebase/firestore-types").FirebaseFirestore;
     readonly messaging: import("@firebase/messaging-types").FirebaseMessaging;
     readonly functions: any;
@@ -39,6 +41,11 @@ export declare class DB extends RealTimeDB {
      * state a unique id of your own.
      */
     notifyWhenConnected(cb: IFirebaseConnectionCallback, id?: string): string;
+    /**
+     * Provides a promise-based way of waiting for the connection to be
+     * established before resolving
+     */
+    waitForConnection(): Promise<this>;
     /**
      * removes a callback notification previously registered
      */

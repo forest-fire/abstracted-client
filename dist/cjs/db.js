@@ -8,6 +8,7 @@ var FirebaseBoolean;
     FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
     FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
 })(FirebaseBoolean = exports.FirebaseBoolean || (exports.FirebaseBoolean = {}));
+exports.MOCK_LOADING_TIMEOUT = 2000;
 // export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 class DB extends abstracted_firebase_1.RealTimeDB {
     constructor(config) {
@@ -67,6 +68,52 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         return id;
     }
     /**
+     * Provides a promise-based way of waiting for the connection to be
+     * established before resolving
+     */
+    async waitForConnection() {
+        if (this._mocking) {
+            // MOCKING
+            if (this._mockLoadingState === "loaded") {
+                return;
+            }
+            const timeout = new Date().getTime() + exports.MOCK_LOADING_TIMEOUT;
+            while (this._mockLoadingState === "loading" && new Date().getTime() < timeout) {
+                await common_types_1.wait(1);
+            }
+        }
+        else {
+            // NON-MOCKING
+            if (this._isConnected) {
+                return;
+            }
+            const connectionEvent = async () => {
+                return new Promise((resolve, reject) => {
+                    this._eventManager.once("connection", (state) => {
+                        if (state) {
+                            resolve();
+                        }
+                        else {
+                            throw common_types_1.createError("abstracted-client/disconnected-while-connecting", `While waiting for connection received a disconnect message`);
+                        }
+                    });
+                });
+            };
+            const timeout = async () => {
+                await common_types_1.wait(this.CONNECTION_TIMEOUT);
+                throw common_types_1.createError("abstracted-client/connection-timeout", `The database didn't connect after the allocated period of ${this.CONNECTION_TIMEOUT}ms`);
+            };
+            try {
+                await Promise.race([connectionEvent(), timeout()]);
+            }
+            catch (e) {
+                throw e;
+            }
+            this._isConnected = true;
+            return this;
+        }
+    }
+    /**
      * removes a callback notification previously registered
      */
     removeNotificationOnConnection(id) {
@@ -81,15 +128,12 @@ class DB extends abstracted_firebase_1.RealTimeDB {
      */
     _monitorConnection(snap) {
         this._isConnected = snap.val();
-        console.log("monitoring", this._isConnected, this._waitingForConnection, this._onConnected);
-        this._eventManager.connection(this._isConnected);
         // call active listeners
         if (this._isConnected) {
-            this._isConnected = true;
+            this._eventManager.connection(this._isConnected);
             this._onConnected.forEach(listener => listener.cb(this));
         }
         else {
-            this._isConnected = false;
             this._onDisconnected.forEach(listener => listener.cb(this));
         }
     }
@@ -113,7 +157,6 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             require("@firebase/database");
             try {
                 const runningApps = new Set(firebase.apps.map(i => i.name));
-                console.log("Running Apps: ", runningApps);
                 this.app = runningApps.has(name)
                     ? firebase.app() // TODO: does this connect to the right named DB?
                     : (this.app = firebase.initializeApp(config, name));
