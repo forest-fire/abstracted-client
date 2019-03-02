@@ -890,16 +890,15 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-abstracted-firebase@^0.15.1:
-  version "0.15.1"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.1.tgz#6c58624de9f6c4dbc71db256a4720900eb37cf45"
-  integrity sha512-yk3I7awrQuiGdoYsQGFfXG1nV76hvYCbICw5vzFod5cyxLMMkRle2FWwtoVBhFPuMoF3XTty7yE1I3EYwy0gBg==
+abstracted-firebase@^0.15.4:
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.4.tgz#0ca00cb20643fe14f8c6a24187f9d2b69889c0ec"
+  integrity sha512-pVewGhuhoJCTnialhSGNHhc63KlFcJWWMaDh692x4SSjAnwUKdlB0p3bQrVi+yV7O0k9gaP/61rDOepsEtN4JQ==
   dependencies:
     "@firebase/database-types" "^0.3.5"
     common-types "^1.9.6"
     serialized-query "^0.4.5"
     typed-conversions "^0.8.9"
-    wait-in-parallel "^1.1.4"
 
 acorn@^6.1.0:
   version "6.1.0"
@@ -1479,7 +1478,7 @@ commander@~2.17.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
-common-types@^1.1.0, common-types@^1.7.36, common-types@^1.8.2, common-types@^1.9.6, common-types@^1.9.6s:
+common-types@^1.7.36, common-types@^1.8.2, common-types@^1.9.6:
   version "1.9.6"
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.9.6.tgz#ec94d6466e4bd2876fb734297d7f8abf665f4aa3"
   integrity sha512-JyMYuxDJgrhgqBh1D+A0C7ghCiVw+vxrxwNt/FcgoMhGzh/KqX8vOVwQBA6no5onsXAYcepAwUxrYYjpvrBChA==
@@ -5259,13 +5258,6 @@ type-detect@^4.0.0, type-detect@^4.0.5:
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==
 
-typed-conversions@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.7.4.tgz#c0a505caa93d791e0e0df136b668c27b2f7a6754"
-  integrity sha512-KL3pf8uppsDXLbIppPHvfY+NzxdNAkPYf2GCXw7Smu2P/IgUWWHsRY0ylUEAVizIKwCc53INwdjFJfa3H5B1dA==
-  dependencies:
-    common-types "^1.1.0"
-
 typed-conversions@^0.8.13, typed-conversions@^0.8.9:
   version "0.8.13"
   resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.8.13.tgz#715772bf7bb51758767560989a0b2fb6579f884c"
@@ -5414,14 +5406,6 @@ vlq@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vlq/-/vlq-1.0.0.tgz#8101be90843422954c2b13eb27f2f3122bdcc806"
   integrity sha512-o3WmXySo+oI5thgqr7Qy8uBkT/v9Zr+sRyrh1lr8aWPUkgDWdWt4Nae2WKBrLsocgE8BuWWD0jLc+VW8LeU+2g==
-
-wait-in-parallel@^1.1.4:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/wait-in-parallel/-/wait-in-parallel-1.2.2.tgz#6af2e59201e838cc938858246b9ec39e0c2813fb"
-  integrity sha512-4OeErj1EvzC5D/V1MYSXJQGw+pimEGMXpAIW4juhYpYexKCYatYdpb37Fk/g9NkVcaYXu2d5auWYmOqx91P9JA==
-  dependencies:
-    common-types "^1.9.6s"
-    typed-conversions "^0.7.4"
 
 wcwidth@^1.0.1:
   version "1.0.1"

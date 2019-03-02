@@ -2,18 +2,19 @@ import {
   RealTimeDB,
   IFirebaseConfig,
   _getFirebaseType,
-  IFirebaseClientConfigProps,
-  IEmitter
+  IFirebaseClientConfigProps
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";
+import { createError, wait } from "common-types";
+import { IFirebaseListener, IFirebaseConnectionCallback } from "./@types/general";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
 }
 
-// Typescript 2.9 way ... doesn't seem to transpile well
-// -----------------------------------------------------
+export let MOCK_LOADING_TIMEOUT = 2000;
+
 export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
@@ -21,23 +22,20 @@ export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
 export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 // export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 
-export interface IFirebaseListener {
-  id: string;
-  cb: (db: DB) => void;
-}
-
 export class DB extends RealTimeDB {
   /**
    * Instantiates a DB and then waits for the connection
    * to finish.
    */
-  public static async connect(config?: IFirebaseConfig) {
-    const obj = new DB(config);
-    await obj.waitForConnection();
+  public static async connect(config?: IFirebaseConfig): Promise<DB> {
+    const obj = await new DB(config);
+
     return obj;
   }
 
   protected _eventManager: EventManager;
+  protected _onConnected: IFirebaseListener[] = [];
+  protected _onDisconnected: IFirebaseListener[] = [];
   protected _database: FirebaseDatabase;
   protected _firestore: FirebaseFirestore;
   protected _messaging: FirebaseMessaging;
@@ -55,6 +53,7 @@ export class DB extends RealTimeDB {
       },
       ...config
     };
+    // this starts the "listenForConnectionStatus" event emitter
     this.initialize(config);
   }
 
@@ -82,13 +81,103 @@ export class DB extends RealTimeDB {
     return _getFirebaseType(this, "storage") as FirebaseStorage;
   }
 
-  protected monitorConnection(snap: DataSnapshot) {
+  /**
+   * get a notification when DB is connected; returns a unique id
+   * which can be used to remove the callback. You may, optionally,
+   * state a unique id of your own.
+   */
+  public notifyWhenConnected(cb: IFirebaseConnectionCallback, id?: string): string {
+    if (!id) {
+      Math.random()
+        .toString(36)
+        .substr(2, 10);
+    } else {
+      if (this._onConnected.map(i => i.id).includes(id)) {
+        throw createError(
+          `abstracted-client/duplicate-listener`,
+          `Request for onConnect() notifications was done with an explicit key [ ${id} ] which is already in use!`
+        );
+      }
+    }
+    this._onConnected = this._onConnected.concat({ id, cb });
+    return id;
+  }
+
+  /**
+   * Provides a promise-based way of waiting for the connection to be
+   * established before resolving
+   */
+  public async waitForConnection() {
+    if (this._mocking) {
+      // MOCKING
+      if (this._mockLoadingState === "loaded") {
+        return;
+      }
+      const timeout = new Date().getTime() + MOCK_LOADING_TIMEOUT;
+      while (this._mockLoadingState === "loading" && new Date().getTime() < timeout) {
+        await wait(1);
+      }
+    } else {
+      // NON-MOCKING
+      if (this._isConnected) {
+        return;
+      }
+
+      const connectionEvent = async () => {
+        return new Promise((resolve, reject) => {
+          this._eventManager.once("connection", (state: boolean) => {
+            if (state) {
+              resolve();
+            } else {
+              throw createError(
+                "abstracted-client/disconnected-while-connecting",
+                `While waiting for connection received a disconnect message`
+              );
+            }
+          });
+        });
+      };
+
+      const timeout = async () => {
+        await wait(this.CONNECTION_TIMEOUT);
+        throw createError(
+          "abstracted-client/connection-timeout",
+          `The database didn't connect after the allocated period of ${
+            this.CONNECTION_TIMEOUT
+          }ms`
+        );
+      };
+      try {
+        await Promise.race([connectionEvent(), timeout()]);
+      } catch (e) {
+        throw e;
+      }
+      this._isConnected = true;
+
+      return this;
+    }
+  }
+
+  /**
+   * removes a callback notification previously registered
+   */
+  public removeNotificationOnConnection(id: string) {
+    this._onConnected = this._onConnected.filter(i => i.id !== id);
+
+    return this;
+  }
+
+  /**
+   * monitorConnection
+   *
+   * allows interested parties to hook into event messages when the
+   * DB connection either connects or disconnects
+   */
+  protected _monitorConnection(snap: DataSnapshot) {
     this._isConnected = snap.val();
-    // cycle through temporary clients
-    this._waitingForConnection.forEach(cb => cb());
-    this._waitingForConnection = [];
     // call active listeners
-    if (this.isConnected) {
+    if (this._isConnected) {
+      this._eventManager.connection(this._isConnected);
       this._onConnected.forEach(listener => listener.cb(this));
     } else {
       this._onDisconnected.forEach(listener => listener.cb(this));
@@ -102,7 +191,7 @@ export class DB extends RealTimeDB {
    * initializes a connection to the database.
    */
   protected async connectToFirebase(config: IFirebaseClientConfigProps) {
-    if (!this.isConnected) {
+    if (!this._isConnected) {
       if (process.env["FIREBASE_CONFIG"]) {
         config = { ...config, ...JSON.parse(process.env["FIREBASE_CONFIG"]) };
       }
@@ -116,7 +205,7 @@ export class DB extends RealTimeDB {
       try {
         const runningApps = new Set(firebase.apps.map(i => i.name));
         this.app = runningApps.has(name)
-          ? firebase.app()
+          ? firebase.app() // TODO: does this connect to the right named DB?
           : (this.app = firebase.initializeApp(config, name));
         // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
         //   firebase.database
@@ -131,7 +220,8 @@ export class DB extends RealTimeDB {
       }
 
       this._database = this.app.database();
-      await this.waitForConnection();
+    } else {
+      console.info(`Database ${name} already connected`);
     }
     // TODO: relook at debugging func
     if (config.debugging) {
@@ -143,7 +233,10 @@ export class DB extends RealTimeDB {
     }
   }
 
+  /**
+   * Sets up the listening process for connection status
+   */
   protected listenForConnectionStatus() {
-    this._database.ref(".info/connected").on("value", this.monitorConnection.bind(this));
+    this._database.ref(".info/connected").on("value", this._monitorConnection.bind(this));
   }
 }
