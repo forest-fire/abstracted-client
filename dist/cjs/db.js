@@ -9,7 +9,6 @@ var FirebaseBoolean;
     FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
 })(FirebaseBoolean = exports.FirebaseBoolean || (exports.FirebaseBoolean = {}));
 exports.MOCK_LOADING_TIMEOUT = 2000;
-// export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
 class DB extends abstracted_firebase_1.RealTimeDB {
     constructor(config) {
         super();
@@ -27,27 +26,30 @@ class DB extends abstracted_firebase_1.RealTimeDB {
      * to finish.
      */
     static async connect(config) {
-        const obj = await new DB(config);
+        const obj = new DB(config);
+        await obj.waitForConnection();
         return obj;
     }
-    get auth() {
-        return abstracted_firebase_1._getFirebaseType(this, "auth");
+    async auth() {
+        if (this._auth) {
+            return this._auth;
+        }
+        if (!this.isConnected) {
+            await this.waitForConnection();
+        }
+        await Promise.resolve().then(() => require("@firebase/auth"));
+        this._auth = this.app.auth();
+        return this._auth;
     }
-    get database() {
-        return abstracted_firebase_1._getFirebaseType(this, "database");
-    }
-    get firestore() {
-        return abstracted_firebase_1._getFirebaseType(this, "firestore");
-    }
-    get messaging() {
-        return abstracted_firebase_1._getFirebaseType(this, "messaging");
-    }
-    get functions() {
-        return abstracted_firebase_1._getFirebaseType(this, "functions");
-    }
-    get storage() {
-        return abstracted_firebase_1._getFirebaseType(this, "storage");
-    }
+    // public get messaging() {
+    //   return _getFirebaseType(this, "messaging") as FirebaseMessaging;
+    // }
+    // public get functions() {
+    //   return _getFirebaseType(this, "functions");
+    // }
+    // public get storage() {
+    //   return _getFirebaseType(this, "storage") as FirebaseStorage;
+    // }
     /**
      * get a notification when DB is connected; returns a unique id
      * which can be used to remove the callback. You may, optionally,
@@ -154,12 +156,12 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             const { name } = config;
             // tslint:disable-next-line:no-submodule-imports
             const firebase = await Promise.resolve().then(() => require("firebase/app"));
-            require("@firebase/database");
+            await Promise.resolve().then(() => require("@firebase/database"));
             try {
                 const runningApps = new Set(firebase.apps.map(i => i.name));
                 this.app = runningApps.has(name)
                     ? firebase.app() // TODO: does this connect to the right named DB?
-                    : (this.app = firebase.initializeApp(config, name));
+                    : firebase.initializeApp(config, name);
                 // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
                 //   firebase.database
                 // );
