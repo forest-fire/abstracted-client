@@ -28,6 +28,21 @@ describe("Connecting to Database", () => {
     await db.waitForConnection();
 
     expect(db.isConnected).to.equal(true);
+    const result = await db.getValue(".info/connected");
+    expect(result).to.equal(true);
+  });
+
+  it("adding an onConnect callback works", async () => {
+    const db = new DB(config);
+    let itHappened: boolean = false;
+    const notificationId: string = db.notifyWhenConnected(() => {
+      itHappened = true;
+    });
+    await db.waitForConnection();
+    expect(itHappened).to.equal(true);
+    expect((db as any)._onConnected).to.have.lengthOf(1);
+    db.removeNotificationOnConnection(notificationId);
+    expect((db as any)._onConnected).to.have.lengthOf(0);
   });
 });
 
