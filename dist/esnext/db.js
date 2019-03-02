@@ -29,13 +29,8 @@ export class DB extends RealTimeDB {
         return obj;
     }
     get auth() {
-        return _getFirebaseType(this, "auth");
-    }
-    get database() {
-        return _getFirebaseType(this, "database");
-    }
-    get firestore() {
-        return _getFirebaseType(this, "firestore");
+        import("@firebase/auth");
+        return this.app.auth();
     }
     get messaging() {
         return _getFirebaseType(this, "messaging");
@@ -152,7 +147,7 @@ export class DB extends RealTimeDB {
             const { name } = config;
             // tslint:disable-next-line:no-submodule-imports
             const firebase = await import("firebase/app");
-            require("@firebase/database");
+            import("@firebase/database");
             try {
                 const runningApps = new Set(firebase.apps.map(i => i.name));
                 this.app = runningApps.has(name)
