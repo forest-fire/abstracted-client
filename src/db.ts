@@ -1,24 +1,20 @@
 import {
   RealTimeDB,
   IFirebaseConfig,
-  _getFirebaseType,
   IFirebaseClientConfigProps
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";
 import { createError, wait } from "common-types";
 import { IFirebaseListener, IFirebaseConnectionCallback } from "./@types/general";
+import { FirebaseApp } from "@firebase/app-types";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
 }
 const MOCK_LOADING_TIMEOUT = 200;
 export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
-export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
 export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
-export type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
-export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 
 export class DB extends RealTimeDB {
   /**
@@ -26,7 +22,8 @@ export class DB extends RealTimeDB {
    * to finish.
    */
   public static async connect(config?: IFirebaseConfig): Promise<DB> {
-    const obj = await new DB(config);
+    const obj = new DB(config);
+    await obj.waitForConnection();
 
     return obj;
   }
@@ -35,11 +32,7 @@ export class DB extends RealTimeDB {
   protected _onConnected: IFirebaseListener[] = [];
   protected _onDisconnected: IFirebaseListener[] = [];
   protected _database: FirebaseDatabase;
-  protected _firestore: FirebaseFirestore;
-  protected _messaging: FirebaseMessaging;
-  protected _storage: FirebaseStorage;
   protected _auth: FirebaseAuth;
-  protected _functions: any;
   protected app: any;
 
   constructor(config: IFirebaseConfig) {
@@ -55,22 +48,29 @@ export class DB extends RealTimeDB {
     this.initialize(config);
   }
 
-  public get auth() {
-    import("@firebase/auth");
-    return this.app.auth() as FirebaseAuth;
+  public async auth() {
+    if (this._auth) {
+      return this._auth;
+    }
+    if (!this.isConnected) {
+      await this.waitForConnection();
+    }
+    await import("@firebase/auth");
+    this._auth = this.app.auth() as FirebaseAuth;
+    return this._auth;
   }
 
-  public get messaging() {
-    return _getFirebaseType(this, "messaging") as FirebaseMessaging;
-  }
+  // public get messaging() {
+  //   return _getFirebaseType(this, "messaging") as FirebaseMessaging;
+  // }
 
-  public get functions() {
-    return _getFirebaseType(this, "functions");
-  }
+  // public get functions() {
+  //   return _getFirebaseType(this, "functions");
+  // }
 
-  public get storage() {
-    return _getFirebaseType(this, "storage") as FirebaseStorage;
-  }
+  // public get storage() {
+  //   return _getFirebaseType(this, "storage") as FirebaseStorage;
+  // }
 
   /**
    * get a notification when DB is connected; returns a unique id
@@ -192,12 +192,12 @@ export class DB extends RealTimeDB {
       const { name } = config;
       // tslint:disable-next-line:no-submodule-imports
       const firebase = await import("firebase/app");
-      import("@firebase/database");
+      await import("@firebase/database");
       try {
         const runningApps = new Set(firebase.apps.map(i => i.name));
         this.app = runningApps.has(name)
           ? firebase.app() // TODO: does this connect to the right named DB?
-          : (this.app = firebase.initializeApp(config, name));
+          : firebase.initializeApp(config, name);
         // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
         //   firebase.database
         // );

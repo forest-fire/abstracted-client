@@ -7,11 +7,7 @@ export declare enum FirebaseBoolean {
     false = 0
 }
 export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export declare type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
-export declare type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
 export declare type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
-export declare type FirebaseFunctions = import("@firebase/functions-types").FirebaseFunctions;
-export declare type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
 export declare class DB extends RealTimeDB {
     /**
      * Instantiates a DB and then waits for the connection
@@ -22,17 +18,10 @@ export declare class DB extends RealTimeDB {
     protected _onConnected: IFirebaseListener[];
     protected _onDisconnected: IFirebaseListener[];
     protected _database: FirebaseDatabase;
-    protected _firestore: FirebaseFirestore;
-    protected _messaging: FirebaseMessaging;
-    protected _storage: FirebaseStorage;
     protected _auth: FirebaseAuth;
-    protected _functions: any;
     protected app: any;
     constructor(config: IFirebaseConfig);
-    readonly auth: import("@firebase/auth-types").FirebaseAuth;
-    readonly messaging: import("@firebase/messaging-types").FirebaseMessaging;
-    readonly functions: any;
-    readonly storage: import("@firebase/storage-types").FirebaseStorage;
+    auth(): Promise<import("@firebase/auth-types").FirebaseAuth>;
     /**
      * get a notification when DB is connected; returns a unique id
      * which can be used to remove the callback. You may, optionally,

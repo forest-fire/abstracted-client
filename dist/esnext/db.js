@@ -1,4 +1,4 @@
-import { RealTimeDB, _getFirebaseType } from "abstracted-firebase";
+import { RealTimeDB } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { createError, wait } from "common-types";
 export var FirebaseBoolean;
@@ -24,22 +24,30 @@ export class DB extends RealTimeDB {
      * to finish.
      */
     static async connect(config) {
-        const obj = await new DB(config);
+        const obj = new DB(config);
+        await obj.waitForConnection();
         return obj;
     }
-    get auth() {
-        import("@firebase/auth");
-        return this.app.auth();
+    async auth() {
+        if (this._auth) {
+            return this._auth;
+        }
+        if (!this.isConnected) {
+            await this.waitForConnection();
+        }
+        await import("@firebase/auth");
+        this._auth = this.app.auth();
+        return this._auth;
     }
-    get messaging() {
-        return _getFirebaseType(this, "messaging");
-    }
-    get functions() {
-        return _getFirebaseType(this, "functions");
-    }
-    get storage() {
-        return _getFirebaseType(this, "storage");
-    }
+    // public get messaging() {
+    //   return _getFirebaseType(this, "messaging") as FirebaseMessaging;
+    // }
+    // public get functions() {
+    //   return _getFirebaseType(this, "functions");
+    // }
+    // public get storage() {
+    //   return _getFirebaseType(this, "storage") as FirebaseStorage;
+    // }
     /**
      * get a notification when DB is connected; returns a unique id
      * which can be used to remove the callback. You may, optionally,
@@ -146,12 +154,12 @@ export class DB extends RealTimeDB {
             const { name } = config;
             // tslint:disable-next-line:no-submodule-imports
             const firebase = await import("firebase/app");
-            import("@firebase/database");
+            await import("@firebase/database");
             try {
                 const runningApps = new Set(firebase.apps.map(i => i.name));
                 this.app = runningApps.has(name)
                     ? firebase.app() // TODO: does this connect to the right named DB?
-                    : (this.app = firebase.initializeApp(config, name));
+                    : firebase.initializeApp(config, name);
                 // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
                 //   firebase.database
                 // );

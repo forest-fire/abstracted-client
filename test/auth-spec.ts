@@ -2,6 +2,7 @@
 import { DB } from "../src/db";
 import * as chai from "chai";
 import { EmailAuthProvider } from "@firebase/auth-types";
+import { wait } from "common-types";
 const expect = chai.expect;
 
 const config = {
@@ -16,7 +17,7 @@ const config = {
 describe.only("Authentication", () => {
   it("auth property returns a working authentication object", async () => {
     const db = await DB.connect(config);
-    const auth = db.auth;
+    const auth = await db.auth();
 
     expect(auth).to.be.an("object");
     expect(auth.signInAnonymously).to.be.a("function");
