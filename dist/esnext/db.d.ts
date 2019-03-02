@@ -30,8 +30,6 @@ export declare class DB extends RealTimeDB {
     protected app: any;
     constructor(config: IFirebaseConfig);
     readonly auth: import("@firebase/auth-types").FirebaseAuth;
-    readonly database: import("@firebase/database-types").FirebaseDatabase;
-    readonly firestore: import("@firebase/firestore-types").FirebaseFirestore;
     readonly messaging: import("@firebase/messaging-types").FirebaseMessaging;
     readonly functions: any;
     readonly storage: import("@firebase/storage-types").FirebaseStorage;
