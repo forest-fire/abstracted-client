@@ -1004,15 +1004,15 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
-abstracted-firebase@^0.15.5:
-  version "0.15.5"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.5.tgz#b3380883a148967002ef4bfdea333856be2cdaf3"
-  integrity sha512-DJTMXGVAV+ViVZH0XwYz2uAWKls0OXwjRPZyos9vEWRlaNRlZt2umDZneinA/e0R1LuP/d6l+WSXRXHKZZ5Xgw==
+abstracted-firebase@^0.15.7:
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.7.tgz#e7b2e5a5f695fd121d55ffc6245549e5e682a047"
+  integrity sha512-Ft/7Ly0RW2PjPmCYFCcI5qC6HiJaw8pSChKUAqKFoVn0tFDTfNRl2FkzZ+7whNn8Eap2mU7ul5Ys09KuM/iwkg==
   dependencies:
     "@firebase/auth-types" "^0.5.3"
     "@firebase/database-types" "^0.3.5"
     common-types "^1.9.6"
-    serialized-query "^0.4.5"
+    serialized-query "^0.4.9"
     typed-conversions "^0.8.9"
 
 acorn@^6.1.1:
@@ -5161,10 +5161,10 @@ serialize-javascript@^1.6.1:
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.6.1.tgz#4d1f697ec49429a847ca6f442a2a755126c4d879"
   integrity sha512-A5MOagrPFga4YaKQSWHryl7AXvbQkEqpw4NNYMTNYUNV51bA8ABHgYFpqKx+YFFrw59xMV1qGH1R4AgoNIVgCw==
 
-serialized-query@^0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.4.5.tgz#63112b65b884cb1712387421db9d28f60777acf4"
-  integrity sha512-67tDyXoqbDrZ5vvHRaZjw56S6QtEtuTuO/1T7RSlIvMMqcQWnKELXlFLMVTf4PDBDHvgIMAEjVzd45zrdpk07w==
+serialized-query@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.4.9.tgz#777ed05612399660b5cac232a785f9a670e69d11"
+  integrity sha512-OjUoYqkJPDmJfETcN+XC59h1u+71FcK6H8W/phaeKHhnt5wh1Hh2jcKEQEfDVb3mvXwUydCnFZaU8nHXljqlpA==
   dependencies:
     common-types "^1.8.2"
     firebase-api-surface "^0.8.5"
