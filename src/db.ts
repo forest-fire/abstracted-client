@@ -62,18 +62,6 @@ export class DB extends RealTimeDB {
     return this._auth;
   }
 
-  // public get messaging() {
-  //   return _getFirebaseType(this, "messaging") as FirebaseMessaging;
-  // }
-
-  // public get functions() {
-  //   return _getFirebaseType(this, "functions");
-  // }
-
-  // public get storage() {
-  //   return _getFirebaseType(this, "storage") as FirebaseStorage;
-  // }
-
   /**
    * get a notification when DB is connected; returns a unique id
    * which can be used to remove the callback. You may, optionally,

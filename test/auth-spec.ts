@@ -14,7 +14,7 @@ const config = {
   messagingSenderId: "547394508788"
 };
 
-describe.only("Authentication", () => {
+describe("Authentication", () => {
   it("auth property returns a working authentication object", async () => {
     const db = await DB.connect(config);
     const auth = await db.auth();
