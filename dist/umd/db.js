@@ -25,9 +25,6 @@
             this._onConnected = [];
             this._onDisconnected = [];
             this._eventManager = new EventManager_1.EventManager();
-            config = Object.assign({
-                name: "[DEFAULT]"
-            }, config);
             // this starts the "listenForConnectionStatus" event emitter
             this.initialize(config);
         }
@@ -40,6 +37,13 @@
             await obj.waitForConnection();
             return obj;
         }
+        /** lists the database names which are currently connected */
+        static async connectedTo() {
+            // tslint:disable-next-line:no-submodule-imports
+            const firebase = await (__syncRequire ? Promise.resolve().then(() => require("firebase/app")) : new Promise((resolve_1, reject_1) => { require(["firebase/app"], resolve_1, reject_1); }));
+            await (__syncRequire ? Promise.resolve().then(() => require("@firebase/database")) : new Promise((resolve_2, reject_2) => { require(["@firebase/database"], resolve_2, reject_2); }));
+            return Array.from(new Set(firebase.apps.map(i => i.name)));
+        }
         async auth() {
             if (this._auth) {
                 return this._auth;
@@ -47,7 +51,7 @@
             if (!this.isConnected) {
                 await this.waitForConnection();
             }
-            await (__syncRequire ? Promise.resolve().then(() => require("@firebase/auth")) : new Promise((resolve_1, reject_1) => { require(["@firebase/auth"], resolve_1, reject_1); }));
+            await (__syncRequire ? Promise.resolve().then(() => require("@firebase/auth")) : new Promise((resolve_3, reject_3) => { require(["@firebase/auth"], resolve_3, reject_3); }));
             this._auth = this.app.auth();
             return this._auth;
         }
@@ -154,15 +158,17 @@
                 if (!config.apiKey || !config.authDomain || !config.databaseURL) {
                     throw new Error("Trying to connect without appropriate firebase configuration!");
                 }
-                const { name } = config;
+                config.name =
+                    config.name ||
+                        config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
                 // tslint:disable-next-line:no-submodule-imports
-                const firebase = await (__syncRequire ? Promise.resolve().then(() => require("firebase/app")) : new Promise((resolve_2, reject_2) => { require(["firebase/app"], resolve_2, reject_2); }));
-                await (__syncRequire ? Promise.resolve().then(() => require("@firebase/database")) : new Promise((resolve_3, reject_3) => { require(["@firebase/database"], resolve_3, reject_3); }));
+                const firebase = await (__syncRequire ? Promise.resolve().then(() => require("firebase/app")) : new Promise((resolve_4, reject_4) => { require(["firebase/app"], resolve_4, reject_4); }));
+                await (__syncRequire ? Promise.resolve().then(() => require("@firebase/database")) : new Promise((resolve_5, reject_5) => { require(["@firebase/database"], resolve_5, reject_5); }));
                 try {
                     const runningApps = new Set(firebase.apps.map(i => i.name));
-                    this.app = runningApps.has(name)
-                        ? firebase.app() // TODO: does this connect to the right named DB?
-                        : firebase.initializeApp(config, name);
+                    this.app = runningApps.has(config.name)
+                        ? firebase.app(config.name) // TODO: does this connect to the right named DB?
+                        : firebase.initializeApp(config, config.name);
                     // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
                     //   firebase.database
                     // );
@@ -179,7 +185,7 @@
                 this._database = this.app.database();
             }
             else {
-                console.info(`Database ${name} already connected`);
+                console.info(`Database ${config.name} already connected`);
             }
             // TODO: relook at debugging func
             if (config.debugging) {

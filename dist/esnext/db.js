@@ -13,9 +13,6 @@ export class DB extends RealTimeDB {
         this._onConnected = [];
         this._onDisconnected = [];
         this._eventManager = new EventManager();
-        config = Object.assign({
-            name: "[DEFAULT]"
-        }, config);
         // this starts the "listenForConnectionStatus" event emitter
         this.initialize(config);
     }
@@ -27,6 +24,13 @@ export class DB extends RealTimeDB {
         const obj = new DB(config);
         await obj.waitForConnection();
         return obj;
+    }
+    /** lists the database names which are currently connected */
+    static async connectedTo() {
+        // tslint:disable-next-line:no-submodule-imports
+        const firebase = await import("firebase/app");
+        await import("@firebase/database");
+        return Array.from(new Set(firebase.apps.map(i => i.name)));
     }
     async auth() {
         if (this._auth) {
@@ -142,15 +146,17 @@ export class DB extends RealTimeDB {
             if (!config.apiKey || !config.authDomain || !config.databaseURL) {
                 throw new Error("Trying to connect without appropriate firebase configuration!");
             }
-            const { name } = config;
+            config.name =
+                config.name ||
+                    config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
             // tslint:disable-next-line:no-submodule-imports
             const firebase = await import("firebase/app");
             await import("@firebase/database");
             try {
                 const runningApps = new Set(firebase.apps.map(i => i.name));
-                this.app = runningApps.has(name)
-                    ? firebase.app() // TODO: does this connect to the right named DB?
-                    : firebase.initializeApp(config, name);
+                this.app = runningApps.has(config.name)
+                    ? firebase.app(config.name) // TODO: does this connect to the right named DB?
+                    : firebase.initializeApp(config, config.name);
                 // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
                 //   firebase.database
                 // );
@@ -167,7 +173,7 @@ export class DB extends RealTimeDB {
             this._database = this.app.database();
         }
         else {
-            console.info(`Database ${name} already connected`);
+            console.info(`Database ${config.name} already connected`);
         }
         // TODO: relook at debugging func
         if (config.debugging) {
