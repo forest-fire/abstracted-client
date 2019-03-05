@@ -1,4 +1,4 @@
-import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps } from "abstracted-firebase";
+import { RealTimeDB, IFirebaseConfig, IFirebaseClientConfigProps, IFirebaseClientConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";
 import { IFirebaseListener, IFirebaseConnectionCallback } from "./@types/general";
@@ -14,13 +14,15 @@ export declare class DB extends RealTimeDB {
      * to finish.
      */
     static connect(config?: IFirebaseConfig): Promise<DB>;
+    /** lists the database names which are currently connected */
+    static connectedTo(): Promise<string[]>;
     protected _eventManager: EventManager;
     protected _onConnected: IFirebaseListener[];
     protected _onDisconnected: IFirebaseListener[];
     protected _database: FirebaseDatabase;
     protected _auth: FirebaseAuth;
     protected app: any;
-    constructor(config: IFirebaseConfig);
+    constructor(config: IFirebaseClientConfig);
     auth(): Promise<import("@firebase/auth-types").FirebaseAuth>;
     /**
      * get a notification when DB is connected; returns a unique id
