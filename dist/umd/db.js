@@ -40,9 +40,9 @@
         /** lists the database names which are currently connected */
         static async connectedTo() {
             // tslint:disable-next-line:no-submodule-imports
-            const firebase = await (__syncRequire ? Promise.resolve().then(() => require("firebase/app")) : new Promise((resolve_1, reject_1) => { require(["firebase/app"], resolve_1, reject_1); }));
+            const fb = await (__syncRequire ? Promise.resolve().then(() => require("@firebase/app")) : new Promise((resolve_1, reject_1) => { require(["@firebase/app"], resolve_1, reject_1); }));
             await (__syncRequire ? Promise.resolve().then(() => require("@firebase/database")) : new Promise((resolve_2, reject_2) => { require(["@firebase/database"], resolve_2, reject_2); }));
-            return Array.from(new Set(firebase.apps.map(i => i.name)));
+            return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
         }
         async auth() {
             if (this._auth) {
@@ -162,13 +162,13 @@
                     config.name ||
                         config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
                 // tslint:disable-next-line:no-submodule-imports
-                const firebase = await (__syncRequire ? Promise.resolve().then(() => require("firebase/app")) : new Promise((resolve_4, reject_4) => { require(["firebase/app"], resolve_4, reject_4); }));
+                const fb = await (__syncRequire ? Promise.resolve().then(() => require("@firebase/app")) : new Promise((resolve_4, reject_4) => { require(["@firebase/app"], resolve_4, reject_4); }));
                 await (__syncRequire ? Promise.resolve().then(() => require("@firebase/database")) : new Promise((resolve_5, reject_5) => { require(["@firebase/database"], resolve_5, reject_5); }));
                 try {
-                    const runningApps = new Set(firebase.apps.map(i => i.name));
+                    const runningApps = new Set(fb.firebase.apps.map(i => i.name));
                     this.app = runningApps.has(config.name)
-                        ? firebase.app(config.name) // TODO: does this connect to the right named DB?
-                        : firebase.initializeApp(config, config.name);
+                        ? fb.firebase.app(config.name) // TODO: does this connect to the right named DB?
+                        : fb.firebase.initializeApp(config, config.name);
                     // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
                     //   firebase.database
                     // );
