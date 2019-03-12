@@ -32,9 +32,9 @@ export class DB extends RealTimeDB {
   /** lists the database names which are currently connected */
   public static async connectedTo() {
     // tslint:disable-next-line:no-submodule-imports
-    const firebase = await import("firebase/app");
+    const fb = await import("@firebase/app");
     await import("@firebase/database");
-    return Array.from(new Set(firebase.apps.map(i => i.name)));
+    return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
   }
 
   protected _eventManager: EventManager;
@@ -185,13 +185,13 @@ export class DB extends RealTimeDB {
         config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
 
       // tslint:disable-next-line:no-submodule-imports
-      const firebase = await import("firebase/app");
+      const fb = await import("@firebase/app");
       await import("@firebase/database");
       try {
-        const runningApps = new Set(firebase.apps.map(i => i.name));
+        const runningApps = new Set(fb.firebase.apps.map(i => i.name));
         this.app = runningApps.has(config.name)
-          ? firebase.app(config.name) // TODO: does this connect to the right named DB?
-          : firebase.initializeApp(config, config.name);
+          ? fb.firebase.app(config.name) // TODO: does this connect to the right named DB?
+          : fb.firebase.initializeApp(config, config.name);
         // this.enableDatabaseLogging = firebase.database.enableLogging.bind(
         //   firebase.database
         // );
