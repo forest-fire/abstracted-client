@@ -8,7 +8,6 @@ import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";
 import { createError, wait } from "common-types";
 import { IFirebaseListener, IFirebaseConnectionCallback } from "./@types/general";
-import { FirebaseApp } from "@firebase/app-types";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
