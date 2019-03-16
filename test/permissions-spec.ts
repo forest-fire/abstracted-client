@@ -1,8 +1,6 @@
 // tslint:disable:no-implicit-dependencies
 import { DB } from "../src/db";
 import * as chai from "chai";
-import { EmailAuthProvider } from "@firebase/auth-types";
-import { wait } from "common-types";
 const expect = chai.expect;
 
 const config = {
