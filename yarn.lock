@@ -803,16 +803,16 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-abstracted-firebase@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.16.0.tgz#618afb7f45f9633cdb3341218c1c51b0afc7880a"
-  integrity sha512-SiXrmrmwY8tzDbcD3f0xD39hBOV+7YEb9lHGha7WJHeFP/9aDjdNnK3bC2zBFU2U4tc9XwwuI46kOZYJ2+RfpQ==
+abstracted-firebase@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.16.1.tgz#7bd2f23f92ab6312e0c64fd0086e795002d0dbe3"
+  integrity sha512-z21IA/cJqC7s/ZaR9IyTWKPGlrNz3bfxIEgUYslskv1ZE74ZtQLQcKkGXNyuY4P0+ykq2JpkIj5189utLLEKzw==
   dependencies:
     "@firebase/auth-types" "^0.5.3"
     "@firebase/database-types" "^0.3.6"
     common-types "^1.9.7"
     serialized-query "^0.5.0"
-    typed-conversions "^0.8.9"
+    typed-conversions "^0.9.6"
 
 acorn-dynamic-import@^4.0.0:
   version "4.0.0"
