@@ -37,13 +37,13 @@
     "@firebase/auth-types": "^0.5.4",
     "@firebase/database": "^0.3.15",
     "@firebase/database-types": "^0.3.7",
-    "abstracted-firebase": "^0.16.1",
+    "abstracted-firebase": "^0.16.2",
     "common-types": "^1.9.7",
     "events": "^3.0.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "serialized-query": "^0.5.0",
-    "typed-conversions": "^0.9.6"
+    "typed-conversions": "^0.10.1"
   },
   "peerDependencies": {
     "firemock": "^0.19.1"
