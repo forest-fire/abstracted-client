@@ -51,6 +51,10 @@
             if (!this.isConnected) {
                 await this.waitForConnection();
             }
+            if (this._mocking) {
+                this._auth = await this.mock.auth();
+                return this._auth;
+            }
             await (__syncRequire ? Promise.resolve().then(() => require("@firebase/auth")) : new Promise((resolve_3, reject_3) => { require(["@firebase/auth"], resolve_3, reject_3); }));
             this._auth = this.app.auth();
             return this._auth;

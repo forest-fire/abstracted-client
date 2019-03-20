@@ -57,6 +57,10 @@ export class DB extends RealTimeDB {
     if (!this.isConnected) {
       await this.waitForConnection();
     }
+    if (this._mocking) {
+      this._auth = await this.mock.auth();
+      return this._auth;
+    }
     await import("@firebase/auth");
     this._auth = this.app.auth() as FirebaseAuth;
     return this._auth;
