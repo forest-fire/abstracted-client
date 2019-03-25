@@ -8,11 +8,14 @@ import { EventManager } from "./EventManager";
 import { DataSnapshot } from "@firebase/database-types";
 import { createError, wait } from "common-types";
 import { IFirebaseListener, IFirebaseConnectionCallback } from "./@types/general";
+import { Mock } from "firemock";
 export enum FirebaseBoolean {
   true = 1,
   false = 0
 }
-const MOCK_LOADING_TIMEOUT = 200;
+
+export let MOCK_LOADING_TIMEOUT = 200;
+
 export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 
@@ -61,7 +64,7 @@ export class DB extends RealTimeDB {
       this._auth = await this.mock.auth();
       return this._auth;
     }
-    await import("@firebase/auth");
+    await import(/* webpackChunkName: "firebase-auth" */ "@firebase/auth");
     this._auth = this.app.auth() as FirebaseAuth;
     return this._auth;
   }
@@ -95,13 +98,12 @@ export class DB extends RealTimeDB {
   public async waitForConnection() {
     if (this._mocking) {
       // MOCKING
+      this._mock = await Mock.prepare(); // imports faker
       if (this._mockLoadingState === "loaded") {
         return;
       }
-      const timeout = new Date().getTime() + MOCK_LOADING_TIMEOUT;
-      while (this._mockLoadingState === "loading" && new Date().getTime() < timeout) {
-        await wait(1);
-      }
+      await wait(MOCK_LOADING_TIMEOUT);
+      this._isConnected = true;
     } else {
       // NON-MOCKING
       if (this._isConnected) {
@@ -188,8 +190,8 @@ export class DB extends RealTimeDB {
         config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
 
       // tslint:disable-next-line:no-submodule-imports
-      const fb = await import("@firebase/app");
-      await import("@firebase/database");
+      const fb = await import(/* webpackChunkName: "firebase-app" */ "@firebase/app");
+      await import(/* webpackChunkName: "firebase-db" */ "@firebase/database");
       try {
         const runningApps = new Set(fb.firebase.apps.map(i => i.name));
         this.app = runningApps.has(config.name)

@@ -6,6 +6,7 @@ export declare enum FirebaseBoolean {
     true = 1,
     false = 0
 }
+export declare let MOCK_LOADING_TIMEOUT: number;
 export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export declare type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 export declare class DB extends RealTimeDB {

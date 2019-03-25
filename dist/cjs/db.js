@@ -3,12 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const abstracted_firebase_1 = require("abstracted-firebase");
 const EventManager_1 = require("./EventManager");
 const common_types_1 = require("common-types");
+const firemock_1 = require("firemock");
 var FirebaseBoolean;
 (function (FirebaseBoolean) {
     FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
     FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
 })(FirebaseBoolean = exports.FirebaseBoolean || (exports.FirebaseBoolean = {}));
-const MOCK_LOADING_TIMEOUT = 200;
+exports.MOCK_LOADING_TIMEOUT = 200;
 class DB extends abstracted_firebase_1.RealTimeDB {
     constructor(config) {
         super();
@@ -45,7 +46,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             this._auth = await this.mock.auth();
             return this._auth;
         }
-        await Promise.resolve().then(() => require("@firebase/auth"));
+        await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-auth" */ "@firebase/auth"));
         this._auth = this.app.auth();
         return this._auth;
     }
@@ -75,13 +76,12 @@ class DB extends abstracted_firebase_1.RealTimeDB {
     async waitForConnection() {
         if (this._mocking) {
             // MOCKING
+            this._mock = await firemock_1.Mock.prepare(); // imports faker
             if (this._mockLoadingState === "loaded") {
                 return;
             }
-            const timeout = new Date().getTime() + MOCK_LOADING_TIMEOUT;
-            while (this._mockLoadingState === "loading" && new Date().getTime() < timeout) {
-                await common_types_1.wait(1);
-            }
+            await common_types_1.wait(exports.MOCK_LOADING_TIMEOUT);
+            this._isConnected = true;
         }
         else {
             // NON-MOCKING
@@ -156,8 +156,8 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                 config.name ||
                     config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
             // tslint:disable-next-line:no-submodule-imports
-            const fb = await Promise.resolve().then(() => require("@firebase/app"));
-            await Promise.resolve().then(() => require("@firebase/database"));
+            const fb = await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-app" */ "@firebase/app"));
+            await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-db" */ "@firebase/database"));
             try {
                 const runningApps = new Set(fb.firebase.apps.map(i => i.name));
                 this.app = runningApps.has(config.name)
