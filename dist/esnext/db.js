@@ -1,12 +1,13 @@
 import { RealTimeDB } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { createError, wait } from "common-types";
+import { Mock } from "firemock";
 export var FirebaseBoolean;
 (function (FirebaseBoolean) {
     FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
     FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
 })(FirebaseBoolean || (FirebaseBoolean = {}));
-export let MOCK_LOADING_TIMEOUT = 2000;
+export let MOCK_LOADING_TIMEOUT = 200;
 export class DB extends RealTimeDB {
     constructor(config) {
         super();
@@ -43,7 +44,7 @@ export class DB extends RealTimeDB {
             this._auth = await this.mock.auth();
             return this._auth;
         }
-        await import("@firebase/auth");
+        await import(/* webpackChunkName: "firebase-auth" */ "@firebase/auth");
         this._auth = this.app.auth();
         return this._auth;
     }
@@ -73,13 +74,12 @@ export class DB extends RealTimeDB {
     async waitForConnection() {
         if (this._mocking) {
             // MOCKING
+            this._mock = await Mock.prepare(); // imports faker
             if (this._mockLoadingState === "loaded") {
                 return;
             }
-            const timeout = new Date().getTime() + MOCK_LOADING_TIMEOUT;
-            while (this._mockLoadingState === "loading" && new Date().getTime() < timeout) {
-                await wait(1);
-            }
+            await wait(MOCK_LOADING_TIMEOUT);
+            this._isConnected = true;
         }
         else {
             // NON-MOCKING
@@ -154,8 +154,8 @@ export class DB extends RealTimeDB {
                 config.name ||
                     config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
             // tslint:disable-next-line:no-submodule-imports
-            const fb = await import("@firebase/app");
-            await import("@firebase/database");
+            const fb = await import(/* webpackChunkName: "firebase-app" */ "@firebase/app");
+            await import(/* webpackChunkName: "firebase-db" */ "@firebase/database");
             try {
                 const runningApps = new Set(fb.firebase.apps.map(i => i.name));
                 this.app = runningApps.has(config.name)
