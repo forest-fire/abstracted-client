@@ -664,7 +664,7 @@
     tslib "1.9.3"
     xmlhttprequest "1.8.0"
 
-"@firebase/auth-types@0.5.5", "@firebase/auth-types@^0.5.4", "@firebase/auth-types@^0.5.5":
+"@firebase/auth-types@0.5.5", "@firebase/auth-types@^0.5.5":
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.5.5.tgz#3de465bfbf344a79e419d286e060011b7c8cb992"
   integrity sha512-1JDDWZPBhHcW08NoZfkviVlvsPJQpk4gaUKI4sua0EXggpOn5JolXzIs7ZUXfqyLtBRbx690HZeb8orQPzXUEg==
@@ -676,7 +676,7 @@
   dependencies:
     "@firebase/auth-types" "0.5.5"
 
-"@firebase/database-types@0.3.8", "@firebase/database-types@^0.3.7", "@firebase/database-types@^0.3.8":
+"@firebase/database-types@0.3.8", "@firebase/database-types@^0.3.8":
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/@firebase/database-types/-/database-types-0.3.8.tgz#d35b2fb09fa0ba1f542c16b6fa5a7471f85fc2a4"
   integrity sha512-n/D/0S5bIsgrJuFoBa/4F1K1/Lr9jcS3O7sBBsQJJjkZ6WsE0J8Pg5AHJargBYspLh+4x43Pa7x/r5xGjRxbgA==
@@ -805,13 +805,13 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-abstracted-firebase@^0.16.6:
-  version "0.16.6"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.16.6.tgz#728f0a8167700eea3b4cd2bd308a6f9954486074"
-  integrity sha512-t6eMx1Q8BS/W9gD7m5y6GJVFCECyZ+SOf64A8XiQ9Y9+Z80BScPYuoXsIVDLDH2aFm/lPQN+y3eGLDeFLtXuhQ==
+abstracted-firebase@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.17.0.tgz#17458bf2bee0fccd1716150b90ac4becdeed870b"
+  integrity sha512-sdgNEhr0Yj2m+wIJ1qdVj4Q7tsN31BmDrHXgeqzHKk/ZRNT7sLthOwRVJQUc5XBbev10GBQRJW69vd4LChEt1w==
   dependencies:
-    "@firebase/auth-types" "^0.5.4"
-    "@firebase/database-types" "^0.3.7"
+    "@firebase/auth-types" "^0.5.5"
+    "@firebase/database-types" "^0.3.8"
     common-types "^1.9.7"
     serialized-query "^0.5.0"
     typed-conversions "^0.10.1"
@@ -4384,9 +4384,9 @@ rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.0, rollup-pluginutils@^2.3.1,
     micromatch "^3.1.10"
 
 rollup@^1.1.2, rollup@^1.2.3:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.7.2.tgz#6a2c50843915cba2c1432028e741f2ccb39e8ca3"
-  integrity sha512-HdbjbHsvoLDwJU/lWEyktVlLdXR7mtnNxRnzaDb+fiNiboAxDYCpwLz1zLGI3+k890PacAptSGrqJLJnABMKJg==
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.7.3.tgz#cade518b92e23efa72026e264e29d9a56cbf8eb9"
+  integrity sha512-U3/HaZujvGofNZQldfIknKoaNFNRS+j8/uCS/jSy3FrxF9t0FBsgZW4+VXLHG7l1daTgE6+jEy0Dv7cVCB2NPg==
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "^11.11.6"
