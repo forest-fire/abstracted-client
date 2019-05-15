@@ -21,8 +21,8 @@ describe("Permissions", () => {
       throw new Error("should not have reached this point due to permissions error");
     } catch (e) {
       expect(e.message).to.include("no-write/foobar");
-      expect(e.name).to.equal("PERMISSION_DENIED");
-      expect(e.code).to.equal("abstracted-firebase/PERMISSION_DENIED");
+      expect(e.name).to.equal("abstracted-firebase/permission-denied");
+      expect(e.code).to.equal("permission-denied");
     }
   });
 
@@ -35,8 +35,8 @@ describe("Permissions", () => {
       });
       throw new Error("should not have reached this point due to permissions error");
     } catch (e) {
-      expect(e.code).to.equal("abstracted-firebase/PERMISSION_DENIED");
-      expect(e.name).to.equal("PERMISSION_DENIED");
+      expect(e.code).to.equal("permission-denied");
+      expect(e.name).to.equal("abstracted-firebase/permission-denied");
       expect(e.message).to.include("no-write/foobar");
     }
   });

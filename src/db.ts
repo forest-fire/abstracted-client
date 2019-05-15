@@ -53,7 +53,7 @@ export class DB extends RealTimeDB {
     this.initialize(config);
   }
 
-  public async auth() {
+  public async auth(): Promise<FirebaseAuth> {
     if (this._auth) {
       return this._auth;
     }
