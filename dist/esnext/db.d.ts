@@ -24,7 +24,7 @@ export declare class DB extends RealTimeDB {
     protected _auth: FirebaseAuth;
     protected app: any;
     constructor(config: IFirebaseClientConfig);
-    auth(): Promise<import("@firebase/auth-types").FirebaseAuth>;
+    auth(): Promise<FirebaseAuth>;
     /**
      * get a notification when DB is connected; returns a unique id
      * which can be used to remove the callback. You may, optionally,
