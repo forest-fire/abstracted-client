@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.25.1",
+  "version": "0.25.2",
   "description": "Helpful abstraction on the firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -38,7 +38,7 @@
     "@firebase/auth-types": "^0.7.0",
     "@firebase/database": "^0.4.1",
     "@firebase/database-types": "^0.4.0",
-    "abstracted-firebase": "^0.25.3",
+    "abstracted-firebase": "^0.25.6",
     "common-types": "^1.10.20",
     "events": "^3.0.0",
     "lodash.first": "^3.0.0",
@@ -47,10 +47,9 @@
     "typed-conversions": "^0.10.1"
   },
   "peerDependencies": {
-    "firemock": "^0.24.102"
+    "firemock": "^0.24.103"
   },
   "devDependencies": {
-    "@firebase/auth-types": "^0.5.4",
     "@firebase/firestore-types": "^1.1.0",
     "@firebase/functions-types": "^0.3.1",
     "@firebase/messaging-types": "^0.2.7",
@@ -70,7 +69,7 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
     "faker": "^4.1.0",
-    "firemock": "^0.24.102",
+    "firemock": "^0.24.103",
     "js-yaml": "^3.9.1",
     "mocha": "^6.0.2",
     "nyc": "^13.3.0",
