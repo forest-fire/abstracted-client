@@ -9,9 +9,10 @@ helpers.setupEnv();
 
 describe("Basics: ", () => {
   it("Can connect to Firebase mock DB", async () => {
-    const db = new DB({ mocking: true });
-    // expect(db.isConnected).to.equal(false);
+    const db = new DB({ mocking: true, mockData: { foo: "bar" } });
     await db.waitForConnection();
+    expect(db.mock.db).to.be.an("object");
+    expect(db.mock.db.foo).to.equal("bar");
     expect(db.isConnected).to.equal(true);
   });
   it("Can connect to a real Firebase DB", async () => {
