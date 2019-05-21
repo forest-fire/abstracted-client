@@ -2,6 +2,7 @@
 import { DB } from "../src/db";
 import * as chai from "chai";
 import * as helpers from "./testing/helpers";
+import { IDictionary, wait } from "common-types";
 
 const expect = chai.expect;
 const config = {
@@ -34,12 +35,15 @@ describe("Connecting to Database", () => {
 
   it("adding an onConnect callback works", async () => {
     const db = new DB(config);
-    let itHappened: boolean = false;
-    const notificationId: string = db.notifyWhenConnected(() => {
-      itHappened = true;
+    const itHappened: IDictionary<boolean> = { status: false };
+
+    const notificationId: string = db.notifyWhenConnected((database, ctx) => {
+      itHappened.status = true;
     });
+
     await db.waitForConnection();
-    expect(itHappened).to.equal(true);
+    await wait(5);
+    expect(itHappened.status).to.equal(true);
     expect((db as any)._onConnected).to.have.lengthOf(1);
     db.removeNotificationOnConnection(notificationId);
     expect((db as any)._onConnected).to.have.lengthOf(0);
