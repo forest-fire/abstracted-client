@@ -110,7 +110,10 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         if (!this._mocking) {
             this._database
                 .ref(".info/connected")
-                .on("value", this._monitorConnection.bind(this));
+                .on("value", snap => this._monitorConnection.bind(this)(snap));
+        }
+        else {
+            console.info(`Listening for connection changes on Mock DB`);
         }
     }
 }

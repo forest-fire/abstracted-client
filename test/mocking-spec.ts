@@ -148,6 +148,28 @@ describe("Mocking", () => {
     const list = await mockDb.getList("/authenticated/meals");
     expect(list.length).to.equal(10);
   });
+
+  it("setting initial DB state works", async () => {
+    const db2 = await DB.connect({
+      mocking: true,
+      mockData: {
+        foo: "bar"
+      }
+    });
+    expect(db2.mock.db.foo).to.equal("bar");
+  });
+
+  it("setting auth() to accept anonymous works", async () => {
+    const db3 = await DB.connect({
+      mocking: true,
+      mockAuth: {
+        allowAnonymous: true
+      }
+    });
+    const auth = await db3.auth();
+    const user = await auth.signInAnonymously();
+    expect(user.user.uid).to.be.a("string");
+  });
 });
 
 function addAnimals(db: DB, count: number) {
