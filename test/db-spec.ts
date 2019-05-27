@@ -3,6 +3,7 @@ import { DB } from "../src/db";
 import * as chai from "chai";
 import * as helpers from "./testing/helpers";
 import { IDictionary, wait } from "common-types";
+import { IFirebaseClientConfig, IFirebaseClientConfigProps } from "abstracted-firebase";
 
 const expect = chai.expect;
 const config = {
@@ -33,13 +34,23 @@ describe("Connecting to Database", () => {
     expect(result).to.equal(true);
   });
 
-  it("adding an onConnect callback works", async () => {
+  it("adding an onConnect callback with context works", async () => {
     const db = new DB(config);
     const itHappened: IDictionary<boolean> = { status: false };
 
-    const notificationId: string = db.notifyWhenConnected((database, ctx) => {
-      itHappened.status = true;
-    });
+    const notificationId: string = db.notifyWhenConnected(
+      database => {
+        expect(database).to.be.an("object");
+        expect(database.isConnected).to.be.a("boolean");
+        expect((database.config as IFirebaseClientConfigProps).apiKey).to.equal(
+          config.apiKey
+        );
+
+        itHappened.status = true;
+      },
+      "my-test",
+      { itHappened }
+    );
 
     await db.waitForConnection();
     await wait(5);
