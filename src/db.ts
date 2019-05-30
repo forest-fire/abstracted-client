@@ -133,7 +133,7 @@ export class DB extends RealTimeDB {
         .ref(".info/connected")
         .on("value", snap => this._monitorConnection.bind(this)(snap));
     } else {
-      console.info(`Listening for connection changes on Mock DB`);
+      // console.info(`Listening for connection changes on Mock DB`);
     }
   }
 }
