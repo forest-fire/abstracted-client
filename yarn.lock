@@ -23,7 +23,7 @@
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.4.0.tgz#bb2c651f3b275fef549050cff28af752839c75c0"
   integrity sha512-8erNMHc0V26gA6Nj4W9laVrQrXHsj9K2TEM7eL2IQogGSHLL4vet3UNekYfcGQ2cjfvwUjMzd+BNS/8S7GnfiA==
 
-"@firebase/app@^0.4.1":
+"@firebase/app@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@firebase/app/-/app-0.4.3.tgz#2748817f621a36fa29db0fd05a554c3e41158856"
   integrity sha512-UB/CLBU9ONA0m9ajPJHtHHSl/6nNQfQ0wvnpTuHFuy7e/0jeKIuBeE+18DGyCBetv20T1/1EXDtv8YF3KISong==
@@ -131,6 +131,11 @@
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.12.1.tgz#5c6f4a1eabca84792fbd916f0cb40847f123c656"
   integrity sha512-SGGAhXLHDx+PK4YLNcNGa6goPf9XRWQNAUUbffkwVGGXIxmDKWyGGL4inzq2sPmExu431Ekb9aEMn9BkPqEYFA==
 
+"@types/json-schema@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
+  integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
+
 "@types/lodash.first@^3.0.3":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@types/lodash.first/-/lodash.first-3.0.6.tgz#32e81d0d4055aed6381e0ddfe323f220f6cf5b36"
@@ -161,9 +166,9 @@
   integrity sha512-1axi39YdtBI7z957vdqXI4Ac25e7YihYQtJa+Clnxg1zTJEaIRbndt71O3sP4GAMgiAm0pY26/b9BrY4MR/PMw==
 
 "@types/node@*", "@types/node@^12.0.2":
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.2.tgz#3452a24edf9fea138b48fad4a0a028a683da1e40"
-  integrity sha512-5tabW/i+9mhrfEOUcLDu2xBPsHJ+X5Orqy9FKpale3SjDA17j5AEpYq5vfy3oAeAHGcvANRCO3NV3d2D6q3NiA==
+  version "12.0.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.3.tgz#5d8d24e0033fc6393efadc85cb59c1f638095c9a"
+  integrity sha512-zkOxCS/fA+3SsdA+9Yun0iANxzhQRiNwTvJSr6N95JhuJ/x27z9G2URx1Jpt3zYFfCGUXZGL5UDxt5eyLE7wgw==
 
 "@types/rimraf@^2.0.2":
   version "2.0.2"
@@ -181,15 +186,14 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-abstracted-firebase@^0.27.1:
-  version "0.27.2"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.2.tgz#bf589c0758a880f30c7a52e7ebddf79bb22a3409"
-  integrity sha512-0h6wu0CMxtX1bjxgHcRfQXTlmqOLfuc0UkY/FfkFzpX2+NP2KLzVlWflz4X4ctqghgKmtL/HQmJCyZ5uFFfylw==
+abstracted-firebase@^0.27.3:
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.5.tgz#a45fe8a79832b14aa33f19ad20072815331e0fb6"
+  integrity sha512-2x/KJnHQou/5X76TrN/l1YGSTKGpFcHYRAY4sAwUkuImNfk5p0a4JSZhKoXWQH3dFQ3NtBsEpkNUGo/MY+l1GQ==
   dependencies:
     "@firebase/auth-types" "^0.7.0"
     "@firebase/database-types" "^0.4.0"
-    common-types "^1.11.4"
-    firemock "^0.27.0"
+    common-types "^1.11.10"
     serialized-query "^0.7.1"
     typed-conversions "^0.10.1"
 
@@ -335,10 +339,12 @@ commander@^2.12.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
 
-common-types@^1.10.26, common-types@^1.11.4, common-types@^1.9.7:
-  version "1.11.4"
-  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.11.4.tgz#61c7ec831fe688a17de9e520903d0fadc8e2001e"
-  integrity sha512-NE9C3NIspTg05BhnGxJaBEgGcgiX9CCyY5c+d9BakTwK6Ue2t3x5v/Xrhf177rV0QCfQU+nVpTHCQpL6fCJF+g==
+common-types@^1.10.26, common-types@^1.11.10, common-types@^1.9.7:
+  version "1.11.10"
+  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.11.10.tgz#d9f4ef1dcba50232ddb76aa9254da8a5efc31fd8"
+  integrity sha512-CSD6GVggCQYZHnFteC2jy8xzwMxP4oMD4PjgLFMVWvmv5r66nWsXvYt9M9K6RigRgCAtUdR+dFbkEWPsWvWKIA==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -502,16 +508,16 @@ firebase-key@^2.0.2:
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.2.tgz#44ffdc460faeb774ef95e04a43027042974cfe5c"
   integrity sha512-gH0u6apANQsqHUqcf+Yd49VaUQyKNCLxofwYx0gqUGcymeLs5HWg/3tXroGheYYH8+ynxbrnP/Z4F/FEqNy9Ow==
 
-firemock@^0.27.0:
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.27.0.tgz#490d05b791f4e91268fe52041255b00606f07e84"
-  integrity sha512-SFcUxUMWjXla0pl+AfBV73zXJB/ZNY5lXpNapQv6rCoMZLlPCf+AartPGNG2QElYiakTgk/qyegqBL/flqufBw==
+firemock@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.27.2.tgz#ece1b7a2cead9de3ff5dac679a5c77dcaf38b669"
+  integrity sha512-rXasHkL/dUY7czV1bkgaOZ5Zn7GfvPwp0qVTwWn9yR4WQrONt1eWY8yrj6MnWNc4IGJ/2mcGeWbiuNoXAyj+wg==
   dependencies:
     "@firebase/app-types" "^0.4.0"
     "@firebase/auth-types" "^0.7.0"
     "@firebase/database-types" "^0.4.0"
     "@firebase/util" "^0.2.15"
-    common-types "^1.11.4"
+    common-types "^1.11.10"
     email-validator "^2.0.4"
     faker "^4.1.0"
     fast-copy "^2.0.3"
@@ -1147,7 +1153,7 @@ test-console@^1.1.0:
   resolved "https://registry.yarnpkg.com/test-console/-/test-console-1.1.0.tgz#34466d421f1b049e1be80d1734bdb5a512889c7f"
   integrity sha512-pntCc+DnxNVZxNIul3NjThWaLvIrp9GNHRMrriyFWFtq10LpbHGsagu7riq7UIZn79f9aXnKI7YgyMvf8dcKsg==
 
-ts-node@^8.1.0:
+ts-node@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.2.0.tgz#4a89754b00560bb24cd54526e1685fa38c45f240"
   integrity sha512-m8XQwUurkbYqXrKqr3WHCW310utRNvV5OnRVeISeea7LoCWVcdfeB/Ntl8JYWFh+WRoUAdBgESrzKochQt7sMw==
@@ -1202,10 +1208,10 @@ typed-conversions@^0.10.1:
     common-types "^1.9.7"
     get-value "^3.0.1"
 
-typescript@^3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
-  integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
+typescript@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.1.tgz#ba72a6a600b2158139c5dd8850f700e231464202"
+  integrity sha512-64HkdiRv1yYZsSe4xC1WVgamNigVYjlssIoaH2HcZF0+ijsk5YK2g0G34w9wJkze8+5ow4STd22AynfO6ZYYLw==
 
 websocket-driver@>=0.5.1:
   version "0.7.0"
