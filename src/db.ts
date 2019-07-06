@@ -5,7 +5,7 @@ import {
   isMockConfig
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
-import { DataSnapshot } from "@firebase/database-types";
+
 export enum FirebaseBoolean {
   true = 1,
   false = 0
@@ -15,6 +15,8 @@ export let MOCK_LOADING_TIMEOUT = 200;
 
 export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
+
+export { IFirebaseClientConfig } from "abstracted-firebase";
 
 export class DB extends RealTimeDB {
   /**
