@@ -186,7 +186,7 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-abstracted-firebase@^0.27.7:
+abstracted-firebase@^0.27.10:
   version "0.27.10"
   resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.10.tgz#7fbee88f8e1efcab904165a0ea0b3f3b1051c198"
   integrity sha512-hgESpLzNtOGFxYmvsCOPQ8mzh8aPYhbyj8Eey7ZoE8Wvih38qs7mThwfdYxFvCJWeZhDbyZoW3Sw7vP7pNqbtQ==
@@ -508,7 +508,7 @@ firebase-key@^2.0.2:
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.2.tgz#44ffdc460faeb774ef95e04a43027042974cfe5c"
   integrity sha512-gH0u6apANQsqHUqcf+Yd49VaUQyKNCLxofwYx0gqUGcymeLs5HWg/3tXroGheYYH8+ynxbrnP/Z4F/FEqNy9Ow==
 
-firemock@^0.27.5:
+firemock@^0.27.8:
   version "0.27.8"
   resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.27.8.tgz#44b70dd342c1cc968f8406de997b98865bf4f660"
   integrity sha512-XKzSYzUkjttBbPONCw/G0pckoCeNJ92lLRlXqGKFf5rxX2J8Tk798USssxTZ0FhXxKgJxQC+uDbXNhgZMSNXuw==
