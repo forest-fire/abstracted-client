@@ -1,9 +1,9 @@
 {
   "name": "abstracted-client",
   "version": "0.27.8",
-  "description": "Helpful abstraction on the firebase client API",
+  "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
-  "repository": "https://github.com/forest-fire/abstracted-admin",
+  "repository": "https://github.com/forest-fire/abstracted-client",
   "author": "Ken Snyder <ken@ken.net>",
   "keywords": [
     "firebase",
