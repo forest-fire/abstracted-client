@@ -8,7 +8,7 @@ export declare let MOCK_LOADING_TIMEOUT: number;
 export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export declare type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 export { IFirebaseClientConfig } from "abstracted-firebase";
-export declare class DB extends RealTimeDB {
+export declare class DB extends RealTimeDB<FirebaseAuth> {
     /**
      * Instantiates a DB and then waits for the connection
      * to finish.

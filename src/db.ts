@@ -18,7 +18,7 @@ export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 
 export { IFirebaseClientConfig } from "abstracted-firebase";
 
-export class DB extends RealTimeDB {
+export class DB extends RealTimeDB<FirebaseAuth> {
   /**
    * Instantiates a DB and then waits for the connection
    * to finish.
@@ -76,7 +76,10 @@ export class DB extends RealTimeDB {
   protected async connectToFirebase(config: IFirebaseClientConfig) {
     if (isMockConfig(config)) {
       // MOCK DB
-      await this.getFireMock({ db: config.mockData || {}, auth: config.mockAuth || {} });
+      await this.getFireMock({
+        db: config.mockData || {},
+        auth: config.mockAuth || {}
+      });
       this._isConnected = true;
     } else {
       // REAL DB
@@ -95,8 +98,12 @@ export class DB extends RealTimeDB {
           config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
 
         // tslint:disable-next-line:no-submodule-imports
-        const fb = await import(/* webpackChunkName: "firebase-app" */ "@firebase/app");
-        await import(/* webpackChunkName: "firebase-db" */ "@firebase/database");
+        const fb = await import(
+          /* webpackChunkName: "firebase-app" */ "@firebase/app"
+        );
+        await import(
+          /* webpackChunkName: "firebase-db" */ "@firebase/database"
+        );
         try {
           const runningApps = new Set(fb.firebase.apps.map(i => i.name));
           this.app = runningApps.has(config.name)

@@ -66,7 +66,10 @@
         async connectToFirebase(config) {
             if (abstracted_firebase_1.isMockConfig(config)) {
                 // MOCK DB
-                await this.getFireMock({ db: config.mockData || {}, auth: config.mockAuth || {} });
+                await this.getFireMock({
+                    db: config.mockData || {},
+                    auth: config.mockAuth || {}
+                });
                 this._isConnected = true;
             }
             else {
@@ -83,8 +86,10 @@
                         config.name ||
                             config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
                     // tslint:disable-next-line:no-submodule-imports
-                    const fb = await (__syncRequire ? Promise.resolve().then(() => require(/* webpackChunkName: "firebase-app" */ "@firebase/app")) : new Promise((resolve_4, reject_4) => { require(["@firebase/app"], resolve_4, reject_4); }));
-                    await (__syncRequire ? Promise.resolve().then(() => require(/* webpackChunkName: "firebase-db" */ "@firebase/database")) : new Promise((resolve_5, reject_5) => { require(["@firebase/database"], resolve_5, reject_5); }));
+                    const fb = await (__syncRequire ? Promise.resolve().then(() => require(
+                    /* webpackChunkName: "firebase-app" */ "@firebase/app")) : new Promise((resolve_4, reject_4) => { require(["@firebase/app"], resolve_4, reject_4); }));
+                    await (__syncRequire ? Promise.resolve().then(() => require(
+                    /* webpackChunkName: "firebase-db" */ "@firebase/database")) : new Promise((resolve_5, reject_5) => { require(["@firebase/database"], resolve_5, reject_5); }));
                     try {
                         const runningApps = new Set(fb.firebase.apps.map(i => i.name));
                         this.app = runningApps.has(config.name)
