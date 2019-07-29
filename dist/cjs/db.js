@@ -56,7 +56,10 @@ class DB extends abstracted_firebase_1.RealTimeDB {
     async connectToFirebase(config) {
         if (abstracted_firebase_1.isMockConfig(config)) {
             // MOCK DB
-            await this.getFireMock({ db: config.mockData || {}, auth: config.mockAuth || {} });
+            await this.getFireMock({
+                db: config.mockData || {},
+                auth: config.mockAuth || {}
+            });
             this._isConnected = true;
         }
         else {
@@ -73,8 +76,10 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                     config.name ||
                         config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
                 // tslint:disable-next-line:no-submodule-imports
-                const fb = await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-app" */ "@firebase/app"));
-                await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-db" */ "@firebase/database"));
+                const fb = await Promise.resolve().then(() => require(
+                /* webpackChunkName: "firebase-app" */ "@firebase/app"));
+                await Promise.resolve().then(() => require(
+                /* webpackChunkName: "firebase-db" */ "@firebase/database"));
                 try {
                     const runningApps = new Set(fb.firebase.apps.map(i => i.name));
                     this.app = runningApps.has(config.name)
