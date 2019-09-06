@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.30.1",
+  "version": "0.30.3",
   "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-client",
@@ -28,14 +28,14 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "@firebase/app": "^0.4.14",
+    "@firebase/app": "^0.4.16",
     "@firebase/app-types": "^0.4.3",
     "@firebase/auth": "^0.11.8",
     "@firebase/auth-types": "^0.7.2",
-    "@firebase/database": "^0.4.10",
-    "@firebase/database-types": "^0.4.2",
-    "abstracted-firebase": "^0.30.0",
-    "common-types": "^1.11.15",
+    "@firebase/database": "^0.4.11",
+    "@firebase/database-types": "^0.4.3",
+    "abstracted-firebase": "^0.30.2",
+    "common-types": "^1.11.23",
     "events": "^3.0.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
@@ -46,7 +46,6 @@
     "firemock": "^0.30.0"
   },
   "devDependencies": {
-    "@firebase/firestore-types": "^1.4.4",
     "@firebase/functions-types": "^0.3.8",
     "@firebase/messaging-types": "^0.3.2",
     "@firebase/storage-types": "^0.3.3",
@@ -62,14 +61,14 @@
     "async-shelljs": "^0.1.2",
     "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "firemock": "^0.27.8",
+    "firemock": "^0.30.0",
     "js-yaml": "^3.13.1",
     "mocha": "^6.2.0",
     "rimraf": "^2.6.3",
     "test-console": "^1.1.0",
     "ts-node": "^8.3.0",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
+    "tslint": "^5.19.0",
+    "typescript": "^3.6.2"
   },
   "engines": {
     "node": ">=8.13.0"
