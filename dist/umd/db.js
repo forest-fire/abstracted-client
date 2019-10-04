@@ -76,7 +76,7 @@
                 // REAL DB
                 if (!this._isConnected) {
                     if (process.env["FIREBASE_CONFIG"]) {
-                        config = Object.assign({}, config, JSON.parse(process.env["FIREBASE_CONFIG"]));
+                        config = Object.assign(Object.assign({}, config), JSON.parse(process.env["FIREBASE_CONFIG"]));
                     }
                     config = config;
                     if (!config.apiKey || !config.authDomain || !config.databaseURL) {
