@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.32.1",
+  "version": "0.32.2",
   "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-client",
@@ -20,8 +20,8 @@
   "typings": "dist/esnext/db.d.ts",
   "scripts": {
     "clean": "rimraf lib",
-    "clean:nuclear": "rimraf lib node_modules yarn.lock && yarn cache clean && yarn && yarn upgrade",
-    "build": "tsc -P tsconfig.esnext.json && tsc -P tsconfig.umd.json && tsc -P tsconfig.cjs.json",
+    "clean:nuclear": "rimraf dist node_modules yarn.lock && yarn cache clean && yarn && yarn upgrade",
+    "build": "rimraf dist && tsc -P tsconfig.esnext.json && tsc -P tsconfig.umd.json && tsc -P tsconfig.cjs.json",
     "build:nuclear": "yarn clean:nuclear && yarn build",
     "test": "ts-node ./scripts/test.ts",
     "deploy": "yarn build:nuclear && yarn test && yarn publish",
