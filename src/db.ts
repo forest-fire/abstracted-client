@@ -5,6 +5,8 @@ import {
   isMockConfig
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
+import { ClientError } from "./ClientError";
+import { FirebaseNamespace } from "@firebase/app-types";
 
 export enum FirebaseBoolean {
   true = 1,
@@ -42,6 +44,7 @@ export class DB extends RealTimeDB<FirebaseAuth> {
   protected _clientType: "client" | "admin" = "client";
   protected _database: FirebaseDatabase;
   protected _auth: FirebaseAuth;
+  protected _authProviders;
   protected app: any;
 
   constructor(config: IFirebaseClientConfig) {
@@ -49,6 +52,16 @@ export class DB extends RealTimeDB<FirebaseAuth> {
     this._eventManager = new EventManager();
     // this starts the "listenForConnectionStatus" event emitter
     this.initialize(config);
+  }
+
+  get authProviders() {
+    if (!this._authProviders) {
+      throw new ClientError(
+        `Attempt to get the authProviders getter before connecting to the database!`
+      );
+    }
+
+    return this._authProviders;
   }
 
   public async auth(): Promise<FirebaseAuth> {
@@ -80,6 +93,8 @@ export class DB extends RealTimeDB<FirebaseAuth> {
         db: config.mockData || {},
         auth: config.mockAuth || {}
       });
+      this._authProviders = this._mock
+        .authProviders as FirebaseNamespace["auth"];
       this._isConnected = true;
     } else {
       // REAL DB
@@ -117,7 +132,7 @@ export class DB extends RealTimeDB<FirebaseAuth> {
             throw e;
           }
         }
-
+        this._authProviders = fb.default.auth;
         this._database = this.app.database();
       } else {
         console.info(`Database ${config.name} already connected`);
