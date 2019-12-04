@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const abstracted_firebase_1 = require("abstracted-firebase");
 const EventManager_1 = require("./EventManager");
+const ClientError_1 = require("./ClientError");
 var FirebaseBoolean;
 (function (FirebaseBoolean) {
     FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
@@ -32,6 +33,15 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         await Promise.resolve().then(() => require("@firebase/database"));
         return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
     }
+    /**
+     * access to provider specific providers
+     */
+    get authProviders() {
+        if (!this._authProviders) {
+            throw new ClientError_1.ClientError(`Attempt to get the authProviders getter before connecting to the database!`);
+        }
+        return this._authProviders;
+    }
     async auth() {
         if (this._auth) {
             return this._auth;
@@ -60,6 +70,8 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                 db: config.mockData || {},
                 auth: config.mockAuth || {}
             });
+            this._authProviders = this._mock
+                .authProviders;
             this._isConnected = true;
         }
         else {
@@ -95,6 +107,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                         throw e;
                     }
                 }
+                this._authProviders = fb.default.auth;
                 this._database = this.app.database();
             }
             else {

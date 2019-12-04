@@ -4,7 +4,7 @@
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "abstracted-firebase", "./EventManager"], factory);
+        define(["require", "exports", "abstracted-firebase", "./EventManager", "./ClientError"], factory);
     }
 })(function (require, exports) {
     "use strict";
@@ -12,6 +12,7 @@
     Object.defineProperty(exports, "__esModule", { value: true });
     const abstracted_firebase_1 = require("abstracted-firebase");
     const EventManager_1 = require("./EventManager");
+    const ClientError_1 = require("./ClientError");
     var FirebaseBoolean;
     (function (FirebaseBoolean) {
         FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
@@ -42,6 +43,15 @@
             await (__syncRequire ? Promise.resolve().then(() => require("@firebase/database")) : new Promise((resolve_2, reject_2) => { require(["@firebase/database"], resolve_2, reject_2); }));
             return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
         }
+        /**
+         * access to provider specific providers
+         */
+        get authProviders() {
+            if (!this._authProviders) {
+                throw new ClientError_1.ClientError(`Attempt to get the authProviders getter before connecting to the database!`);
+            }
+            return this._authProviders;
+        }
         async auth() {
             if (this._auth) {
                 return this._auth;
@@ -70,6 +80,8 @@
                     db: config.mockData || {},
                     auth: config.mockAuth || {}
                 });
+                this._authProviders = this._mock
+                    .authProviders;
                 this._isConnected = true;
             }
             else {
@@ -105,6 +117,7 @@
                             throw e;
                         }
                     }
+                    this._authProviders = fb.default.auth;
                     this._database = this.app.database();
                 }
                 else {

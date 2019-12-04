@@ -1,5 +1,6 @@
 import { RealTimeDB, isMockConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
+import { ClientError } from "./ClientError";
 export var FirebaseBoolean;
 (function (FirebaseBoolean) {
     FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
@@ -30,6 +31,15 @@ export class DB extends RealTimeDB {
         await import("@firebase/database");
         return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
     }
+    /**
+     * access to provider specific providers
+     */
+    get authProviders() {
+        if (!this._authProviders) {
+            throw new ClientError(`Attempt to get the authProviders getter before connecting to the database!`);
+        }
+        return this._authProviders;
+    }
     async auth() {
         if (this._auth) {
             return this._auth;
@@ -58,6 +68,8 @@ export class DB extends RealTimeDB {
                 db: config.mockData || {},
                 auth: config.mockAuth || {}
             });
+            this._authProviders = this._mock
+                .authProviders;
             this._isConnected = true;
         }
         else {
@@ -93,6 +105,7 @@ export class DB extends RealTimeDB {
                         throw e;
                     }
                 }
+                this._authProviders = fb.default.auth;
                 this._database = this.app.database();
             }
             else {

@@ -44,7 +44,7 @@ export class DB extends RealTimeDB<FirebaseAuth> {
   protected _clientType: "client" | "admin" = "client";
   protected _database: FirebaseDatabase;
   protected _auth: FirebaseAuth;
-  protected _authProviders;
+  protected _authProviders: FirebaseNamespace["auth"];
   protected app: any;
 
   constructor(config: IFirebaseClientConfig) {
@@ -57,7 +57,7 @@ export class DB extends RealTimeDB<FirebaseAuth> {
   /**
    * access to provider specific providers
    */
-  get authProviders() {
+  get authProviders(): FirebaseNamespace["auth"] {
     if (!this._authProviders) {
       throw new ClientError(
         `Attempt to get the authProviders getter before connecting to the database!`

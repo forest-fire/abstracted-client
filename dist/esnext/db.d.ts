@@ -1,5 +1,6 @@
 import { RealTimeDB, IFirebaseClientConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
+import { FirebaseNamespace } from "@firebase/app-types";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0
@@ -20,8 +21,13 @@ export declare class DB extends RealTimeDB<FirebaseAuth> {
     protected _clientType: "client" | "admin";
     protected _database: FirebaseDatabase;
     protected _auth: FirebaseAuth;
+    protected _authProviders: FirebaseNamespace["auth"];
     protected app: any;
     constructor(config: IFirebaseClientConfig);
+    /**
+     * access to provider specific providers
+     */
+    get authProviders(): FirebaseNamespace["auth"];
     auth(): Promise<FirebaseAuth>;
     /**
      * connect
