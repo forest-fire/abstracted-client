@@ -54,6 +54,9 @@ export class DB extends RealTimeDB<FirebaseAuth> {
     this.initialize(config);
   }
 
+  /**
+   * access to provider specific providers
+   */
   get authProviders() {
     if (!this._authProviders) {
       throw new ClientError(
