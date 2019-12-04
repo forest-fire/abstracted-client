@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.35.0",
+  "version": "0.35.1",
   "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-client",
@@ -28,27 +28,27 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "@firebase/app": "^0.4.24",
-    "@firebase/app-types": "^0.4.7",
-    "@firebase/auth": "^0.13.0",
-    "@firebase/auth-types": "^0.9.0",
-    "@firebase/database": "^0.5.12",
-    "@firebase/database-types": "^0.4.7",
-    "abstracted-firebase": "^0.35.0",
-    "common-types": "^1.12.12",
+    "@firebase/app": "^0.4.25",
+    "@firebase/app-types": "^0.4.8",
+    "@firebase/auth": "^0.13.1",
+    "@firebase/auth-types": "^0.9.1",
+    "@firebase/database": "^0.5.13",
+    "@firebase/database-types": "^0.4.8",
+    "abstracted-firebase": "^0.35.2",
+    "common-types": "^1.12.13",
     "events": "^3.0.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
-    "serialized-query": "^0.9.1",
+    "serialized-query": "^0.9.3",
     "typed-conversions": "^0.10.1"
   },
   "peerDependencies": {
-    "firemock": "^0.35.0"
+    "firemock": "^0.35.7"
   },
   "devDependencies": {
-    "@firebase/functions-types": "^0.3.10",
-    "@firebase/messaging-types": "^0.3.4",
-    "@firebase/storage-types": "^0.3.5",
+    "@firebase/functions-types": "^0.3.11",
+    "@firebase/messaging-types": "^0.3.5",
+    "@firebase/storage-types": "^0.3.6",
     "@types/chai": "^4.2.4",
     "@types/events": "^3.0.0",
     "@types/faker": "^4.1.7",
@@ -58,17 +58,17 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.16.0",
     "@types/rimraf": "^2.0.2",
-    "async-shelljs": "^0.1.2",
+    "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "firemock": "^0.35.0",
+    "firemock": "^0.35.7",
     "js-yaml": "^3.13.1",
     "mocha": "^6.2.2",
     "rimraf": "^3.0.0",
     "test-console": "^1.1.0",
-    "ts-node": "^8.5.2",
-    "tslint": "^5.20.0",
-    "typescript": "^3.7.2"
+    "ts-node": "^8.5.4",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.3"
   },
   "engines": {
     "node": ">=8.13.0"

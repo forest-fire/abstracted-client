@@ -1,7 +1,6 @@
 {
   "extends": "tslint:latest",
   "rules": {
-    "quotemark": ["single"],
     "no-console": [false],
     "object-literal-sort-keys": false,
     "no-trailing-whitespace": false,
@@ -12,6 +11,7 @@
     "variable-name": [false],
     "arrow-parens": [false],
     "no-namespace": [true, "allow-declarations"],
-    "no-implicit-dependencies": [false]
+    "no-implicit-dependencies": [false],
+    "no-unused-expression": [false]
   }
 }
