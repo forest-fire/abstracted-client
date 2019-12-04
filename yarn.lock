@@ -398,7 +398,7 @@ firebase-key@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.2.tgz#44ffdc460faeb774ef95e04a43027042974cfe5c"
 
-firemock@^0.35.6:
+firemock@^0.35.7:
   version "0.35.7"
   resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.35.7.tgz#95bd8968e89cde13c031360f285ec5bd1a46a950"
   dependencies:
@@ -894,7 +894,7 @@ typed-conversions@^0.10.1:
     common-types "^1.9.7"
     get-value "^3.0.1"
 
-typescript@^3.7.2:
+typescript@^3.7.3:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
 
