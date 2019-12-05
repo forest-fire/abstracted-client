@@ -47,8 +47,14 @@
          * access to provider specific providers
          */
         get authProviders() {
+            if (!this._fbClass) {
+                throw new ClientError_1.ClientError(`There was a problem getting the Firebase default export/class!`);
+            }
             if (!this._authProviders) {
-                throw new ClientError_1.ClientError(`Attempt to get the authProviders getter before connecting to the database!`);
+                if (!this._fbClass.auth) {
+                    throw new ClientError_1.ClientError(`Attempt to get the authProviders getter before connecting to the database!`);
+                }
+                this._authProviders = this._fbClass.auth;
             }
             return this._authProviders;
         }
@@ -63,7 +69,6 @@
                 this._auth = await this.mock.auth();
                 return this._auth;
             }
-            await (__syncRequire ? Promise.resolve().then(() => require(/* webpackChunkName: "firebase-auth" */ "@firebase/auth")) : new Promise((resolve_3, reject_3) => { require(["@firebase/auth"], resolve_3, reject_3); }));
             this._auth = this.app.auth();
             return this._auth;
         }
@@ -73,7 +78,7 @@
          * Asynchronously loads the firebase/app library and then
          * initializes a connection to the database.
          */
-        async connectToFirebase(config) {
+        async connectToFirebase(config, useAuth = true) {
             if (abstracted_firebase_1.isMockConfig(config)) {
                 // MOCK DB
                 await this.getFireMock({
@@ -99,13 +104,18 @@
                             config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
                     // tslint:disable-next-line:no-submodule-imports
                     const fb = await (__syncRequire ? Promise.resolve().then(() => require(
-                    /* webpackChunkName: "firebase-app" */ "@firebase/app")) : new Promise((resolve_4, reject_4) => { require(["@firebase/app"], resolve_4, reject_4); }));
+                    /* webpackChunkName: "firebase-app" */ "@firebase/app")) : new Promise((resolve_3, reject_3) => { require(["@firebase/app"], resolve_3, reject_3); }));
                     await (__syncRequire ? Promise.resolve().then(() => require(
-                    /* webpackChunkName: "firebase-db" */ "@firebase/database")) : new Promise((resolve_5, reject_5) => { require(["@firebase/database"], resolve_5, reject_5); }));
+                    /* webpackChunkName: "firebase-db" */ "@firebase/database")) : new Promise((resolve_4, reject_4) => { require(["@firebase/database"], resolve_4, reject_4); }));
+                    if (useAuth) {
+                        await (__syncRequire ? Promise.resolve().then(() => require(
+                        /* webpackChunkName: "firebase-auth" */ "@firebase/auth")) : new Promise((resolve_5, reject_5) => { require(["@firebase/auth"], resolve_5, reject_5); }));
+                    }
                     try {
                         const runningApps = new Set(fb.firebase.apps.map(i => i.name));
                         this.app = runningApps.has(config.name)
-                            ? fb.firebase.app(config.name) // TODO: does this connect to the right named DB?
+                            ? // TODO: does this connect to the right named DB?
+                                fb.firebase.app(config.name)
                             : fb.firebase.initializeApp(config, config.name);
                     }
                     catch (e) {
@@ -117,7 +127,7 @@
                             throw e;
                         }
                     }
-                    this._authProviders = fb.default.auth;
+                    this._fbClass = fb.default;
                     this._database = this.app.database();
                 }
                 else {
