@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.35.3",
+  "version": "0.35.4",
   "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-client",
@@ -28,22 +28,22 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "@firebase/app": "^0.4.25",
-    "@firebase/app-types": "^0.4.8",
-    "@firebase/auth": "^0.13.1",
-    "@firebase/auth-types": "^0.9.1",
-    "@firebase/database": "^0.5.13",
-    "@firebase/database-types": "^0.4.8",
-    "abstracted-firebase": "^0.35.2",
-    "common-types": "^1.12.13",
+    "@firebase/app": "0.4.25",
+    "@firebase/app-types": "0.4.9",
+    "@firebase/auth": "^0.13.0",
+    "@firebase/auth-types": "0.9.3",
+    "@firebase/database": "0.5.15",
+    "@firebase/database-types": "^0.4.9",
+    "abstracted-firebase": "^0.35.4",
+    "common-types": "^1.12.15",
     "events": "^3.0.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
-    "serialized-query": "^0.9.3",
+    "serialized-query": "^0.9.7",
     "typed-conversions": "^0.10.1"
   },
   "peerDependencies": {
-    "firemock": "^0.35.7"
+    "firemock": "^0.35.10"
   },
   "devDependencies": {
     "@firebase/functions-types": "^0.3.11",
@@ -61,7 +61,7 @@
     "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
     "faker": "^4.1.0",
-    "firemock": "^0.35.7",
+    "firemock": "^0.35.10",
     "js-yaml": "^3.13.1",
     "mocha": "^6.2.2",
     "rimraf": "^3.0.0",
