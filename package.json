@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.37.0",
+  "version": "0.37.1",
   "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-client",
