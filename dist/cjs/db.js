@@ -31,7 +31,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         // tslint:disable-next-line:no-submodule-imports
         const fb = await Promise.resolve().then(() => require("@firebase/app"));
         await Promise.resolve().then(() => require("@firebase/database"));
-        return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
+        return Array.from(new Set(fb.firebase.apps.map((i) => i.name)));
     }
     /**
      * access to provider specific providers
@@ -73,10 +73,9 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             // MOCK DB
             await this.getFireMock({
                 db: config.mockData || {},
-                auth: config.mockAuth || {}
+                auth: Object.assign({ providers: [] }, config.mockAuth),
             });
-            this._authProviders = this._mock
-                .authProviders;
+            this._authProviders = this._mock.authProviders;
             this._isConnected = true;
         }
         else {
@@ -89,20 +88,15 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                 if (!config.apiKey || !config.authDomain || !config.databaseURL) {
                     throw new Error("Trying to connect without appropriate firebase configuration!");
                 }
-                config.name =
-                    config.name ||
-                        config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
+                config.name = config.name || config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
                 // tslint:disable-next-line:no-submodule-imports
-                const fb = await Promise.resolve().then(() => require(
-                /* webpackChunkName: "firebase-app" */ "@firebase/app"));
-                await Promise.resolve().then(() => require(
-                /* webpackChunkName: "firebase-db" */ "@firebase/database"));
+                const fb = await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-app" */ "@firebase/app"));
+                await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-db" */ "@firebase/database"));
                 if (useAuth) {
-                    await Promise.resolve().then(() => require(
-                    /* webpackChunkName: "firebase-auth" */ "@firebase/auth"));
+                    await Promise.resolve().then(() => require(/* webpackChunkName: "firebase-auth" */ "@firebase/auth"));
                 }
                 try {
-                    const runningApps = new Set(fb.firebase.apps.map(i => i.name));
+                    const runningApps = new Set(fb.firebase.apps.map((i) => i.name));
                     this.app = runningApps.has(config.name)
                         ? // TODO: does this connect to the right named DB?
                             fb.firebase.app(config.name)
@@ -136,9 +130,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
      */
     listenForConnectionStatus() {
         if (!this._mocking) {
-            this._database
-                .ref(".info/connected")
-                .on("value", snap => this._monitorConnection.bind(this)(snap));
+            this._database.ref(".info/connected").on("value", (snap) => this._monitorConnection.bind(this)(snap));
         }
         else {
             // console.info(`Listening for connection changes on Mock DB`);
