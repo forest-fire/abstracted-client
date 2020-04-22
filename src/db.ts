@@ -1,16 +1,11 @@
-import {
-  RealTimeDB,
-  IFirebaseClientConfigProps,
-  IFirebaseClientConfig,
-  isMockConfig
-} from "abstracted-firebase";
+import { RealTimeDB, IFirebaseClientConfigProps, IFirebaseClientConfig, isMockConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { ClientError } from "./ClientError";
 import { FirebaseNamespace, FirebaseApp } from "@firebase/app-types";
 
 export enum FirebaseBoolean {
   true = 1,
-  false = 0
+  false = 0,
 }
 
 export let MOCK_LOADING_TIMEOUT = 200;
@@ -37,16 +32,14 @@ export class DB extends RealTimeDB<FirebaseAuth> {
     // tslint:disable-next-line:no-submodule-imports
     const fb = await import("@firebase/app");
     await import("@firebase/database");
-    return Array.from(new Set(fb.firebase.apps.map(i => i.name)));
+    return Array.from(new Set(fb.firebase.apps.map((i) => i.name)));
   }
 
   protected _eventManager: EventManager;
   protected _clientType: "client" | "admin" = "client";
   protected _database: FirebaseDatabase;
   protected _auth: FirebaseAuth;
-  protected _fbClass:
-    | FirebaseNamespace
-    | (FirebaseNamespace & { auth: () => FirebaseNamespace["auth"] });
+  protected _fbClass: FirebaseNamespace | (FirebaseNamespace & { auth: () => FirebaseNamespace["auth"] });
   protected _authProviders: FirebaseNamespace["auth"];
   protected app: FirebaseApp;
 
@@ -62,16 +55,12 @@ export class DB extends RealTimeDB<FirebaseAuth> {
    */
   get authProviders(): FirebaseNamespace["auth"] {
     if (!this._fbClass) {
-      throw new ClientError(
-        `There was a problem getting the Firebase default export/class!`
-      );
+      throw new ClientError(`There was a problem getting the Firebase default export/class!`);
     }
 
     if (!this._authProviders) {
       if (!this._fbClass.auth) {
-        throw new ClientError(
-          `Attempt to get the authProviders getter before connecting to the database!`
-        );
+        throw new ClientError(`Attempt to get the authProviders getter before connecting to the database!`);
       }
       this._authProviders = this._fbClass.auth;
     }
@@ -100,18 +89,14 @@ export class DB extends RealTimeDB<FirebaseAuth> {
    * Asynchronously loads the firebase/app library and then
    * initializes a connection to the database.
    */
-  protected async connectToFirebase(
-    config: IFirebaseClientConfig,
-    useAuth: boolean = true
-  ) {
+  protected async connectToFirebase(config: IFirebaseClientConfig, useAuth: boolean = true) {
     if (isMockConfig(config)) {
       // MOCK DB
       await this.getFireMock({
         db: config.mockData || {},
-        auth: config.mockAuth || {}
+        auth: { providers: [], ...config.mockAuth },
       });
-      this._authProviders = this._mock
-        .authProviders as FirebaseNamespace["auth"];
+      this._authProviders = this._mock.authProviders as FirebaseNamespace["auth"];
       this._isConnected = true;
     } else {
       // REAL DB
@@ -121,28 +106,18 @@ export class DB extends RealTimeDB<FirebaseAuth> {
         }
         config = config as IFirebaseClientConfigProps;
         if (!config.apiKey || !config.authDomain || !config.databaseURL) {
-          throw new Error(
-            "Trying to connect without appropriate firebase configuration!"
-          );
+          throw new Error("Trying to connect without appropriate firebase configuration!");
         }
-        config.name =
-          config.name ||
-          config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
+        config.name = config.name || config.databaseURL.replace(/.*https:\W*([\w-]*)\.((.|\n)*)/g, "$1");
 
         // tslint:disable-next-line:no-submodule-imports
-        const fb = await import(
-          /* webpackChunkName: "firebase-app" */ "@firebase/app"
-        );
-        await import(
-          /* webpackChunkName: "firebase-db" */ "@firebase/database"
-        );
+        const fb = await import(/* webpackChunkName: "firebase-app" */ "@firebase/app");
+        await import(/* webpackChunkName: "firebase-db" */ "@firebase/database");
         if (useAuth) {
-          await import(
-            /* webpackChunkName: "firebase-auth" */ "@firebase/auth"
-          );
+          await import(/* webpackChunkName: "firebase-auth" */ "@firebase/auth");
         }
         try {
-          const runningApps = new Set(fb.firebase.apps.map(i => i.name));
+          const runningApps = new Set(fb.firebase.apps.map((i) => i.name));
           this.app = runningApps.has(config.name)
             ? // TODO: does this connect to the right named DB?
               fb.firebase.app(config.name)
@@ -176,9 +151,7 @@ export class DB extends RealTimeDB<FirebaseAuth> {
    */
   protected listenForConnectionStatus() {
     if (!this._mocking) {
-      this._database
-        .ref(".info/connected")
-        .on("value", snap => this._monitorConnection.bind(this)(snap));
+      this._database.ref(".info/connected").on("value", (snap) => this._monitorConnection.bind(this)(snap));
     } else {
       // console.info(`Listening for connection changes on Mock DB`);
     }

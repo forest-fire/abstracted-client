@@ -10,13 +10,13 @@ const config = {
   databaseURL: "https://abstracted-admin.firebaseio.com",
   projectId: "abstracted-admin",
   storageBucket: "abstracted-admin.appspot.com",
-  messagingSenderId: "547394508788"
+  messagingSenderId: "547394508788",
 };
 
-const animalMocker = h => () => ({
+const animalMocker = (h) => () => ({
   type: h.faker.random.arrayElement(["cat", "dog", "parrot"]),
   name: h.faker.name.firstName(),
-  age: h.faker.random.number({ min: 1, max: 15 })
+  age: h.faker.random.number({ min: 1, max: 15 }),
 });
 
 describe("Mocking", () => {
@@ -92,7 +92,7 @@ describe("Mocking", () => {
   it("set() sets to the mock DB", async () => {
     mockDb.set("/people/abcd", {
       name: "Frank Black",
-      age: 45
+      age: 45,
     });
     const people = await mockDb.getRecord("/people/abcd");
     expect(people).to.have.property("id");
@@ -105,9 +105,9 @@ describe("Mocking", () => {
       people: {
         abcd: {
           name: "Frank Black",
-          age: 45
-        }
-      }
+          age: 45,
+        },
+      },
     });
     mockDb.update("/people/abcd", { age: 14 });
     const people = await mockDb.getRecord("/people/abcd");
@@ -122,7 +122,7 @@ describe("Mocking", () => {
   it("push() pushes records into the mock DB", async () => {
     mockDb.push("/people", {
       name: "Frank Black",
-      age: 45
+      age: 45,
     });
     const people = await mockDb.getList("/people");
     expect(people).to.be.an("array");
@@ -135,9 +135,9 @@ describe("Mocking", () => {
 
   it("read operations on mock with a schema prefix are offset correctly", async () => {
     mockDb.mock
-      .addSchema("meal", h => () => ({
+      .addSchema("meal", (h) => () => ({
         name: h.faker.random.arrayElement(["breakfast", "lunch", "dinner"]),
-        datetime: h.faker.date.recent()
+        datetime: h.faker.date.recent(),
       }))
       .pathPrefix("authenticated");
     mockDb.mock.queueSchema("meal", 10);
@@ -153,8 +153,8 @@ describe("Mocking", () => {
     const db2 = await DB.connect({
       mocking: true,
       mockData: {
-        foo: "bar"
-      }
+        foo: "bar",
+      },
     });
     expect(db2.mock.db.foo).to.equal("bar");
   });
@@ -163,8 +163,8 @@ describe("Mocking", () => {
     const db3 = await DB.connect({
       mocking: true,
       mockAuth: {
-        allowAnonymous: true
-      }
+        providers: ["anonymous"],
+      },
     });
     const auth = await db3.auth();
     const user = await auth.signInAnonymously();
