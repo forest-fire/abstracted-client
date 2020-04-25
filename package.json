@@ -1,6 +1,6 @@
 {
   "name": "abstracted-client",
-  "version": "0.38.1",
+  "version": "0.38.2",
   "description": "Helpful abstraction on the Firebase client API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-client",
@@ -34,7 +34,7 @@
     "@firebase/auth-types": "^0.10.0",
     "@firebase/database": "^0.6.1",
     "@firebase/database-types": "^0.5.0",
-    "abstracted-firebase": "^0.38.5",
+    "abstracted-firebase": "^0.38.8",
     "common-types": "^1.14.2",
     "events": "^3.1.0",
     "lodash.first": "^3.0.0",
